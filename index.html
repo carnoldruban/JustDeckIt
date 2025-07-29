@@ -27,13 +27,13 @@
             opacity: 0;
             animation: fadeIn 2s forwards;
             position: absolute;
-            top: 30%;
+            top: 10%;
         }
 
         .title {
             font-size: 5rem;
             margin-bottom: 1rem;
-            animation: slideIn 2s forwards;
+            animation: slideIn 2s forwards, glow 2s infinite alternate;
         }
 
         .subtitle {
@@ -77,14 +77,12 @@
             to { width: 100% }
         }
 
-        @keyframes flash-zoom {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 1;
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
             }
-            50% {
-                transform: scale(1.1);
-                opacity: 0.5;
+            to {
+                text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
             }
         }
 
@@ -95,10 +93,6 @@
             50% {
                 opacity: 1;
             }
-        }
-
-        .title.flash-zoom {
-            animation: flash-zoom 1s infinite;
         }
     </style>
 </head>
@@ -115,13 +109,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.querySelector('.container');
-            const title = document.querySelector('.title');
-            const subtitle = document.querySelector('.subtitle');
             const prompt = document.querySelector('.prompt');
-
-            subtitle.addEventListener('animationend', () => {
-                title.classList.add('flash-zoom');
-            });
 
             setTimeout(() => {
                 prompt.style.opacity = 1;
