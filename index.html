@@ -59,7 +59,6 @@
             position: absolute;
             bottom: 2rem;
             opacity: 0;
-            animation: slow-blink 2s infinite;
             cursor: pointer;
             font-family: 'Roboto', sans-serif;
             color: #fff;
@@ -146,7 +145,7 @@
 
         .home-content {
             position: absolute;
-            top: 40%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             color: #fff;
@@ -315,8 +314,9 @@
                 if (i < text.length) {
                     subtitle.innerHTML += text.charAt(i);
                     i++;
-                    setTimeout(typeWriter, 90);
+                    setTimeout(typeWriter, 120);
                 } else {
+                    prompt.style.animation = "slow-blink 2s infinite";
                     prompt.style.opacity = 1;
                 }
             }
