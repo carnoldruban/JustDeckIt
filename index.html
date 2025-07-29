@@ -59,6 +59,7 @@
             position: absolute;
             bottom: 2rem;
             opacity: 0;
+            animation: slow-blink 2s infinite;
             cursor: pointer;
             font-family: 'Roboto', sans-serif;
             color: #fff;
@@ -85,7 +86,6 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            transition: top 2s, left 2s, transform 2s;
         }
 
         .menu.horizontal {
@@ -102,7 +102,6 @@
 
         .menu li {
             margin-bottom: 1rem;
-            opacity: 0;
         }
 
         .menu.horizontal li {
@@ -314,7 +313,7 @@
                 if (i < text.length) {
                     subtitle.innerHTML += text.charAt(i);
                     i++;
-                    setTimeout(typeWriter, 120);
+                    setTimeout(typeWriter, 90);
                 } else {
                     prompt.style.animation = "slow-blink 2s infinite";
                     prompt.style.opacity = 1;
@@ -332,15 +331,11 @@
                     document.body.style.backgroundColor = 'transparent';
 
                     const menu = document.querySelector('.menu');
-                    const menuItems = document.querySelectorAll('.menu li');
+                    const homeMenuItem = document.querySelector('.menu .active');
 
                     setTimeout(() => {
                         menu.classList.add('horizontal');
-                        menuItems.forEach((item, index) => {
-                            setTimeout(() => {
-                                item.style.opacity = 1;
-                            }, index * 450);
-                        });
+                        homeMenuItem.style.opacity = 1;
                     }, 750);
                 }, 1000);
             });
