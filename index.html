@@ -79,7 +79,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            transition: top 2.25s, left 2.25s, transform 2.25s;
+            transition: top 1.5s, left 1.5s, transform 1.5s;
         }
 
         .menu.horizontal {
@@ -87,6 +87,7 @@
             left: 50%;
             transform: translateX(-50%);
             display: flex;
+            white-space: nowrap;
         }
 
         .menu.horizontal li {
@@ -105,7 +106,7 @@
         .menu a {
             text-decoration: none;
             color: #fff;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-family: 'Lora', serif;
             text-transform: uppercase;
             text-shadow: 0px 1px 4px rgba(0,0,0,0.6);
@@ -123,7 +124,7 @@
             top: 2rem;
             right: 2rem;
             color: #fff;
-            font-size: 1.5rem;
+            font-size: 1.125rem;
             font-family: 'Roboto', sans-serif;
             text-shadow: 0px 1px 4px rgba(0,0,0,0.6);
             background-color: #F7D57F;
@@ -266,7 +267,7 @@
                     menuItems.forEach((item, index) => {
                         setTimeout(() => {
                             item.style.opacity = 1;
-                        }, index * 450);
+                        }, index * 300);
                     });
                 }, 750);
             });
