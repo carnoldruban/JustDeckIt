@@ -266,15 +266,15 @@
 
         @keyframes zoom-in-out {
             0% {
-                transform: scale(1) translate(-50%, -50%);
+                transform: scale(1);
                 opacity: 0;
             }
             50% {
-                transform: scale(1.2) translate(-50%, -50%);
+                transform: scale(1.4);
                 opacity: 1;
             }
             100% {
-                transform: scale(1) translate(0, 0);
+                transform: scale(1);
                 opacity: 1;
             }
         }
@@ -356,7 +356,7 @@
                             item.style.opacity = 1;
                             item.style.transform = 'translateY(0)';
                         }, delay);
-                        delay += 675;
+                        delay += 540;
                     });
 
                     setTimeout(() => {
@@ -365,7 +365,7 @@
 
                         setTimeout(() => {
                             const phoneNumber = document.querySelector('.phone-number');
-                            phoneNumber.style.animation = 'zoom-in-out 2.4s forwards';
+                            phoneNumber.style.animation = 'zoom-in-out 2.88s forwards';
                         }, 1000);
                     }, delay);
                 }, 1000);
