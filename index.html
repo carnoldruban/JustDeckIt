@@ -5,21 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Just Deck It</title>
     <style>
-        @import url('https://static.parastorage.com/services/third-party/fonts/Helvetica/Fonts/56be84de-9d60-4089-8df0-0ea6ec786b84.eot?');
-        @import url('https://static.parastorage.com/services/third-party/fonts/Helvetica/Fonts/50d35bbc-dfd4-48f1-af16-cf058f69421d.woff');
-        @import url('https://static.parastorage.com/services/third-party/fonts/Helvetica/Fonts/278bef59-6be1-4800-b5ac-1f769ab47430.ttf');
-        @import url('https://static.parastorage.com/services/third-party/fonts/Helvetica/Fonts/2e309b1b-08b8-477f-bc9e-7067cf0af0b3.svg');
-        @import url('https://static.parastorage.com/services/third-party/fonts/Helvetica/Fonts/ae1656aa-5f8f-4905-aed0-93e667bd6e4a.eot?');
-        @import url('https://static.parastorage.com/services/third-party/fonts/Helvetica/Fonts/530dee22-e3c1-4e9f-bf62-c31d510d9656.woff');
-        @import url('https://static.parastorage.com/services/third-party/fonts/Helvetica/Fonts/688ab72b-4deb-4e15-a088-89166978d469.ttf');
-        @import url('https://static.parastorage.com/services/third-party/fonts/Helvetica/Fonts/7816f72f-f47e-4715-8cd7-960e3723846a.svg');
+        @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:wght@300;400;700&display=swap');
 
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             overflow: hidden;
-            font-family: 'din-next-w01-light', sans-serif;
+            font-family: 'Roboto', sans-serif;
         }
 
         #title-card-section {
@@ -45,7 +38,7 @@
         }
 
         .title {
-            font-family: 'dinneuzeitgroteskltw01-_812426', sans-serif;
+            font-family: 'Lora', serif;
             font-size: 5rem;
             margin-bottom: 1rem;
             animation: slideIn 2s forwards, bright-dim 2s infinite alternate;
@@ -55,7 +48,7 @@
         }
 
         .subtitle {
-            font-family: 'playfair display', serif;
+            font-family: 'Lora', serif;
             font-size: 1.5rem;
             margin-top: 7rem;
         }
@@ -66,7 +59,7 @@
             opacity: 0;
             animation: slow-blink 2s infinite 5s;
             cursor: pointer;
-            font-family: 'din-next-w01-light', sans-serif;
+            font-family: 'Roboto', sans-serif;
             color: #fff;
         }
 
@@ -86,7 +79,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            transition: top 1.5s, left 1.5s, transform 1.5s;
+            transition: top 2.25s, left 2.25s, transform 2.25s;
         }
 
         .menu.horizontal {
@@ -113,7 +106,7 @@
             text-decoration: none;
             color: #fff;
             font-size: 1.5rem;
-            font-family: 'dinneuzeitgroteskltw01-_812426', sans-serif;
+            font-family: 'Lora', serif;
             text-transform: uppercase;
             text-shadow: 0px 1px 4px rgba(0,0,0,0.6);
             padding: 0.5rem 1rem;
@@ -131,7 +124,7 @@
             right: 2rem;
             color: #fff;
             font-size: 1.5rem;
-            font-family: 'din-next-w01-light', sans-serif;
+            font-family: 'Roboto', sans-serif;
             text-shadow: 0px 1px 4px rgba(0,0,0,0.6);
             background-color: #F7D57F;
             padding: 0.5rem 1rem;
@@ -153,7 +146,7 @@
         }
 
         .home-content h2 {
-            font-family: 'dinneuzeitgroteskltw01-_812426', sans-serif;
+            font-family: 'Lora', serif;
             font-size: 4rem;
             text-transform: uppercase;
             margin-bottom: 1rem;
@@ -162,7 +155,7 @@
         }
 
         .home-content p {
-            font-family: 'playfair display', serif;
+            font-family: 'Lora', serif;
             font-size: 1.2rem;
             max-width: 800px;
             margin: 0 auto;
@@ -254,7 +247,7 @@
                 if (i < text.length) {
                     subtitle.innerHTML += text.charAt(i);
                     i++;
-                    setTimeout(typeWriter, 120);
+                    setTimeout(typeWriter, 90);
                 }
             }
 
@@ -273,7 +266,7 @@
                     menuItems.forEach((item, index) => {
                         setTimeout(() => {
                             item.style.opacity = 1;
-                        }, index * 300);
+                        }, index * 450);
                     });
                 }, 750);
             });
