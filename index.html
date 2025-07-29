@@ -103,11 +103,8 @@
         .menu li {
             margin-bottom: 1rem;
             opacity: 0;
+            transform: translateY(20px);
             transition: opacity 0.5s, transform 1s;
-        }
-
-        .menu.horizontal li {
-            animation: fadeIn 1s forwards;
         }
 
         .menu a {
@@ -166,7 +163,7 @@
 
         .home-content p {
             font-family: 'Lora', serif;
-            font-size: 1.65rem;
+            font-size: 1.5rem;
             max-width: 800px;
             margin: 4rem auto 0;
         }
@@ -269,16 +266,16 @@
 
         @keyframes zoom-in-out {
             0% {
-                transform: scale(1);
+                transform: scale(1) translate(-50%, -50%);
                 opacity: 0;
             }
             50% {
-                transform: scale(1.2);
+                transform: scale(1.5) translate(-50%, -50%);
                 opacity: 1;
             }
             100% {
-                transform: scale(1);
-                opacity: 0;
+                transform: scale(1) translate(0, 0);
+                opacity: 1;
             }
         }
     </style>
@@ -368,7 +365,7 @@
                             homeContent.style.opacity = 1;
 
                             const phoneNumber = document.querySelector('.phone-number');
-                            phoneNumber.style.animation = 'zoom-in-out 1s forwards';
+                            phoneNumber.style.animation = 'zoom-in-out 2s forwards';
                         }, delay);
                     }, 2000);
                 }, 1000);
