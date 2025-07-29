@@ -102,10 +102,12 @@
 
         .menu li {
             margin-bottom: 1rem;
+            opacity: 0;
+            transition: opacity 0.5s, transform 1s;
         }
 
         .menu.horizontal li {
-            animation: fadeIn 1s forwards;
+            transform: translateY(-200px);
         }
 
         .menu a {
@@ -331,12 +333,17 @@
                     document.body.style.backgroundColor = 'transparent';
 
                     const menu = document.querySelector('.menu');
-                    const homeMenuItem = document.querySelector('.menu .active');
+                    const menuItems = document.querySelectorAll('.menu li');
 
                     setTimeout(() => {
                         menu.classList.add('horizontal');
-                        homeMenuItem.style.opacity = 1;
-                    }, 750);
+                        menuItems.forEach((item, index) => {
+                            setTimeout(() => {
+                                item.style.opacity = 1;
+                                item.style.transform = 'translateY(0)';
+                            }, index * 450);
+                        });
+                    }, 2000);
                 }, 1000);
             });
 
