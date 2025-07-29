@@ -150,6 +150,7 @@
             color: #fff;
             text-align: center;
             opacity: 0;
+            transition: opacity 1s;
         }
 
         .home-content h2 {
@@ -173,6 +174,8 @@
             top: 2rem;
             right: 2rem;
             cursor: pointer;
+            opacity: 0;
+            transition: opacity 1s;
         }
 
         .theme-toggle img {
@@ -219,6 +222,7 @@
             opacity: 0;
             animation: slow-blink 2s infinite;
             cursor: pointer;
+            color: #F7D57F;
         }
 
         @keyframes fadeIn {
@@ -270,7 +274,7 @@
                 opacity: 0;
             }
             50% {
-                transform: scale(1.4);
+                transform: scale(1.96);
                 opacity: 1;
             }
             100% {
@@ -356,7 +360,7 @@
                             item.style.opacity = 1;
                             item.style.transform = 'translateY(0)';
                         }, delay);
-                        delay += 540;
+                        delay += 648;
                     });
 
                     setTimeout(() => {
@@ -366,6 +370,11 @@
                         setTimeout(() => {
                             const phoneNumber = document.querySelector('.phone-number');
                             phoneNumber.style.animation = 'zoom-in-out 2.88s forwards';
+
+                            setTimeout(() => {
+                                const themeToggle = document.querySelector('.theme-toggle');
+                                themeToggle.style.opacity = 1;
+                            }, 1000);
                         }, 1000);
                     }, delay);
                 }, 1000);
