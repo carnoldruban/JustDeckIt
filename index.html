@@ -86,7 +86,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            transition: top 1s, left 1s, transform 1s;
+            transition: top 1.5s, left 1.5s, transform 1.5s;
         }
 
         .menu.horizontal {
@@ -216,7 +216,7 @@
 
     <section id="home-section">
         <div class="phone-number">
-            <p>647.208.7486</p>
+            <p>647-208-7486</p>
         </div>
         <div class="home-content">
             <h2>JUST DECK IT</h2>
@@ -228,7 +228,6 @@
             <li><a href="#">Gallery</a></li>
             <li><a href="#">Testimonials</a></li>
             <li><a href="#">Contact</a></li>
-            <li><a href="#">Free Estimates</a></li>
         </ul>
     </section>
 
@@ -244,7 +243,7 @@
                 if (i < text.length) {
                     subtitle.innerHTML += text.charAt(i);
                     i++;
-                    setTimeout(typeWriter, 150);
+                    setTimeout(typeWriter, 120);
                 }
             }
 
@@ -263,9 +262,9 @@
                     menuItems.forEach((item, index) => {
                         setTimeout(() => {
                             item.style.opacity = 1;
-                        }, index * 200);
+                        }, index * 300);
                     });
-                }, 500);
+                }, 750);
             });
         });
     </script>
