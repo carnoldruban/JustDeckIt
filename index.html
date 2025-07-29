@@ -270,7 +270,7 @@
                 opacity: 0;
             }
             50% {
-                transform: scale(1.5) translate(-50%, -50%);
+                transform: scale(1.2) translate(-50%, -50%);
                 opacity: 1;
             }
             100% {
@@ -349,25 +349,25 @@
                     const menu = document.querySelector('.menu');
                     const menuItems = document.querySelectorAll('.menu li');
 
+                    menu.classList.add('horizontal');
+                    let delay = 0;
+                    menuItems.forEach((item) => {
+                        setTimeout(() => {
+                            item.style.opacity = 1;
+                            item.style.transform = 'translateY(0)';
+                        }, delay);
+                        delay += 675;
+                    });
+
                     setTimeout(() => {
-                        menu.classList.add('horizontal');
-                        let delay = 0;
-                        menuItems.forEach((item) => {
-                            setTimeout(() => {
-                                item.style.opacity = 1;
-                                item.style.transform = 'translateY(0)';
-                            }, delay);
-                            delay += 540;
-                        });
+                        const homeContent = document.querySelector('.home-content');
+                        homeContent.style.opacity = 1;
 
                         setTimeout(() => {
-                            const homeContent = document.querySelector('.home-content');
-                            homeContent.style.opacity = 1;
-
                             const phoneNumber = document.querySelector('.phone-number');
-                            phoneNumber.style.animation = 'zoom-in-out 2s forwards';
-                        }, delay);
-                    }, 2000);
+                            phoneNumber.style.animation = 'zoom-in-out 2.4s forwards';
+                        }, 1000);
+                    }, delay);
                 }, 1000);
             });
 
