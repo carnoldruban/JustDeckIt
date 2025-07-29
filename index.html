@@ -26,6 +26,8 @@
         .title-card {
             opacity: 0;
             animation: fadeIn 2s forwards;
+            position: absolute;
+            top: 30%;
         }
 
         .title {
@@ -36,15 +38,17 @@
 
         .subtitle {
             font-size: 1.5rem;
-            opacity: 0;
-            animation: fadeIn 2s forwards 1s;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 0;
+            animation: typing 3.5s steps(40, end) forwards 2s;
         }
 
         .prompt {
             position: absolute;
             bottom: 2rem;
             opacity: 0;
-            animation: fadeIn 2s forwards 3s, blink 1s infinite 3s;
+            animation: slow-blink 2s infinite 5s;
             cursor: pointer;
         }
 
@@ -68,16 +72,33 @@
             }
         }
 
-        @keyframes blink {
-            0% {
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes flash-zoom {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes slow-blink {
+            0%, 100% {
                 opacity: 0;
             }
             50% {
                 opacity: 1;
             }
-            100% {
-                opacity: 0;
-            }
+        }
+
+        .title.flash-zoom {
+            animation: flash-zoom 1s infinite;
         }
     </style>
 </head>
@@ -94,14 +115,20 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.querySelector('.container');
+            const title = document.querySelector('.title');
+            const subtitle = document.querySelector('.subtitle');
             const prompt = document.querySelector('.prompt');
 
+            subtitle.addEventListener('animationend', () => {
+                title.classList.add('flash-zoom');
+            });
+
             setTimeout(() => {
-                prompt.style.animation = "fadeIn 2s forwards 3s, blink 1s infinite 3s";
+                prompt.style.opacity = 1;
                 container.addEventListener('click', () => {
                     // window.location.href = 'main.html';
                 });
-            }, 3000);
+            }, 5000);
         });
     </script>
 </body>
