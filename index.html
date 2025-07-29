@@ -34,7 +34,9 @@
         .title {
             font-size: 5rem;
             margin-bottom: 1rem;
-            animation: slideIn 2s forwards, glow 3s infinite alternate;
+            animation: slideIn 2s forwards;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
         .subtitle {
@@ -43,10 +45,7 @@
             white-space: nowrap;
             width: 0;
             animation: typing 3.5s steps(40, end) forwards 2s;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            margin-top: 5rem;
         }
 
         .prompt {
@@ -80,15 +79,6 @@
         @keyframes typing {
             from { width: 0 }
             to { width: 100% }
-        }
-
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #79960f, 0 0 20px #79960f, 0 0 25px #79960f, 0 0 30px #79960f, 0 0 35px #79960f;
-            }
-            to {
-                text-shadow: 0 0 10px #fff, 0 0 15px #9dbf40, 0 0 20px #9dbf40, 0 0 25px #9dbf40, 0 0 30px #9dbf40, 0 0 35px #9dbf40, 0 0 40px #9dbf40;
-            }
         }
 
         @keyframes slow-blink {
