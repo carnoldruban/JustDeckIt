@@ -61,7 +61,7 @@
             white-space: nowrap;
             width: 0;
             animation: typing 3.5s steps(40, end) forwards 2s;
-            margin-top: 5rem;
+            margin-top: 7rem;
         }
 
         .prompt {
@@ -149,7 +149,7 @@
         <div class="container">
             <div class="title-card">
                 <h1 class="title">Just Deck It</h1>
-                <p class="subtitle">Transforming your backyard dreams into reality</p>
+                <p class="subtitle"></p>
             </div>
             <div class="prompt">
                 <p>Click anywhere to continue</p>
@@ -174,6 +174,19 @@
         document.addEventListener('DOMContentLoaded', () => {
             const titleCardSection = document.getElementById('title-card-section');
             const homeSection = document.getElementById('home-section');
+            const subtitle = document.querySelector('.subtitle');
+            const text = "Transforming your backyard dreams into reality";
+            let i = 0;
+
+            function typeWriter() {
+                if (i < text.length) {
+                    subtitle.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100);
+                }
+            }
+
+            setTimeout(typeWriter, 2000);
 
             titleCardSection.addEventListener('click', () => {
                 titleCardSection.style.display = 'none';
