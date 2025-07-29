@@ -28,12 +28,13 @@
             animation: fadeIn 2s forwards;
             position: absolute;
             top: 10%;
+            width: 100%;
         }
 
         .title {
             font-size: 5rem;
             margin-bottom: 1rem;
-            animation: slideIn 2s forwards, glow 2s infinite alternate;
+            animation: slideIn 2s forwards, glow 3s infinite alternate;
         }
 
         .subtitle {
@@ -42,6 +43,10 @@
             white-space: nowrap;
             width: 0;
             animation: typing 3.5s steps(40, end) forwards 2s;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .prompt {
@@ -79,10 +84,10 @@
 
         @keyframes glow {
             from {
-                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #79960f, 0 0 20px #79960f, 0 0 25px #79960f, 0 0 30px #79960f, 0 0 35px #79960f;
             }
             to {
-                text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+                text-shadow: 0 0 10px #fff, 0 0 15px #9dbf40, 0 0 20px #9dbf40, 0 0 25px #9dbf40, 0 0 30px #9dbf40, 0 0 35px #9dbf40, 0 0 40px #9dbf40;
             }
         }
 
