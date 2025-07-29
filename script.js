@@ -3,10 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const prompt = document.querySelector('.prompt');
 
     setTimeout(() => {
-        prompt.style.opacity = 1;
+        prompt.style.animation = "fadeIn 2s forwards 3s, blink 1s infinite 3s";
         container.addEventListener('click', () => {
-            // Redirect to the main page
-            window.location.href = 'main.html';
+            // window.location.href = 'main.html';
         });
     }, 3000);
 });
