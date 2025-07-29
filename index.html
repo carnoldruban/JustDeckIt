@@ -57,10 +57,6 @@
         .subtitle {
             font-family: 'playfair display', serif;
             font-size: 1.5rem;
-            overflow: hidden;
-            white-space: nowrap;
-            width: 0;
-            animation: typing 3.5s steps(40, end) forwards 2s;
             margin-top: 7rem;
         }
 
@@ -80,6 +76,7 @@
             background-image: url('https://static.wixstatic.com/media/b25591_5034cfb80c4d4f2aa4e2328e5a39a1e3~mv2_d_4484_2160_s_2.jpg/v1/fill/w_147,h_71,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/b25591_5034cfb80c4d4f2aa4e2328e5a39a1e3~mv2_d_4484_2160_s_2.jpg');
             background-size: cover;
             background-position: center;
+            position: relative;
         }
 
         .menu {
@@ -119,6 +116,45 @@
             font-family: 'dinneuzeitgroteskltw01-_812426', sans-serif;
             text-transform: uppercase;
             text-shadow: 0px 1px 4px rgba(0,0,0,0.6);
+        }
+
+        .menu .active a {
+            color: #F7D57F;
+        }
+
+        .phone-number {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            color: #fff;
+            font-size: 1.5rem;
+            font-family: 'din-next-w01-light', sans-serif;
+            text-shadow: 0px 1px 4px rgba(0,0,0,0.6);
+        }
+
+        .home-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            text-align: center;
+        }
+
+        .home-content h2 {
+            font-family: 'dinneuzeitgroteskltw01-_812426', sans-serif;
+            font-size: 4rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            color: #F7D57F;
+            text-shadow: 0px 1px 4px rgba(0,0,0,0.6);
+        }
+
+        .home-content p {
+            font-family: 'playfair display', serif;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         @keyframes fadeIn {
@@ -179,16 +215,21 @@
     </section>
 
     <section id="home-section">
-        <div class="container">
-            <ul class="menu">
-                <li><a href="#">Just Deck It</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Gallery</a></li>
-                <li><a href="#">Testimonials</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">Free Estimates</a></li>
-            </ul>
+        <div class="phone-number">
+            <p>647.208.7486</p>
         </div>
+        <div class="home-content">
+            <h2>JUST DECK IT</h2>
+            <p>With over 20 years of experience, we specialize in creating high-quality, custom decks that transform your backyard into a beautiful and functional outdoor living space. Our commitment to craftsmanship and customer satisfaction is second to none.</p>
+        </div>
+        <ul class="menu">
+            <li class="active"><a href="#">Just Deck It</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Gallery</a></li>
+            <li><a href="#">Testimonials</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Free Estimates</a></li>
+        </ul>
     </section>
 
     <script>
@@ -203,7 +244,7 @@
                 if (i < text.length) {
                     subtitle.innerHTML += text.charAt(i);
                     i++;
-                    setTimeout(typeWriter, 100);
+                    setTimeout(typeWriter, 150);
                 }
             }
 
@@ -220,7 +261,9 @@
                 setTimeout(() => {
                     menu.classList.add('horizontal');
                     menuItems.forEach((item, index) => {
-                        item.style.animationDelay = `${index * 0.2}s`;
+                        setTimeout(() => {
+                            item.style.opacity = 1;
+                        }, index * 200);
                     });
                 }, 500);
             });
