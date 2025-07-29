@@ -5,13 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Just Deck It</title>
     <style>
+        @import url('https://static.parastorage.com/services/third-party/fonts/Helvetica/Fonts/56be84de-9d60-4089-8df0-0ea6ec786b84.eot?');
+        @import url('https://static.parastorage.com/services/third-party/fonts/Helvetica/Fonts/50d35bbc-dfd4-48f1-af16-cf058f69421d.woff');
+        @import url('https://static.parastorage.com/services/third-party/fonts/Helvetica/Fonts/278bef59-6be1-4800-b5ac-1f769ab47430.ttf');
+        @import url('https://static.parastorage.com/services/third-party/fonts/Helvetica/Fonts/2e309b1b-08b8-477f-bc9e-7067cf0af0b3.svg');
+        @import url('https://static.parastorage.com/services/third-party/fonts/Helvetica/Fonts/ae1656aa-5f8f-4905-aed0-93e667bd6e4a.eot?');
+        @import url('https://static.parastorage.com/services/third-party/fonts/Helvetica/Fonts/530dee22-e3c1-4e9f-bf62-c31d510d9656.woff');
+        @import url('https://static.parastorage.com/services/third-party/fonts/Helvetica/Fonts/688ab72b-4deb-4e15-a088-89166978d469.ttf');
+        @import url('https://static.parastorage.com/services/third-party/fonts/Helvetica/Fonts/7816f72f-f47e-4715-8cd7-960e3723846a.svg');
+
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             overflow: hidden;
             font-family: 'din-next-w01-light', sans-serif;
-            background-color: #000000;
+        }
+
+        #title-card-section {
+            background-color: #000;
         }
 
         .container {
@@ -61,6 +73,31 @@
             color: #fff;
         }
 
+        #home-section {
+            display: none;
+            background-image: url('https://static.wixstatic.com/media/b25591_5034cfb80c4d4f2aa4e2328e5a39a1e3~mv2_d_4484_2160_s_2.jpg/v1/fill/w_147,h_71,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/b25591_5034cfb80c4d4f2aa4e2328e5a39a1e3~mv2_d_4484_2160_s_2.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .menu {
+            list-style: none;
+            padding: 0;
+        }
+
+        .menu li {
+            margin-bottom: 1rem;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 1.5rem;
+            font-family: 'dinneuzeitgroteskltw01-_812426', sans-serif;
+            text-transform: uppercase;
+            text-shadow: 0px 1px 4px rgba(0,0,0,0.6);
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -106,20 +143,39 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="title-card">
-            <h1 class="title">Just Deck It</h1>
-            <p class="subtitle">Transforming your backyard dreams into reality</p>
+    <section id="title-card-section">
+        <div class="container">
+            <div class="title-card">
+                <h1 class="title">Just Deck It</h1>
+                <p class="subtitle">Transforming your backyard dreams into reality</p>
+            </div>
+            <div class="prompt">
+                <p>Click anywhere to continue</p>
+            </div>
         </div>
-        <div class="prompt">
-            <p>Click anywhere to continue</p>
+    </section>
+
+    <section id="home-section">
+        <div class="container">
+            <ul class="menu">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Gallery</a></li>
+                <li><a href="#">Testimonials</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Free Estimates</a></li>
+            </ul>
         </div>
-    </div>
+    </section>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const container = document.querySelector('.container');
-            container.addEventListener('click', () => {
-                window.location.href = 'home.html';
+            const titleCardSection = document.getElementById('title-card-section');
+            const homeSection = document.getElementById('home-section');
+
+            titleCardSection.addEventListener('click', () => {
+                titleCardSection.style.display = 'none';
+                homeSection.style.display = 'block';
             });
         });
     </script>
