@@ -8,6 +8,9 @@ from PyQt6.QtCore import Qt
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import simpleSplit
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib import colors
 import datetime
 
 TAX_RATE = 0.13
@@ -214,204 +217,163 @@ class JustDeckITQuotes(QWidget):
         QMessageBox.information(self, "Saved", f"Quote saved and PDF generated:\n{filename}")
 
     def generate_pdf(self, filename):
-        c = canvas.Canvas(filename, pagesize=letter)
-        page_w, page_h = letter
-        margin = 50
-        y = page_h - margin
+        doc = SimpleDocTemplate(filename, pagesize=letter)
+        styles = getSampleStyleSheet()
+        story = []
 
-        y = self._draw_pdf_header(c, y, page_w, margin)
-        y = self._draw_pdf_customer_info(c, y, margin)
+        # Header
+        story.append(Paragraph("JUST DECK IT - QUOTE", styles['h1']))
+        story.append(Spacer(1, 12))
 
-        total_width = page_w - 2 * margin
-
-        # Define weights for each column
-        weights = [3.5, 1]  # Description, Area
-        for _ in MATERIAL_TYPES:
-            weights.extend([2, 2.5])  # Material Rate, Material Cost
-
-        total_weight = sum(weights)
-
-        # Calculate column widths based on weights
-        col_widths = [(w / total_weight) * total_width for w in weights]
-
-        # Calculate x positions for each column start
-        x_positions = [margin]
-        for w in col_widths:
-            x_positions.append(x_positions[-1] + w)
-
-        y = self._draw_pdf_table(c, y, page_w, page_h, margin, x_positions)
-        y = self._draw_pdf_summary(c, y, x_positions)
-        self._draw_pdf_notes_and_footer(c, y, page_w, page_h, margin)
-
-        c.save()
-
-    def _draw_pdf_header(self, c, y, page_w, margin):
-        c.setFont("Helvetica-Bold", 16)
-        c.drawString(margin, y, "JUST DECK IT - QUOTE")
-        y -= 25
-
+        # Description
         current_month_year = datetime.date.today().strftime("%B %Y")
         desc_text = (
             "Each estimate is carefully prepared to reflect accurate costs based on material quantities, "
             "types, and labor hours required for your project. Our quotes break down the pricing for each "
-            "material type and area, allowing you to see a clear, itemized cost structure that ensures full transparency.\n\n"
+            "material type and area, allowing you to see a clear, itemized cost structure that ensures full transparency.<br/><br/>"
             "Our pricing reflects current market rates and includes applicable taxes for your region. "
             "We aim to offer competitive, fair pricing while maintaining high standards of quality and craftsmanship. "
-            "Each quote also offers flexibility with optional upgrades and materials to tailor your project to your preferences and budget.\n\n"
+            "Each quote also offers flexibility with optional upgrades and materials to tailor your project to your preferences and budget.<br/><br/>"
             f"Estimate based on lumber and decking prices {current_month_year}."
         )
-        c.setFont("Helvetica", 9)
+        story.append(Paragraph(desc_text, styles['BodyText']))
+        story.append(Spacer(1, 12))
 
-        desc_lines = simpleSplit(desc_text, "Helvetica", 9, page_w - 2 * margin)
-        for line in desc_lines:
-            c.drawString(margin, y, line)
-            y -= 12
+        # Customer Info
+        customer_info = f"""
+        Date: {datetime.date.today().strftime('%b %d, %Y')}<br/>
+        Customer: {self.customer_name.text()}<br/>
+        Address: {self.customer_address.text()}<br/>
+        Phone: {self.customer_phone.text()}<br/>
+        Email: {self.customer_email.text()}
+        """
+        story.append(Paragraph(customer_info, styles['BodyText']))
+        story.append(Spacer(1, 24))
 
-        y -= 20
-        return y
-
-    def _draw_pdf_customer_info(self, c, y, margin):
-        c.setFont("Helvetica", 10)
-        c.drawString(margin, y, f"Date: {datetime.date.today().strftime('%b %d, %Y')}")
-        y -= 15
-        c.drawString(margin, y, f"Customer: {self.customer_name.text()}")
-        y -= 15
-        c.drawString(margin, y, f"Address: {self.customer_address.text()}")
-        y -= 15
-        c.drawString(margin, y, f"Phone: {self.customer_phone.text()}")
-        y -= 15
-        c.drawString(margin, y, f"Email: {self.customer_email.text()}")
-        y -= 30
-        return y
-
-    def _draw_pdf_table(self, c, y, page_w, page_h, margin, x_positions):
-        c.setFont("Helvetica-Bold", 10)
-        headers = ["Description", "Area"]
+        # --- Table Data ---
+        body_style = styles['BodyText']
+        header = ["Description", "Area"]
         for mt in MATERIAL_TYPES:
-            headers.append(mt)
-            headers.append("Cost to Client")
+            header.append(mt)
+            header.append("Cost to Client")
 
-        for i, header in enumerate(headers):
-            col_start = x_positions[i]
-            col_end = x_positions[i + 1]
-            text_width = c.stringWidth(header, "Helvetica-Bold", 10)
-            c.drawString(col_start + (col_end - col_start - text_width) / 2, y, header)
-        y -= 15
-
-        c.setFont("Helvetica", 9)
-        row_height = 15
+        data = [header]
 
         for row in range(self.table.rowCount()):
-            desc_col_w = x_positions[1] - x_positions[0]
-            desc_text = self.table.item(row, 0).text()
-            desc_wrapped = simpleSplit(desc_text, "Helvetica", 9, desc_col_w - 6)
-            desc_wrapped = desc_wrapped[:3]
-            max_lines = len(desc_wrapped)
-            y_start = y
-
-            for i, line in enumerate(desc_wrapped):
-                c.drawString(x_positions[0] + 3, y_start - i * row_height, line)
-
-            area_text = self.table.item(row, 1).text()
-            area_start = x_positions[1]
-            area_end = x_positions[2]
-            area_width = c.stringWidth(area_text, "Helvetica", 9)
-            c.drawString(area_start + (area_end - area_start - area_width) / 2, y_start, area_text)
-
+            row_data = []
+            desc_text = self.table.item(row, 0).text().replace('\n', '<br/>')
+            row_data.append(Paragraph(desc_text, body_style))
+            row_data.append(self.table.item(row, 1).text())
             for i in range(len(MATERIAL_TYPES)):
-                rate_text = self.table.item(row, 2 + i * 2).text()
-                cost_text = self.table.item(row, 3 + i * 2).text()
+                row_data.append(self.table.item(row, 2 + i * 2).text())
+                row_data.append(self.table.item(row, 3 + i * 2).text())
+            data.append(row_data)
 
-                rate_start = x_positions[2 + i * 2]
-                rate_end = x_positions[3 + i * 2]
-                rate_width = c.stringWidth(rate_text, "Helvetica", 9)
-                c.drawString(rate_end - rate_width - 3, y_start, rate_text)
+        # --- Column Widths ---
+        total_width = doc.width
+        weights = [3.5, 1]  # Description, Area
+        for _ in MATERIAL_TYPES:
+            weights.extend([2, 2.5])  # Material Rate, Material Cost
+        total_weight = sum(weights)
+        col_widths = [(w / total_weight) * total_width for w in weights]
 
-                cost_start = x_positions[3 + i * 2]
-                cost_end = x_positions[4 + i * 2]
-                cost_width = c.stringWidth(cost_text, "Helvetica", 9)
-                c.drawString(cost_end - cost_width - 3, y_start, cost_text)
-
-            y -= max_lines * row_height + 5
-
-            if y < margin + 100:
-                c.showPage()
-                y = page_h - margin
-                c.setFont("Helvetica-Bold", 10)
-                for i, header_text in enumerate(headers):
-                    col_start = x_positions[i]
-                    col_end = x_positions[i + 1]
-                    text_width = c.stringWidth(header_text, "Helvetica-Bold", 10)
-                    c.drawString(col_start + (col_end - col_start - text_width) / 2, y, header_text)
-                y -= 15
-                c.setFont("Helvetica", 9)
-
-        return y
-
-    def _draw_pdf_summary(self, c, y, x_positions):
-        y -= 15
-        c.setFont("Helvetica-Bold", 10)
-
-        start_col = 2
-        for i in range(len(MATERIAL_TYPES)):
-            cost_col_index = start_col + i * 2 + 1
-
-            subtotal = 0.0
-            for row in range(self.table.rowCount()):
-                item = self.table.item(row, cost_col_index)
+        # --- Summary Data Calculation ---
+        subtotals = [0.0] * len(MATERIAL_TYPES)
+        for row in range(self.table.rowCount()):
+            for i in range(len(MATERIAL_TYPES)):
+                cost_col = 3 + i * 2
+                item = self.table.item(row, cost_col)
                 if item:
                     try:
-                        subtotal += float(item.text())
+                        subtotals[i] += float(item.text())
                     except ValueError:
                         pass
-            hst = subtotal * TAX_RATE
-            total = subtotal + hst
 
-            col_start = x_positions[cost_col_index]
-            col_end = x_positions[cost_col_index + 1]
+        # --- Add Summary Rows to Table Data ---
+        data.append([''] * len(header)) # Spacer row
 
-            for text, offset in zip(
-                    [f"Subtotal: ${subtotal:.2f}", f"HST ({int(TAX_RATE * 100)}%): ${hst:.2f}",
-                     f"Total: ${total:.2f}"],
-                    [0, -15, -30]
-            ):
-                text_width = c.stringWidth(text, "Helvetica-Bold", 10)
-                c.drawString(col_end - text_width - 3, y + offset, text)
+        # Subtotal Row
+        subtotal_row = [''] * len(header)
+        subtotal_row[0] = 'Subtotal:'
+        for i in range(len(MATERIAL_TYPES)):
+            cost_col_idx = 3 + i * 2
+            subtotal_row[cost_col_idx] = f"${subtotals[i]:.2f}"
+        data.append(subtotal_row)
 
-        y -= 45
-        return y
+        # HST Row
+        hst_row = [''] * len(header)
+        hst_row[0] = f"HST ({int(TAX_RATE*100)}%):"
+        for i in range(len(MATERIAL_TYPES)):
+            cost_col_idx = 3 + i * 2
+            hst = subtotals[i] * TAX_RATE
+            hst_row[cost_col_idx] = f"${hst:.2f}"
+        data.append(hst_row)
 
-    def _draw_pdf_notes_and_footer(self, c, y, page_w, page_h, margin):
+        # Total Row
+        total_row = [''] * len(header)
+        total_row[0] = 'Total:'
+        for i in range(len(MATERIAL_TYPES)):
+            cost_col_idx = 3 + i * 2
+            total = subtotals[i] * (1 + TAX_RATE)
+            total_row[cost_col_idx] = f"${total:.2f}"
+        data.append(total_row)
+
+        # --- Create Table ---
+        table = Table(data, colWidths=col_widths)
+
+        # --- Apply Style ---
+        style = TableStyle([
+            ('GRID', (0,0), (-1,-1), 1, colors.black),
+            ('BACKGROUND', (0,0), (-1,0), colors.lightgrey),
+            ('TEXTCOLOR', (0,0), (-1,0), colors.black),
+            ('ALIGN', (0,0), (-1,0), 'CENTER'),
+            ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+            ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+            ('ALIGN', (1,1), (1,-1), 'RIGHT'), # Area column
+        ])
+        # Align rate and cost columns
+        for i in range(len(MATERIAL_TYPES)):
+            rate_col = 2 + i * 2
+            cost_col = rate_col + 1
+            style.add('ALIGN', (rate_col, 1), (rate_col, -1), 'RIGHT')
+            style.add('ALIGN', (cost_col, 1), (cost_col, -1), 'RIGHT')
+
+        # --- Summary Rows Styling ---
+        summary_start_row = -3
+        # SPAN command to merge cells for the labels, and ALIGN to right-align the label
+        style.add('SPAN', (0, summary_start_row), (1, summary_start_row))
+        style.add('ALIGN', (0, summary_start_row), (0, summary_start_row), 'RIGHT')
+        style.add('SPAN', (0, -2), (1, -2))
+        style.add('ALIGN', (0, -2), (0, -2), 'RIGHT')
+        style.add('SPAN', (0, -1), (1, -1))
+        style.add('ALIGN', (0, -1), (0, -1), 'RIGHT')
+
+        # Bold font for summary rows
+        style.add('FONTNAME', (0, summary_start_row), (-1, -1), 'Helvetica-Bold')
+
+        # Remove grid lines for the spacer row
+        style.add('LINEABOVE', (0, summary_start_row -1), (-1, summary_start_row -1), 1, colors.black)
+        style.add('LINEBELOW', (0, -1), (-1, -1), 1, colors.black)
+
+        table.setStyle(style)
+        story.append(table)
+        story.append(Spacer(1, 24))
+
+        # Notes & Footer
         notes = self.notes_text.toPlainText().strip()
         if notes:
-            c.setFont("Helvetica-Bold", 11)
-            c.drawString(margin, y, "Notes & Scope:")
-            y -= 15
-            c.setFont("Helvetica", 9)
+            story.append(Paragraph("Notes & Scope:", styles['h3']))
+            story.append(Paragraph(notes.replace('\n', '<br/>'), styles['BodyText']))
+            story.append(Spacer(1, 12))
 
-            note_lines = simpleSplit(notes, "Helvetica", 9, page_w - 2 * margin)
-            for line in note_lines:
-                if y < margin + 20:
-                    c.showPage()
-                    y = page_h - margin
-                c.drawString(margin, y, line)
-                y -= 12
+        footer_text = """
+        PT = Pressure Treated Lumber<br/>
+        LF = Linear Foot<br/>
+        Prices reflect square footage unless otherwise marked
+        """
+        story.append(Paragraph(footer_text, styles['Italic']))
 
-        y -= 30
-        footer_lines = [
-            "PT = Pressure Treated Lumber",
-            "LF = Linear Foot",
-            "Prices reflect square footage unless otherwise marked"
-        ]
-        c.setFont("Helvetica-Oblique", 8)
-        for line in footer_lines:
-            if y < margin + 20:
-                c.showPage()
-                y = page_h - margin
-            c.drawString(margin, y, line)
-            y -= 12
-
-        return y
+        doc.build(story)
 
 
 
