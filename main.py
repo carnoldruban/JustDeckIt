@@ -222,7 +222,13 @@ class JustDeckITQuotes(QWidget):
         story = []
 
         # Header
-        story.append(Paragraph("JUST DECK IT - QUOTE", styles['h1']))
+        from reportlab.lib.enums import TA_CENTER
+        title_style = styles['h1']
+        title_style.alignment = TA_CENTER
+        title_text = f"Quote for: {self.customer_name.text()}"
+        if not self.customer_name.text().strip():
+            title_text = "JUST DECK IT - QUOTE"
+        story.append(Paragraph(title_text, title_style))
         story.append(Spacer(1, 12))
 
         # Description
@@ -273,7 +279,7 @@ class JustDeckITQuotes(QWidget):
         total_width = doc.width
         weights = [3.5, 1]  # Description, Area
         for _ in MATERIAL_TYPES:
-            weights.extend([2, 2.5])  # Material Rate, Material Cost
+            weights.extend([2, 3])  # Material Rate, Material Cost
         total_weight = sum(weights)
         col_widths = [(w / total_weight) * total_width for w in weights]
 
@@ -372,6 +378,16 @@ class JustDeckITQuotes(QWidget):
         Prices reflect square footage unless otherwise marked
         """
         story.append(Paragraph(footer_text, styles['Italic']))
+
+        story.append(Spacer(1, 48))
+
+        signature_text = """
+        Proprietor Ryan Graziano,<br/>
+        Just Deck IT,<br/>
+        131 Main St, Brighton, ON, K0k 1h0<br/>
+        (647) 208-7486
+        """
+        story.append(Paragraph(signature_text, styles['Normal']))
 
         doc.build(story)
 
