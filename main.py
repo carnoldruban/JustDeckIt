@@ -15,6 +15,8 @@ from reportlab.lib import colors
 from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER
 import datetime
 import sqlite3
+import os
+from pathlib import Path
 
 MATERIAL_TYPES = ["PT 5/4", "CEDAR 5/4", "PT 2x6", "CEDAR 2x6", "PVC/Comp"]
 
@@ -250,8 +252,18 @@ class JustDeckITQuotes(QWidget):
             QMessageBox.warning(self, "No Items", "Add at least one material quote item.")
             return
 
+        # Construct default path and filename
+        default_dir = self._get_default_save_directory()
+        now = datetime.datetime.now()
+        year_month = now.strftime("%Y_%B")
+        customer_name = self.customer_name.text().strip().replace(' ', '_')
+        if not customer_name:
+            customer_name = "Quote"
+        default_filename = f"{customer_name}_{year_month}.pdf"
+        default_path = os.path.join(default_dir, default_filename)
+
         options = QFileDialog.Option.DontUseNativeDialog
-        filename, _ = QFileDialog.getSaveFileName(self, "Save PDF Quote", "", "PDF Files (*.pdf)", options=options)
+        filename, _ = QFileDialog.getSaveFileName(self, "Save PDF Quote", default_path, "PDF Files (*.pdf)", options=options)
         if not filename:
             return
 
@@ -285,6 +297,28 @@ class JustDeckITQuotes(QWidget):
 
         except Exception as e:
             QMessageBox.critical(self, "Database Error", f"Could not save quote to database: {e}")
+
+    def _get_default_save_directory(self):
+        """
+        Determines the default save directory, creating it if it doesn't exist.
+        Checks for OneDrive, falls back to home directory.
+        """
+        base_path = os.environ.get('ONEDRIVE')
+        if base_path is None:
+            base_path = Path.home()
+
+        now = datetime.datetime.now()
+        year = now.strftime('%Y')
+        month = now.strftime('%B')
+
+        save_dir = Path(base_path) / "Files" / year / month
+
+        try:
+            os.makedirs(save_dir, exist_ok=True)
+        except OSError:
+            return str(Path.home())
+
+        return str(save_dir)
 
     def generate_pdf(self, filename):
         doc = SimpleDocTemplate(filename, pagesize=letter)
