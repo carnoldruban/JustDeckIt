@@ -276,13 +276,16 @@ class JustDeckITQuotes(QWidget):
                 row_data.append(self.table.item(row, 3 + i * 2).text())
             data.append(row_data)
 
-        # --- (Re-implemented) Weighted Column Widths ---
+        # --- Forceful, Fixed-Percentage Column Widths ---
         total_width = doc.width
-        weights = [4, 1]  # Description, Area
-        for _ in MATERIAL_TYPES:
-            weights.extend([2.5, 3])  # Material Rate, Material Cost
-        total_weight = sum(weights)
-        col_widths = [(w / total_weight) * total_width for w in weights]
+        desc_width = total_width * 0.30
+        area_width = total_width * 0.05
+        rem_width = total_width - desc_width - area_width
+        material_col_width = rem_width / (len(MATERIAL_TYPES) * 2)
+
+        col_widths = [desc_width, area_width]
+        for _ in range(len(MATERIAL_TYPES) * 2):
+            col_widths.append(material_col_width)
 
         # --- Summary Data Calculation ---
         subtotals = [0.0] * len(MATERIAL_TYPES)
