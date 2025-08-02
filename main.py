@@ -276,12 +276,12 @@ class JustDeckITQuotes(QWidget):
                 row_data.append(self.table.item(row, 3 + i * 2).text())
             data.append(row_data)
 
-        # --- Forceful, Fixed-Percentage Column Widths ---
+        # --- Aggressively Re-balanced Column Widths ---
         total_width = doc.width
-        desc_width = total_width * 0.30
+        desc_width = total_width * 0.25  # Reduced
         area_width = total_width * 0.05
         rem_width = total_width - desc_width - area_width
-        material_col_width = rem_width / (len(MATERIAL_TYPES) * 2)
+        material_col_width = rem_width / (len(MATERIAL_TYPES) * 2)  # Increased
 
         col_widths = [desc_width, area_width]
         for _ in range(len(MATERIAL_TYPES) * 2):
@@ -340,7 +340,7 @@ class JustDeckITQuotes(QWidget):
             ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
             ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
             ('ALIGN', (1,1), (1,-1), 'RIGHT'), # Area column
-            ('FONTSIZE', (0,1), (-1,-1), 9), # Set font size for data rows
+            ('FONTSIZE', (0,1), (-1,-1), 8), # Set font size for data rows
         ])
         # Align rate and cost columns
         for i in range(len(MATERIAL_TYPES)):
