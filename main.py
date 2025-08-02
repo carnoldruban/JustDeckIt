@@ -221,36 +221,27 @@ class JustDeckITQuotes(QWidget):
         styles = getSampleStyleSheet()
         story = []
 
-        from reportlab.lib.enums import TA_CENTER, TA_RIGHT
+        from reportlab.lib.enums import TA_CENTER
 
-        # Title
+        # Centered, bold title
         title_style = styles['h1']
-        main_title = Paragraph("<b>Just Deck IT</b>", title_style)
-
-        # Customer Info
-        customer_name_text = self.customer_name.text()
-        customer_info_text = f"""
-            Date: {datetime.date.today().strftime('%b %d, %Y')}<br/>
-            Customer: {customer_name_text}<br/>
-            Address: {self.customer_address.text()}<br/>
-            Phone: {self.customer_phone.text()}<br/>
-            Email: {self.customer_email.text()}
-            """
-        customer_info_style = styles['Normal']
-        customer_info_style.alignment = TA_RIGHT
-        customer_info = Paragraph(customer_info_text, customer_info_style)
-
-        # Header Table
-        header_table = Table([[main_title, customer_info]], colWidths=[doc.width/2.0, doc.width/2.0], style=[('VALIGN', (0,0), (-1,-1), 'TOP')])
-        story.append(header_table)
+        title_style.alignment = TA_CENTER
+        story.append(Paragraph("<b>JUST DECK IT</b>", title_style))
         story.append(Spacer(1, 24))
 
-        # Subtitle
-        if customer_name_text.strip():
-            subtitle_style = styles['h2']
-            subtitle_text = f"<i>Quote prepared for: {customer_name_text}</i>"
-            story.append(Paragraph(subtitle_text, subtitle_style))
-            story.append(Spacer(1, 12))
+        # Left-aligned customer info with bold labels
+        customer_info_text = f"""
+        <b>Name:</b> {self.customer_name.text()}<br/>
+        <b>Address:</b> {self.customer_address.text()}<br/>
+        <b>Phone:</b> {self.customer_phone.text()}<br/>
+        <b>Email:</b> {self.customer_email.text()}
+        """
+        story.append(Paragraph(customer_info_text, styles['Normal']))
+        story.append(Spacer(1, 12))
+
+        # "Quote:" sub-heading
+        story.append(Paragraph("<b>Quote:</b>", styles['h2']))
+        story.append(Spacer(1, 12))
 
         # Description
         current_month_year = datetime.date.today().strftime("%B %Y")
@@ -369,6 +360,7 @@ class JustDeckITQuotes(QWidget):
             cost_col = rate_col + 1
             style.add('ALIGN', (rate_col, 1), (rate_col, -1), 'RIGHT')
             style.add('ALIGN', (cost_col, 1), (cost_col, -1), 'RIGHT')
+            style.add('FONTNAME', (cost_col, 1), (cost_col, -1), 'Helvetica-Bold')
 
         # --- Summary Rows Styling ---
         summary_start_row = -3
@@ -394,7 +386,7 @@ class JustDeckITQuotes(QWidget):
         # Notes & Footer
         notes = self.notes_text.toPlainText().strip()
         if notes:
-            story.append(Paragraph("Notes & Scope:", styles['h3']))
+            story.append(Paragraph("<b>Notes & Scope:</b>", styles['h3']))
             story.append(Paragraph(notes.replace('\n', '<br/>'), styles['BodyText']))
             story.append(Spacer(1, 12))
 
@@ -407,15 +399,14 @@ class JustDeckITQuotes(QWidget):
 
         story.append(Spacer(1, 48))
 
-        signature_style = styles['Normal']
-        signature_style.alignment = TA_CENTER
         signature_text = """
-        <b>Proprietor Ryan Graziano</b>,<br/>
+        Ryan Graziano,<br/>
+        Proprietor,<br/><br/>
         Just Deck IT,<br/>
         131 Main St, Brighton, ON, K0k 1h0<br/>
         (647) 208-7486
         """
-        story.append(Paragraph(signature_text, signature_style))
+        story.append(Paragraph(signature_text, styles['Normal']))
 
         doc.build(story)
 
