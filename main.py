@@ -8,7 +8,7 @@ from PyQt6.QtCore import Qt
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import simpleSplit
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image
 from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
@@ -23,6 +23,7 @@ MATERIAL_TYPES = ["PT 5/4", "CEDAR 5/4", "PT 2x6", "CEDAR 2x6", "PVC/Comp"]
 class JustDeckITQuotes(QWidget):
     def __init__(self):
         super().__init__()
+        self.attachment_paths = []
         self.setWindowTitle("Just Deck IT - Quotes")
         self.resize(1200, 700)
 
@@ -126,7 +127,31 @@ class JustDeckITQuotes(QWidget):
         # Save button
         self.save_btn = QPushButton("Save Quote & Generate PDF")
         self.save_btn.clicked.connect(self.save_quote)
+
+        # Attachments Section
+        attachment_layout = QHBoxLayout()
+        add_attachment_btn = QPushButton("Add Attachments")
+        add_attachment_btn.clicked.connect(self.select_attachments)
+        self.attachments_label = QLabel("0 files attached")
+        attachment_layout.addWidget(add_attachment_btn)
+        attachment_layout.addStretch()
+        attachment_layout.addWidget(self.attachments_label)
+        layout.addLayout(attachment_layout)
+
         layout.addWidget(self.save_btn)
+
+    def select_attachments(self):
+        options = QFileDialog.Option.DontUseNativeDialog
+        files, _ = QFileDialog.getOpenFileNames(
+            self,
+            "Select Attachments",
+            "",
+            "Images (*.png *.jpg *.jpeg);;All Files (*)",
+            options=options
+        )
+        if files:
+            self.attachment_paths = files
+            self.attachments_label.setText(f"{len(self.attachment_paths)} files attached")
 
     def update_suggestions(self, text):
         if len(text) < 2:
@@ -293,7 +318,26 @@ class JustDeckITQuotes(QWidget):
                 costs = [float(self.table.item(row, 3 + i*2).text()) for i in range(len(MATERIAL_TYPES))]
                 add_quote_item(quote_id, description, area, rates, costs)
 
-            QMessageBox.information(self, "Saved", f"Quote saved to PDF and database:\n{filename}")
+            msg_box = QMessageBox()
+            msg_box.setIcon(QMessageBox.Icon.Information)
+            msg_box.setText(f"Quote saved to PDF and database:\n{filename}")
+            msg_box.setWindowTitle("Saved")
+            open_button = msg_box.addButton("Open File", QMessageBox.ButtonRole.ActionRole)
+            msg_box.addButton("OK", QMessageBox.ButtonRole.AcceptRole)
+
+            msg_box.exec()
+
+            if msg_box.clickedButton() == open_button:
+                try:
+                    os.startfile(filename)
+                except AttributeError:
+                    import subprocess
+                    if sys.platform == "win32":
+                        os.startfile(filename)
+                    elif sys.platform == "darwin":
+                        subprocess.call(["open", filename])
+                    else:
+                        subprocess.call(["xdg-open", filename])
 
         except Exception as e:
             QMessageBox.critical(self, "Database Error", f"Could not save quote to database: {e}")
@@ -592,6 +636,19 @@ class JustDeckITQuotes(QWidget):
             # and onwards get pushed down.
             story.insert(page_break_index, Spacer(1, 24))
             story.insert(page_break_index + 1, signature)
+
+        # --- Add Attachments ---
+        if self.attachment_paths:
+            story.append(PageBreak())
+            story.append(Paragraph("Attachments", styles['h1']))
+
+            for image_path in self.attachment_paths:
+                try:
+                    story.append(PageBreak())
+                    img = Image(image_path, width=doc.width, height=doc.height*0.8, keepAspectRatio=True)
+                    story.append(img)
+                except Exception as e:
+                    print(f"Could not attach file {image_path}: {e}")
 
         doc.build(story)
 
