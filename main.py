@@ -276,29 +276,13 @@ class JustDeckITQuotes(QWidget):
                 row_data.append(self.table.item(row, 3 + i * 2).text())
             data.append(row_data)
 
-        # --- Content-based Column Width Calculation ---
+        # --- (Re-implemented) Weighted Column Widths ---
         total_width = doc.width
-        num_cols = len(header)
-        cols_content = [[] for _ in range(num_cols)]
-        for row_data in data:
-            for col_idx, cell_content in enumerate(row_data):
-                if hasattr(cell_content, 'getPlainText'):
-                    cols_content[col_idx].append(cell_content.getPlainText())
-                else:
-                    cols_content[col_idx].append(str(cell_content))
-
-        max_chars = [max(len(s) for s in col) if col else 0 for col in cols_content]
-
-        padding = 2
-        weights = [l + padding for l in max_chars]
-        weights[0] = max(weights[0], 20)  # Min width for description
-
+        weights = [4, 1]  # Description, Area
+        for _ in MATERIAL_TYPES:
+            weights.extend([2.5, 3])  # Material Rate, Material Cost
         total_weight = sum(weights)
-        if total_weight > 0:
-            col_widths = [(w / total_weight) * total_width for w in weights]
-        else:
-            # Fallback if there's no content
-            col_widths = [total_width / num_cols] * num_cols
+        col_widths = [(w / total_weight) * total_width for w in weights]
 
         # --- Summary Data Calculation ---
         subtotals = [0.0] * len(MATERIAL_TYPES)
@@ -353,6 +337,7 @@ class JustDeckITQuotes(QWidget):
             ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
             ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
             ('ALIGN', (1,1), (1,-1), 'RIGHT'), # Area column
+            ('FONTSIZE', (0,1), (-1,-1), 9), # Set font size for data rows
         ])
         # Align rate and cost columns
         for i in range(len(MATERIAL_TYPES)):
