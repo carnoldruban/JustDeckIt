@@ -2,7 +2,7 @@ import sys
 from PyQt6.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QHBoxLayout, QTableWidget, QTableWidgetItem,
     QPushButton, QLabel, QLineEdit, QHeaderView, QMessageBox, QGroupBox,
-    QFormLayout, QFileDialog, QTextEdit
+    QFormLayout, QFileDialog, QTextEdit, QComboBox
 )
 from PyQt6.QtCore import Qt
 from reportlab.lib.pagesizes import letter
@@ -13,6 +13,7 @@ from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib import colors
 import datetime
+import sqlite3
 
 TAX_RATE = 0.13
 
@@ -42,8 +43,10 @@ class JustDeckITQuotes(QWidget):
 
         # Add item inputs (Description, Area, rates for each material type)
         input_layout = QHBoxLayout()
-        self.desc_input = QLineEdit()
+        self.desc_input = QComboBox()
+        self.desc_input.setEditable(True)
         self.desc_input.setPlaceholderText("Description")
+        self.desc_input.lineEdit().textEdited.connect(self.update_suggestions)
         self.area_input = QLineEdit()
         self.area_input.setPlaceholderText("Area")
 
@@ -114,8 +117,28 @@ class JustDeckITQuotes(QWidget):
         self.save_btn.clicked.connect(self.save_quote)
         layout.addWidget(self.save_btn)
 
+    def update_suggestions(self, text):
+        if len(text) < 2:
+            return
+
+        suggestions = get_matching_descriptions(text)
+
+        self.desc_input.blockSignals(True)
+
+        current_text = self.desc_input.currentText()
+
+        self.desc_input.clear()
+        if suggestions:
+            self.desc_input.addItems(suggestions)
+
+        self.desc_input.setEditText(current_text)
+        self.desc_input.blockSignals(False)
+
+        if suggestions:
+            self.desc_input.showPopup()
+
     def add_item(self):
-        desc = self.desc_input.text().strip()
+        desc = self.desc_input.currentText().strip()
         if not desc:
             QMessageBox.warning(self, "Invalid Input", "Description is required.")
             return
@@ -193,9 +216,9 @@ class JustDeckITQuotes(QWidget):
                 if item:
                     try:
                         subtotals[i] += float(item.text())
-                except ValueError:
-                    # Item text is not a valid float, so we skip it.
-                    pass
+                    except ValueError:
+                        # Item text is not a valid float, so we skip it.
+                        pass
 
         for i, subtotal in enumerate(subtotals):
             hst = subtotal * TAX_RATE
@@ -215,7 +238,35 @@ class JustDeckITQuotes(QWidget):
             return
 
         self.generate_pdf(filename)
-        QMessageBox.information(self, "Saved", f"Quote saved and PDF generated:\n{filename}")
+
+        try:
+            # Save to database
+            customer_id = add_customer(
+                self.customer_name.text(),
+                self.customer_address.text(),
+                self.customer_phone.text(),
+                self.customer_email.text()
+            )
+            if customer_id is None:
+                raise Exception("Could not save or retrieve customer. Email is required.")
+
+            quote_id = add_quote(
+                customer_id,
+                datetime.date.today().isoformat(),
+                self.notes_text.toPlainText()
+            )
+
+            for row in range(self.table.rowCount()):
+                description = self.table.item(row, 0).text()
+                area = float(self.table.item(row, 1).text())
+                rates = [float(self.table.item(row, 2 + i*2).text()) for i in range(len(MATERIAL_TYPES))]
+                costs = [float(self.table.item(row, 3 + i*2).text()) for i in range(len(MATERIAL_TYPES))]
+                add_quote_item(quote_id, description, area, rates, costs)
+
+            QMessageBox.information(self, "Saved", f"Quote saved to PDF and database:\n{filename}")
+
+        except Exception as e:
+            QMessageBox.critical(self, "Database Error", f"Could not save quote to database: {e}")
 
     def generate_pdf(self, filename):
         doc = SimpleDocTemplate(filename, pagesize=letter)
@@ -428,9 +479,135 @@ class JustDeckITQuotes(QWidget):
 
         doc.build(story)
 
+# --- Database Functions ---
+def init_db():
+    """
+    Initializes the database and creates tables if they don't exist.
+    """
+    try:
+        conn = sqlite3.connect('quotes.db')
+        cursor = conn.cursor()
 
+        # Create customers table
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS customers (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            address TEXT,
+            phone TEXT,
+            email TEXT UNIQUE
+        )
+        """)
+
+        # Create quotes table
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS quotes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            customer_id INTEGER NOT NULL,
+            quote_date TEXT NOT NULL,
+            notes TEXT,
+            FOREIGN KEY (customer_id) REFERENCES customers (id)
+        )
+        """)
+
+        # Create quote_items table
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS quote_items (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            quote_id INTEGER NOT NULL,
+            description TEXT NOT NULL,
+            area REAL NOT NULL,
+            pt_5_4_rate REAL,
+            pt_5_4_cost REAL,
+            cedar_5_4_rate REAL,
+            cedar_5_4_cost REAL,
+            pt_2x6_rate REAL,
+            pt_2x6_cost REAL,
+            cedar_2x6_rate REAL,
+            cedar_2x6_cost REAL,
+            pvc_comp_rate REAL,
+            pvc_comp_cost REAL,
+            FOREIGN KEY (quote_id) REFERENCES quotes (id)
+        )
+        """)
+
+        conn.commit()
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+    finally:
+        if conn:
+            conn.close()
+
+def add_customer(name, address, phone, email):
+    """Adds a customer to the database or retrieves the ID if they exist."""
+    conn = sqlite3.connect('quotes.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute("INSERT OR IGNORE INTO customers (name, address, phone, email) VALUES (?, ?, ?, ?)",
+                       (name, address, phone, email))
+        conn.commit()
+
+        cursor.execute("SELECT id FROM customers WHERE email = ?", (email,))
+        result = cursor.fetchone()
+        if result:
+            return result[0]
+        return None
+    finally:
+        conn.close()
+
+def add_quote(customer_id, quote_date, notes):
+    """Adds a quote to the database and returns the new quote's ID."""
+    conn = sqlite3.connect('quotes.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute("INSERT INTO quotes (customer_id, quote_date, notes) VALUES (?, ?, ?)",
+                       (customer_id, quote_date, notes))
+        quote_id = cursor.lastrowid
+        conn.commit()
+        return quote_id
+    finally:
+        conn.close()
+
+def add_quote_item(quote_id, description, area, rates, costs):
+    """Adds a single line item to a quote."""
+    conn = sqlite3.connect('quotes.db')
+    cursor = conn.cursor()
+    try:
+        item_data = (
+            quote_id, description, area,
+            rates[0], costs[0],
+            rates[1], costs[1],
+            rates[2], costs[2],
+            rates[3], costs[3],
+            rates[4], costs[4]
+        )
+        cursor.execute("""
+            INSERT INTO quote_items (
+                quote_id, description, area,
+                pt_5_4_rate, pt_5_4_cost,
+                cedar_5_4_rate, cedar_5_4_cost,
+                pt_2x6_rate, pt_2x6_cost,
+                cedar_2x6_rate, cedar_2x6_cost,
+                pvc_comp_rate, pvc_comp_cost
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, item_data)
+        conn.commit()
+    finally:
+        conn.close()
+
+def get_matching_descriptions(search_term):
+    """Retrieves unique descriptions from the database that match the search term."""
+    conn = sqlite3.connect('quotes.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute("SELECT DISTINCT description FROM quote_items WHERE description LIKE ? LIMIT 10", ('%' + search_term + '%',))
+        descriptions = [row[0] for row in cursor.fetchall()]
+        return descriptions
+    finally:
+        conn.close()
 
 if __name__ == "__main__":
+    init_db()
     app = QApplication(sys.argv)
     window = JustDeckITQuotes()
     window.show()
