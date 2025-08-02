@@ -291,7 +291,51 @@ class JustDeckITQuotes(QWidget):
         styles = getSampleStyleSheet()
         story = []
 
-        from reportlab.lib.enums import TA_CENTER
+        from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
+        from reportlab.platypus import PageBreak
+
+        # --- Cover Letter (Page 1) ---
+        title_style = styles['h1']
+        title_style.alignment = TA_CENTER
+        story.append(Paragraph("<b>JUST DECK IT</b>", title_style))
+        story.append(Spacer(1, 24))
+
+        story.append(Paragraph("Dear Valued Customer,", styles['Normal']))
+        story.append(Spacer(1, 12))
+
+        cover_letter_p1 = "Here is your Project Estimate. Please note that this estimate is based on the information provided to me up to this date, any changes to this design may result in changes to the final cost. All changes to price will be transparent and signed off by the customer prior to building."
+        story.append(Paragraph(cover_letter_p1, styles['BodyText']))
+        story.append(Spacer(1, 12))
+
+        cover_letter_p2 = "Quote also offers flexibility with optional upgrades and materials to tailor your project to your preferences and budget. Estimate based on lumber and decking prices August 2025."
+        story.append(Paragraph(cover_letter_p2, styles['BodyText']))
+        story.append(Spacer(1, 12))
+
+        story.append(Paragraph("Material cost may change due to lumber being a commodity.", styles['BodyText']))
+        story.append(Spacer(1, 12))
+
+        cover_letter_p3 = "Just Deck It was established in 2005. We are fully insured and licensed. Our workmanship is guaranteed for 5 years on all 100 % new construction projects."
+        story.append(Paragraph(cover_letter_p3, styles['BodyText']))
+        story.append(Spacer(1, 12))
+
+        company_details = """
+        WSIB Ontario: Firm # 767896VY<br/>
+        BBB.org: 10099-600 Deck Builder<br/>
+        Bay of Quinte Mutual Insurance: Policy # 112073C01 3.0
+        """
+        story.append(Paragraph(company_details, styles['Normal']))
+        story.append(Spacer(1, 12))
+
+        cover_letter_p4 = "We pride ourselves on complete customer satisfaction. Just Deck It is a proud ‘Best of Winner’ 2010, 2011, & 2014 for HomeStars.com. For more information and extensive customer reviews please go to HomeStars.com or on google."
+        story.append(Paragraph(cover_letter_p4, styles['BodyText']))
+        story.append(Spacer(1, 12))
+
+        cover_letter_p5 = "Should you have any questions or concerns, please give us a call or send an email. (647) 208-7486 or ryan@justdeckit.ca"
+        story.append(Paragraph(cover_letter_p5, styles['BodyText']))
+
+        story.append(PageBreak())
+
+        # --- Quote Page (Page 2) ---
 
         # Centered, bold title
         title_style = styles['h1']
@@ -312,21 +356,8 @@ class JustDeckITQuotes(QWidget):
         story.append(Spacer(1, 12))
 
         # "Quote:" sub-heading
-        story.append(Paragraph("<b>Quote:</b>", styles['h2']))
-        story.append(Spacer(1, 12))
-
-        # Description
-        current_month_year = datetime.date.today().strftime("%B %Y")
-        desc_text = (
-            "Each estimate is carefully prepared to reflect accurate costs based on material quantities, "
-            "types, and labor hours required for your project. Our quotes break down the pricing for each "
-            "material type and area, allowing you to see a clear, itemized cost structure that ensures full transparency.<br/><br/>"
-            "Our pricing reflects current market rates and includes applicable taxes for your region. "
-            "We aim to offer competitive, fair pricing while maintaining high standards of quality and craftsmanship. "
-            "Each quote also offers flexibility with optional upgrades and materials to tailor your project to your preferences and budget.<br/><br/>"
-            f"Estimate based on lumber and decking prices {current_month_year}."
-        )
-        story.append(Paragraph(desc_text, styles['BodyText']))
+        # The main description is now on the cover letter, so we just have the title for the quote page.
+        story.append(Paragraph("<b>Quote Details:</b>", styles['h2']))
         story.append(Spacer(1, 24))
 
         # --- Table Data ---
@@ -500,16 +531,33 @@ class JustDeckITQuotes(QWidget):
 
         story.append(Spacer(1, 48))
 
+        # Define the signature
         signature_text = """
-        <font size=12><b>Ryan Graziano,</b></font><br/>
-        <font size=10>
+        With thanks,<br/><br/>
+        Ryan Graziano,<br/>
         Proprietor,<br/>
         Just Deck IT,<br/>
         131 Main St, Brighton, ON, K0k 1h0<br/>
         (647) 208-7486
-        </font>
         """
-        story.append(Paragraph(signature_text, styles['Normal']))
+        signature = Paragraph(signature_text, styles['Normal'])
+
+        # Add signature to the end of the quote page
+        story.append(Spacer(1, 48))
+        story.append(signature)
+
+        # Now, find the page break and insert the signature before it
+        page_break_index = -1
+        for i, item in enumerate(story):
+            if isinstance(item, PageBreak):
+                page_break_index = i
+                break
+
+        if page_break_index != -1:
+            # We insert the signature and a spacer. The items that were at the page_break_index
+            # and onwards get pushed down.
+            story.insert(page_break_index, Spacer(1, 24))
+            story.insert(page_break_index + 1, signature)
 
         doc.build(story)
 
