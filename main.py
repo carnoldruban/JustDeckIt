@@ -221,15 +221,36 @@ class JustDeckITQuotes(QWidget):
         styles = getSampleStyleSheet()
         story = []
 
-        # Header
-        from reportlab.lib.enums import TA_CENTER
+        from reportlab.lib.enums import TA_CENTER, TA_RIGHT
+
+        # Title
         title_style = styles['h1']
-        title_style.alignment = TA_CENTER
-        title_text = f"Quote for: {self.customer_name.text()}"
-        if not self.customer_name.text().strip():
-            title_text = "JUST DECK IT - QUOTE"
-        story.append(Paragraph(title_text, title_style))
-        story.append(Spacer(1, 12))
+        main_title = Paragraph("<b>Just Deck IT</b>", title_style)
+
+        # Customer Info
+        customer_name_text = self.customer_name.text()
+        customer_info_text = f"""
+            Date: {datetime.date.today().strftime('%b %d, %Y')}<br/>
+            Customer: {customer_name_text}<br/>
+            Address: {self.customer_address.text()}<br/>
+            Phone: {self.customer_phone.text()}<br/>
+            Email: {self.customer_email.text()}
+            """
+        customer_info_style = styles['Normal']
+        customer_info_style.alignment = TA_RIGHT
+        customer_info = Paragraph(customer_info_text, customer_info_style)
+
+        # Header Table
+        header_table = Table([[main_title, customer_info]], colWidths=[doc.width/2.0, doc.width/2.0], style=[('VALIGN', (0,0), (-1,-1), 'TOP')])
+        story.append(header_table)
+        story.append(Spacer(1, 24))
+
+        # Subtitle
+        if customer_name_text.strip():
+            subtitle_style = styles['h2']
+            subtitle_text = f"<i>Quote prepared for: {customer_name_text}</i>"
+            story.append(Paragraph(subtitle_text, subtitle_style))
+            story.append(Spacer(1, 12))
 
         # Description
         current_month_year = datetime.date.today().strftime("%B %Y")
@@ -243,17 +264,6 @@ class JustDeckITQuotes(QWidget):
             f"Estimate based on lumber and decking prices {current_month_year}."
         )
         story.append(Paragraph(desc_text, styles['BodyText']))
-        story.append(Spacer(1, 12))
-
-        # Customer Info
-        customer_info = f"""
-        Date: {datetime.date.today().strftime('%b %d, %Y')}<br/>
-        Customer: {self.customer_name.text()}<br/>
-        Address: {self.customer_address.text()}<br/>
-        Phone: {self.customer_phone.text()}<br/>
-        Email: {self.customer_email.text()}
-        """
-        story.append(Paragraph(customer_info, styles['BodyText']))
         story.append(Spacer(1, 24))
 
         # --- Table Data ---
@@ -275,13 +285,29 @@ class JustDeckITQuotes(QWidget):
                 row_data.append(self.table.item(row, 3 + i * 2).text())
             data.append(row_data)
 
-        # --- Column Widths ---
+        # --- Content-based Column Width Calculation ---
         total_width = doc.width
-        weights = [3.5, 1]  # Description, Area
-        for _ in MATERIAL_TYPES:
-            weights.extend([2, 3])  # Material Rate, Material Cost
+        num_cols = len(header)
+        cols_content = [[] for _ in range(num_cols)]
+        for row_data in data:
+            for col_idx, cell_content in enumerate(row_data):
+                if hasattr(cell_content, 'getPlainText'):
+                    cols_content[col_idx].append(cell_content.getPlainText())
+                else:
+                    cols_content[col_idx].append(str(cell_content))
+
+        max_chars = [max(len(s) for s in col) if col else 0 for col in cols_content]
+
+        padding = 2
+        weights = [l + padding for l in max_chars]
+        weights[0] = max(weights[0], 20)  # Min width for description
+
         total_weight = sum(weights)
-        col_widths = [(w / total_weight) * total_width for w in weights]
+        if total_weight > 0:
+            col_widths = [(w / total_weight) * total_width for w in weights]
+        else:
+            # Fallback if there's no content
+            col_widths = [total_width / num_cols] * num_cols
 
         # --- Summary Data Calculation ---
         subtotals = [0.0] * len(MATERIAL_TYPES)
@@ -381,13 +407,15 @@ class JustDeckITQuotes(QWidget):
 
         story.append(Spacer(1, 48))
 
+        signature_style = styles['Normal']
+        signature_style.alignment = TA_CENTER
         signature_text = """
-        Proprietor Ryan Graziano,<br/>
+        <b>Proprietor Ryan Graziano</b>,<br/>
         Just Deck IT,<br/>
         131 Main St, Brighton, ON, K0k 1h0<br/>
         (647) 208-7486
         """
-        story.append(Paragraph(signature_text, styles['Normal']))
+        story.append(Paragraph(signature_text, signature_style))
 
         doc.build(story)
 
