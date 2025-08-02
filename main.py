@@ -72,7 +72,7 @@ class JustDeckITQuotes(QWidget):
         headers = ["Description", "Area"]
         for mt in MATERIAL_TYPES:
             headers.append(mt)
-            headers.append("Cost to Client")
+            headers.append("Cost")
         self.table.setHorizontalHeaderLabels(headers)
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.table.itemChanged.connect(self.item_changed)
@@ -262,7 +262,7 @@ class JustDeckITQuotes(QWidget):
         header = ["Description", "Area"]
         for mt in MATERIAL_TYPES:
             header.append(mt)
-            header.append("Cost to Client")
+            header.append("Cost")
 
         data = [header]
 
