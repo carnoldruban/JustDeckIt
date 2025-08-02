@@ -15,8 +15,6 @@ from reportlab.lib import colors
 import datetime
 import sqlite3
 
-TAX_RATE = 0.13
-
 MATERIAL_TYPES = ["PT 5/4", "CEDAR 5/4", "PT 2x6", "CEDAR 2x6", "PVC/Comp"]
 
 class JustDeckITQuotes(QWidget):
@@ -81,6 +79,16 @@ class JustDeckITQuotes(QWidget):
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.table.itemChanged.connect(self.item_changed)
         layout.addWidget(self.table)
+
+        # HST Input
+        hst_layout = QHBoxLayout()
+        hst_layout.addStretch()  # Push to the right
+        hst_layout.addWidget(QLabel("HST Rate (%):"))
+        self.hst_input = QLineEdit("13.0")
+        self.hst_input.setFixedWidth(50)
+        self.hst_input.textChanged.connect(self.update_summary)
+        hst_layout.addWidget(self.hst_input)
+        layout.addLayout(hst_layout)
 
         # Summary labels
         self.summary_layout = QHBoxLayout()
@@ -207,7 +215,16 @@ class JustDeckITQuotes(QWidget):
                 # Occurs if item text is not a valid float, or if an item is None.
                 pass
 
+    def get_tax_rate(self):
+        try:
+            return float(self.hst_input.text()) / 100.0
+        except ValueError:
+            return 0.0
+
     def update_summary(self):
+        tax_rate = self.get_tax_rate()
+        hst_percent = tax_rate * 100
+
         subtotals = [0.0]*len(MATERIAL_TYPES)
         for row in range(self.table.rowCount()):
             for i in range(len(MATERIAL_TYPES)):
@@ -221,10 +238,10 @@ class JustDeckITQuotes(QWidget):
                         pass
 
         for i, subtotal in enumerate(subtotals):
-            hst = subtotal * TAX_RATE
+            hst = subtotal * tax_rate
             total = subtotal + hst
             self.subtotal_labels[i].setText(f"Subtotal: ${subtotal:.2f}")
-            self.hst_labels[i].setText(f"HST ({int(TAX_RATE*100)}%): ${hst:.2f}")
+            self.hst_labels[i].setText(f"HST ({hst_percent:.1f}%): ${hst:.2f}")
             self.total_labels[i].setText(f"Total: ${total:.2f}")
 
     def save_quote(self):
@@ -330,7 +347,7 @@ class JustDeckITQuotes(QWidget):
                 row_data.append(self.table.item(row, 3 + i * 2).text())
             data.append(row_data)
 
-        # --- True Content-Based Column Width Calculation ---
+        # --- Final, Correct, Content-Based Column Width Calculation ---
         total_width = doc.width
         num_cols = len(header)
         font_name = 'Helvetica'
@@ -339,20 +356,26 @@ class JustDeckITQuotes(QWidget):
 
         max_widths = [0] * num_cols
         for i in range(num_cols):
-            header_width = stringWidth(str(data[0][i]), 'Helvetica-Bold', header_font_size)
-            max_widths[i] = max(max_widths[i], header_width)
+            header_text = str(data[0][i])
+            header_width = stringWidth(header_text, 'Helvetica-Bold', header_font_size)
+            if header_width > max_widths[i]:
+                max_widths[i] = header_width
 
             for row_idx in range(1, len(data)):
                 cell = data[row_idx][i]
-                text = cell.getPlainText() if hasattr(cell, 'getPlainText') else str(cell)
-                # Estimate width of wrapped paragraphs by taking the longest word
-                if isinstance(cell, Paragraph):
-                    words = text.split()
-                    if words:
-                        text = max(words, key=len)
 
-                cell_width = stringWidth(text, font_name, data_font_size)
-                max_widths[i] = max(max_widths[i], cell_width)
+                if isinstance(cell, Paragraph):
+                    text = cell.getPlainText()
+                    lines = text.split('<br/>')
+                    for line in lines:
+                        cell_width = stringWidth(line.strip(), font_name, data_font_size)
+                        if cell_width > max_widths[i]:
+                            max_widths[i] = cell_width
+                else:
+                    text = str(cell)
+                    cell_width = stringWidth(text, font_name, data_font_size)
+                    if cell_width > max_widths[i]:
+                        max_widths[i] = cell_width
 
         padding = 15
         ideal_widths = [w + padding for w in max_widths]
@@ -362,11 +385,19 @@ class JustDeckITQuotes(QWidget):
             scale_factor = total_width / total_ideal_width
             col_widths = [w * scale_factor for w in ideal_widths]
         else:
-            extra_space = total_width - total_ideal_width
             col_widths = ideal_widths
-            col_widths[0] += extra_space
+            # Distribute extra space proportionally to ideal widths
+            if sum(col_widths) < total_width:
+                extra_space = total_width - sum(col_widths)
+                total_ideal_for_dist = sum(ideal_widths)
+                if total_ideal_for_dist > 0:
+                    for i in range(len(col_widths)):
+                        col_widths[i] += extra_space * (ideal_widths[i] / total_ideal_for_dist)
 
         # --- Summary Data Calculation ---
+        tax_rate = self.get_tax_rate()
+        hst_percent = tax_rate * 100
+
         subtotals = [0.0] * len(MATERIAL_TYPES)
         for row in range(self.table.rowCount()):
             for i in range(len(MATERIAL_TYPES)):
@@ -391,10 +422,10 @@ class JustDeckITQuotes(QWidget):
 
         # HST Row
         hst_row = [''] * len(header)
-        hst_row[0] = f"HST ({int(TAX_RATE*100)}%):"
+        hst_row[0] = f"HST ({hst_percent:.1f}%):"
         for i in range(len(MATERIAL_TYPES)):
             cost_col_idx = 3 + i * 2
-            hst = subtotals[i] * TAX_RATE
+            hst = subtotals[i] * tax_rate
             hst_row[cost_col_idx] = f"${hst:.2f}"
         data.append(hst_row)
 
@@ -403,7 +434,7 @@ class JustDeckITQuotes(QWidget):
         total_row[0] = 'Total:'
         for i in range(len(MATERIAL_TYPES)):
             cost_col_idx = 3 + i * 2
-            total = subtotals[i] * (1 + TAX_RATE)
+            total = subtotals[i] * (1 + tax_rate)
             total_row[cost_col_idx] = f"${total:.2f}"
         data.append(total_row)
 
