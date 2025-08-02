@@ -10,8 +10,9 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.utils import simpleSplit
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 from reportlab.pdfbase.pdfmetrics import stringWidth
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
+from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER
 import datetime
 import sqlite3
 
@@ -329,22 +330,24 @@ class JustDeckITQuotes(QWidget):
         story.append(Spacer(1, 24))
 
         # --- Table Data ---
-        body_style = styles['BodyText']
-        header = ["Description", "Area"]
-        for mt in MATERIAL_TYPES:
-            header.append(mt)
-            header.append("Cost")
+        justified_style = ParagraphStyle(name='Justified', parent=styles['BodyText'], alignment=TA_JUSTIFY)
+        center_style = ParagraphStyle(name='Center', parent=styles['Normal'], alignment=TA_CENTER)
 
-        data = [header]
+        header_labels = ["Description", "Area"]
+        for mt in MATERIAL_TYPES:
+            header_labels.append(mt)
+            header_labels.append("Cost")
+
+        data = [[Paragraph(f"<b>{h}</b>", center_style) for h in header_labels]]
 
         for row in range(self.table.rowCount()):
             row_data = []
-            desc_text = self.table.item(row, 0).text().replace('\n', '<br/>')
-            row_data.append(Paragraph(desc_text, body_style))
-            row_data.append(self.table.item(row, 1).text())
-            for i in range(len(MATERIAL_TYPES)):
-                row_data.append(self.table.item(row, 2 + i * 2).text())
-                row_data.append(self.table.item(row, 3 + i * 2).text())
+            for col in range(self.table.columnCount()):
+                cell_text = self.table.item(row, col).text().replace('\n', '<br/>')
+                is_cost_col = col > 1 and (col - 1) % 2 != 0
+                if is_cost_col:
+                    cell_text = f"<b>{cell_text}</b>"
+                row_data.append(Paragraph(cell_text, justified_style))
             data.append(row_data)
 
         # --- Final, Correct, Content-Based Column Width Calculation ---
@@ -377,7 +380,7 @@ class JustDeckITQuotes(QWidget):
                     if cell_width > max_widths[i]:
                         max_widths[i] = cell_width
 
-        padding = 15
+        padding = stringWidth('  ', 'Helvetica-Bold', header_font_size)
         ideal_widths = [w + padding for w in max_widths]
 
         total_ideal_width = sum(ideal_widths)
@@ -446,8 +449,8 @@ class JustDeckITQuotes(QWidget):
             ('GRID', (0,0), (-1,-1), 1, colors.black),
             ('BACKGROUND', (0,0), (-1,0), colors.lightgrey),
             ('TEXTCOLOR', (0,0), (-1,0), colors.black),
-            ('ALIGN', (0,0), (-1,0), 'CENTER'),
-            ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+            # ('ALIGN', (0,0), (-1,0), 'CENTER'), # Alignment is now handled by Paragraph style
+            # ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'), # Bolding is now handled by Paragraph style
             ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
             ('ALIGN', (1,1), (1,-1), 'RIGHT'), # Area column
             ('FONTSIZE', (0,1), (-1,-1), 8), # Set font size for data rows
