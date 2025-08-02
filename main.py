@@ -9,6 +9,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import simpleSplit
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib import colors
 import datetime
@@ -276,16 +277,41 @@ class JustDeckITQuotes(QWidget):
                 row_data.append(self.table.item(row, 3 + i * 2).text())
             data.append(row_data)
 
-        # --- Aggressively Re-balanced Column Widths ---
+        # --- True Content-Based Column Width Calculation ---
         total_width = doc.width
-        desc_width = total_width * 0.25  # Reduced
-        area_width = total_width * 0.05
-        rem_width = total_width - desc_width - area_width
-        material_col_width = rem_width / (len(MATERIAL_TYPES) * 2)  # Increased
+        num_cols = len(header)
+        font_name = 'Helvetica'
+        data_font_size = 8
+        header_font_size = 10
 
-        col_widths = [desc_width, area_width]
-        for _ in range(len(MATERIAL_TYPES) * 2):
-            col_widths.append(material_col_width)
+        max_widths = [0] * num_cols
+        for i in range(num_cols):
+            header_width = stringWidth(str(data[0][i]), 'Helvetica-Bold', header_font_size)
+            max_widths[i] = max(max_widths[i], header_width)
+
+            for row_idx in range(1, len(data)):
+                cell = data[row_idx][i]
+                text = cell.getPlainText() if hasattr(cell, 'getPlainText') else str(cell)
+                # Estimate width of wrapped paragraphs by taking the longest word
+                if isinstance(cell, Paragraph):
+                    words = text.split()
+                    if words:
+                        text = max(words, key=len)
+
+                cell_width = stringWidth(text, font_name, data_font_size)
+                max_widths[i] = max(max_widths[i], cell_width)
+
+        padding = 15
+        ideal_widths = [w + padding for w in max_widths]
+
+        total_ideal_width = sum(ideal_widths)
+        if total_ideal_width > total_width:
+            scale_factor = total_width / total_ideal_width
+            col_widths = [w * scale_factor for w in ideal_widths]
+        else:
+            extra_space = total_width - total_ideal_width
+            col_widths = ideal_widths
+            col_widths[0] += extra_space
 
         # --- Summary Data Calculation ---
         subtotals = [0.0] * len(MATERIAL_TYPES)
