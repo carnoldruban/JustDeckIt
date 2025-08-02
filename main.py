@@ -223,16 +223,21 @@ class JustDeckITQuotes(QWidget):
         y = self._draw_pdf_customer_info(c, y, margin)
 
         total_width = page_w - 2 * margin
-        desc_col_w = 180
-        area_col_w = 40
-        material_cols = len(MATERIAL_TYPES) * 2
-        rem_width = total_width - desc_col_w - area_col_w
-        col_w = rem_width / material_cols
+
+        # Define weights for each column
+        weights = [3.5, 1]  # Description, Area
+        for _ in MATERIAL_TYPES:
+            weights.extend([2, 2.5])  # Material Rate, Material Cost
+
+        total_weight = sum(weights)
+
+        # Calculate column widths based on weights
+        col_widths = [(w / total_weight) * total_width for w in weights]
+
+        # Calculate x positions for each column start
         x_positions = [margin]
-        x_positions.append(x_positions[-1] + desc_col_w)
-        x_positions.append(x_positions[-1] + area_col_w)
-        for _ in range(material_cols):
-            x_positions.append(x_positions[-1] + col_w)
+        for w in col_widths:
+            x_positions.append(x_positions[-1] + w)
 
         y = self._draw_pdf_table(c, y, page_w, page_h, margin, x_positions)
         y = self._draw_pdf_summary(c, y, x_positions)
