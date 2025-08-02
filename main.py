@@ -230,14 +230,16 @@ class JustDeckITQuotes(QWidget):
         story.append(Paragraph("<b>JUST DECK IT</b>", title_style))
         story.append(Spacer(1, 24))
 
-        # Left-aligned customer info with bold labels
+        # Left-aligned customer info with bold labels and larger font
+        customer_info_style = styles['Normal']
+        customer_info_style.fontSize = 11
         customer_info_text = f"""
         <b>Name:</b> {self.customer_name.text()}<br/>
         <b>Address:</b> {self.customer_address.text()}<br/>
         <b>Phone:</b> {self.customer_phone.text()}<br/>
         <b>Email:</b> {self.customer_email.text()}
         """
-        story.append(Paragraph(customer_info_text, styles['Normal']))
+        story.append(Paragraph(customer_info_text, customer_info_style))
         story.append(Spacer(1, 12))
 
         # "Quote:" sub-heading
@@ -414,11 +416,13 @@ class JustDeckITQuotes(QWidget):
         story.append(Spacer(1, 48))
 
         signature_text = """
-        Ryan Graziano,<br/>
-        Proprietor,<br/><br/>
+        <font size=12><b>Ryan Graziano,</b></font><br/>
+        <font size=10>
+        Proprietor,<br/>
         Just Deck IT,<br/>
         131 Main St, Brighton, ON, K0k 1h0<br/>
         (647) 208-7486
+        </font>
         """
         story.append(Paragraph(signature_text, styles['Normal']))
 
