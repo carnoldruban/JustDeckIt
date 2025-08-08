@@ -15,7 +15,8 @@ RANKS = {
 
 class Card:
     """
-    Represents a single playing card with a suit, rank string, and Blackjack value.
+    Represents a single playing card with a suit, rank string, and Blackjack val
+ue.
     """
     def __init__(self, suit: str, rank_str: str):
         """
@@ -24,7 +25,8 @@ class Card:
         Args:
             suit (str): The suit of the card (e.g., "Hearts", "Spades").
                         Must be one of the defined SUITS.
-            rank_str (str): The string representation of the card's rank (e.g., "A", "K", "10", "2").
+            rank_str (str): The string representation of the card's rank (e.g.,
+"A", "K", "10", "2").
                             Must be a key in the defined RANKS.
 
         Raises:
@@ -33,7 +35,8 @@ class Card:
         if suit not in SUITS:
             raise ValueError(f"Invalid suit: {suit}. Must be one of {SUITS}")
         if rank_str not in RANKS:
-            raise ValueError(f"Invalid rank string: {rank_str}. Must be one of {list(RANKS.keys())}")
+            raise ValueError(f"Invalid rank string: {rank_str}. Must be one of {
+list(RANKS.keys())}")
 
         self.suit = suit
         self.rank_str = rank_str
@@ -98,11 +101,13 @@ class Shoe:
         if shuffle_now:
             random.shuffle(_master_deck_cards)
         # Shoe.undealt_cards is a deque for efficient pop from left (dealing)
-        self.undealt_cards: collections.deque[Card] = collections.deque(_master_deck_cards)
+        self.undealt_cards: collections.deque[Card] = collections.deque(_master_
+deck_cards)
         self.dealt_this_round: List[Card] = [] # Changed to List[Card]
         self.discard_pile: List[Card] = []   # Changed to List[Card]
 
-    def deal_card(self, specific_card_to_remove: Optional[Card] = None) -> Optional[Card]:
+    def deal_card(self, specific_card_to_remove: Optional[Card] = None) -> Optio
+nal[Card]:
         if not self.undealt_cards:
             return None
 
@@ -110,7 +115,8 @@ class Shoe:
         if specific_card_to_remove:
             try:
                 # Efficient removal from deque if card is found
-                self.undealt_cards.remove(specific_card_to_remove) # Relies on Card.__eq__
+                self.undealt_cards.remove(specific_card_to_remove) # Relies on C
+ard.__eq__
                 card_to_deal = specific_card_to_remove
             except ValueError: # Card not in deque
                 return None
@@ -126,7 +132,8 @@ class Shoe:
         self.dealt_this_round = []
 
     def collect_cards_and_shuffle(self, shuffle_type: str = "standard_random"):
-        all_cards_list = list(self.discard_pile) + list(self.undealt_cards) + list(self.dealt_this_round)
+        all_cards_list = list(self.discard_pile) + list(self.undealt_cards) + li
+st(self.dealt_this_round)
         self.discard_pile = []
         self.dealt_this_round = []
 
@@ -142,7 +149,8 @@ class Shoe:
         self.undealt_cards = collections.deque(all_cards_list)
 
 
-    def set_initial_cards(self, card_list_tuples: List[tuple[str, str]]): # Changed to List
+    def set_initial_cards(self, card_list_tuples: List[tuple[str, str]]): # Chan
+ged to List
         try:
             new_cards = [Card(s, r) for s, r in card_list_tuples]
             self.undealt_cards = collections.deque(new_cards)
@@ -170,7 +178,8 @@ class Shoe:
 if __name__ == '__main__':
     ace_hearts = Card("Hearts", "A")
     king_spades = Card("Spades", "K")
-    print(f"Card examples: {ace_hearts} (Value: {ace_hearts.value}), {king_spades} (Value: {king_spades.value})")
+    print(f"Card examples: {ace_hearts} (Value: {ace_hearts.value}), {king_spade
+s} (Value: {king_spades.value})")
     single_deck_list = create_deck()
     print(f"\nStandard deck created with {len(single_deck_list)} cards.")
     shoe = Shoe(num_physical_decks=2)
@@ -183,9 +192,11 @@ if __name__ == '__main__':
     print(f"\nAfter ending round: {shoe}")
     shoe.collect_cards_and_shuffle()
     print(f"\nAfter reshuffle: {shoe}")
-    custom_card_data = [("Hearts", "A"), ("Spades", "K"), ("Diamonds", "Q"), ("Clubs", "J")]
+    custom_card_data = [("Hearts", "A"), ("Spades", "K"), ("Diamonds", "Q"), ("C
+lubs", "J")]
     shoe.set_initial_cards(custom_card_data)
     print(f"\nShoe set with custom cards: {shoe}")
     ace_to_deal = Card("Hearts", "A")
     dealt_specific = shoe.deal_card(specific_card_to_remove=ace_to_deal)
-    print(f"Dealt specific '{ace_to_deal}': {dealt_specific}, Shoe state: {shoe}")
+    print(f"Dealt specific '{ace_to_deal}': {dealt_specific}, Shoe state: {shoe}
+")
