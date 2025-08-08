@@ -19,8 +19,12 @@ class BlackjackTrackerApp:
         self.scraper_thread = None
         self.data_queue = queue.Queue()
         self.status_queue = queue.Queue()
-        self.last_game_id = None
         self.card_counter = CardCounter(num_decks=8)
+
+        # UI State
+        self.round_counter = 0
+        self.round_line_map = {} # Maps gameId to a line number in the text widget
+        self.last_game_id = None
 
         # Style configuration
         self.style = ttk.Style()
@@ -73,6 +77,12 @@ class BlackjackTrackerApp:
         self.true_count_label = ttk.Label(self.counts_frame, text="True Count: 0.00", font=("Arial", 14, "bold"))
         self.true_count_label.pack(side=tk.LEFT, padx=10)
 
+        self.cards_played_label = ttk.Label(self.counts_frame, text="Cards Played: 0", font=("Arial", 14, "bold"))
+        self.cards_played_label.pack(side=tk.LEFT, padx=10)
+
+        self.decks_remaining_label = ttk.Label(self.counts_frame, text="Decks Left: 8.0", font=("Arial", 14, "bold"))
+        self.decks_remaining_label.pack(side=tk.LEFT, padx=10)
+
         # Display Area
         self.display_label = ttk.Label(self.main_frame, text="Live Game Feed")
         self.display_label.pack(fill=tk.X, pady=(10, 2))
@@ -88,7 +98,12 @@ class BlackjackTrackerApp:
         if os.path.exists(bat_file):
             self.log_message(f"Executing {bat_file}...")
             try:
-                subprocess.Popen([bat_file], creationflags=subprocess.CREATE_NEW_CONSOLE)
+                url = self.url_var.get()
+                if not url:
+                    self.log_message("Error: URL field cannot be empty.")
+                    return
+                self.log_message(f"Attempting to launch Chrome at: {url}")
+                subprocess.Popen([bat_file, url], creationflags=subprocess.CREATE_NEW_CONSOLE)
                 self.log_message("Browser launch script started. Please log in and navigate to the game page.")
             except Exception as e:
                 self.log_message(f"Error executing .bat file: {e}")
@@ -118,87 +133,94 @@ class BlackjackTrackerApp:
         try:
             while not self.status_queue.empty():
                 message = self.status_queue.get_nowait()
-                self.log_message(message)
+                self.log_message(message + "\n")
 
             while not self.data_queue.empty():
                 data = self.data_queue.get_nowait()
                 payload = data.get('payloadData', data)
                 if not payload: continue
 
+                game_id = payload.get('gameId')
+                if not game_id: continue
+
                 # --- Card Counting Logic ---
                 all_cards = []
                 if 'dealer' in payload and 'cards' in payload['dealer']:
                     all_cards.extend([c['value'] for c in payload['dealer']['cards']])
-
                 if 'seats' in payload:
                     for seat in payload['seats'].values():
                         if 'first' in seat and 'cards' in seat['first']:
                             all_cards.extend([c['value'] for c in seat['first']['cards']])
-
                 if self.card_counter.process_cards(all_cards):
                     self.update_count_labels()
 
-                # --- Display Logic ---
-                game_id = payload.get('gameId')
-                if game_id and game_id != self.last_game_id:
-                    # Check for a "New Shoe" message to reset the counter
-                    if "New Shoe" in str(payload): # A simple check
-                        self.card_counter.reset()
-                        self.log_message("--- NEW SHOE DETECTED, COUNTER RESET ---")
-                        self.update_count_labels()
-
+                # --- Real-time Display Logic ---
+                if game_id != self.last_game_id:
+                    self.round_counter += 1
                     self.last_game_id = game_id
-                    formatted_state = self.format_game_state(payload)
-                    self.log_message(formatted_state)
+                    # If it's a new shoe, reset everything
+                    if "New Shoe" in str(payload):
+                        self.card_counter.reset()
+                        self.log_message("--- NEW SHOE DETECTED, COUNTER RESET ---\n")
+                        self.update_count_labels()
+                        self.round_counter = 1
+                        self.round_line_map = {}
+
+                    # Add a new line for the new round
+                    formatted_state = self.format_game_state(payload, self.round_counter)
+                    self.log_message(formatted_state + "\n")
+                    # Mark the line number for future updates
+                    current_line = self.display_area.index(tk.END).split('.')[0]
+                    self.round_line_map[game_id] = f"{int(current_line) - 2}.0"
+                else:
+                    # Update the existing line for the current round
+                    line_index = self.round_line_map.get(game_id)
+                    if line_index:
+                        formatted_state = self.format_game_state(payload, self.round_counter)
+                        self.display_area.configure(state='normal')
+                        self.display_area.delete(line_index, f"{line_index} lineend")
+                        self.display_area.insert(line_index, formatted_state)
+                        self.display_area.configure(state='disabled')
 
         except queue.Empty:
             pass
         finally:
             self.root.after(100, self.process_queues)
 
-    def format_game_state(self, payload):
-        """Formats the raw JSON game data into a readable string."""
-        if not payload:
-            return "Empty payload received."
+    def format_game_state(self, payload, round_num):
+        """Formats the raw JSON game data into a compact, single-line string."""
+        parts = [f"Round {round_num}:"]
 
-        game_id = payload.get('gameId', 'N/A')
-        lines = [f"--- Game Round: {game_id} ---"]
-
-        # Format Dealer Info
+        # Dealer Info
         dealer = payload.get('dealer')
         if dealer:
-            cards = [c.get('value', '?') for c in dealer.get('cards', [])]
+            cards = ",".join([c.get('value', '?') for c in dealer.get('cards', [])])
             score = dealer.get('score', 'N/A')
-            lines.append(f"Dealer: [ {', '.join(cards)} ]  (Score: {score})")
+            parts.append(f"D:[{cards}]({score})")
 
-        lines.append("-" * 40)
-
-        # Format Player Info
+        # Player Info
         seats = payload.get('seats', {})
         for seat_num in sorted(seats.keys(), key=int):
-            seat = seats[seat_num]
-            # Assumes the main hand is under the 'first' key
-            hand = seat.get('first')
-            if hand:
-                cards = [c.get('value', '?') for c in hand.get('cards', [])]
+            hand = seats.get(seat_num, {}).get('first')
+            if hand and hand.get('cards'):
+                cards = ",".join([c.get('value', '?') for c in hand.get('cards', [])])
                 score = hand.get('score', 'N/A')
-                state = hand.get('state', 'Unknown')
-                result = hand.get('result', '')
+                state_char = hand.get('state', 'U')[0]
+                parts.append(f"S{seat_num}:[{cards}]({score},{state_char})")
 
-                line = f"Seat {seat_num}: [ {', '.join(cards)} ] (Score: {score}) - {state}"
-                if result:
-                    line += f" -> {result}"
-                lines.append(line)
-
-        lines.append("=" * 40 + "\n")
-        return "\n".join(lines)
+        return " | ".join(parts)
 
     def update_count_labels(self):
         """Updates the running and true count labels in the UI."""
         running_count = self.card_counter.get_running_count()
         true_count = self.card_counter.get_true_count()
+        cards_played = len(self.card_counter.seen_cards)
+        decks_remaining = self.card_counter.get_decks_remaining()
+
         self.running_count_label.config(text=f"Running Count: {running_count}")
         self.true_count_label.config(text=f"True Count: {true_count:.2f}")
+        self.cards_played_label.config(text=f"Cards Played: {cards_played}")
+        self.decks_remaining_label.config(text=f"Decks Left: {decks_remaining:.1f}")
 
     def log_message(self, message):
         self.display_area.configure(state='normal')
