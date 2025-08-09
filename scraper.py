@@ -81,14 +81,14 @@ class Scraper:
                 """
 
                 eval_req_id = request_id_counter
+                pending_requests[eval_req_id] = "inactivity_check" # Mark this request
                 await websocket.send(json.dumps({
                     "id": eval_req_id,
                     "method": "Runtime.evaluate",
                     "sessionId": session_id,
-                    "params": {"expression": click_script, "userGesture": True}
+                    "params": {"expression": click_script, "userGesture": True, "returnByValue": True}
                 }))
-                # We won't process the result here, but we can see it in the terminal if we log all messages.
-                # This fire-and-forget approach is simpler for this context.
+                request_id_counter += 1
                 self.log_status("Checking for inactivity popup...")
 
                 await asyncio.sleep(20) # Check every 20 seconds
@@ -108,17 +108,21 @@ class Scraper:
                 msg = json.loads(msg_str)
 
                 if "id" in msg and msg["id"] in pending_requests:
-                    self.log_status("  - SUCCESS: Received response from browser.")
-                    result_value = msg.get("result", {}).get("result", {}).get("value")
-                    if result_value:
-                        try:
-                            full_data_obj = json.loads(result_value)
-                            self.data_queue.put(full_data_obj)
-                        except json.JSONDecodeError:
-                            self.log_status("  - FAILED: Could not parse response as JSON.")
-                    else:
-                        self.log_status("  - FAILED: Response did not contain a result value.")
-                    pending_requests.pop(msg["id"])
+                    request_type = pending_requests.pop(msg["id"])
+                    if request_type == "inactivity_check":
+                        result = msg.get("result", {}).get("result", {})
+                        self.log_status(f"Inactivity check result: {result.get('value')}")
+                    else: # Assumes it's a game data request
+                        self.log_status("  - SUCCESS: Received game data response from browser.")
+                        result_value = msg.get("result", {}).get("result", {}).get("value")
+                        if result_value:
+                            try:
+                                full_data_obj = json.loads(result_value)
+                                self.data_queue.put(full_data_obj)
+                            except json.JSONDecodeError:
+                                self.log_status("  - FAILED: Could not parse response as JSON.")
+                        else:
+                            self.log_status("  - FAILED: Response did not contain a result value.")
                     continue
 
                 if msg.get("method") == "Runtime.consoleAPICalled" and msg.get("sessionId") == session_id:
@@ -131,7 +135,7 @@ class Scraper:
 
                             current_request_id = request_id_counter
                             request_id_counter += 1
-                            pending_requests[current_request_id] = True
+                            pending_requests[current_request_id] = "game_data"
 
                             await websocket.send(json.dumps({
                                 "id": current_request_id, "method": "Runtime.callFunctionOn",

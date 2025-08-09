@@ -14,8 +14,8 @@ class BlackjackTrackerApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Blackjack Tracker")
-        self.root.geometry("800x700") # Increased height for new controls
-        self.root.configure(bg="#FFFFE0")
+        self.root.geometry("800x700")
+        self.root.configure(bg="#FFFACD")  # LemonChiffon
 
         self.scraper = None
         self.scraper_thread = None
@@ -26,23 +26,42 @@ class BlackjackTrackerApp:
 
         # UI State
         self.round_counter = 0
-        self.round_line_map = {} # Maps gameId to a line number in the text widget
+        self.round_line_map = {}
         self.last_game_id = None
 
-        # Style configuration
+        # --- Style configuration ---
         self.style = ttk.Style()
         self.style.theme_use('clam')
-        self.style.configure("TFrame", background="#FFFFE0")
-        self.style.configure("TLabel", background="#FFFFE0", font=("Arial", 12))
+
+        # Colors
+        BG_COLOR = "#FFFACD"      # LemonChiffon
+        FRAME_BG_COLOR = "#FFFFF0" # Ivory
+        BUTTON_BG = "#FFFFFF"     # White
+        BUTTON_ACTIVE_BG = "#F0F0F0"
+        TEXT_COLOR = "#333333"
+
+        # Fonts
+        FONT_FAMILY = "Segoe UI"
+        FONT_NORMAL = (FONT_FAMILY, 10)
+        FONT_BOLD = (FONT_FAMILY, 10, "bold")
+        FONT_HEADER = (FONT_FAMILY, 12, "bold")
+        FONT_MONO = ("Courier New", 10)
+
+        self.style.configure(".", background=BG_COLOR, foreground=TEXT_COLOR, font=FONT_NORMAL)
+        self.style.configure("TFrame", background=BG_COLOR)
+        self.style.configure("TLabel", background=BG_COLOR, font=FONT_NORMAL)
+        self.style.configure("TLabelFrame", background=BG_COLOR, font=FONT_BOLD)
+        self.style.configure("TLabelFrame.Label", background=BG_COLOR, font=FONT_BOLD)
+
         self.style.configure("TButton",
-                             background="#FFFFFF", # White
-                             foreground="#000000", # Black text
-                             font=("Arial", 12, "bold"),
+                             background=BUTTON_BG,
+                             foreground=TEXT_COLOR,
+                             font=FONT_BOLD,
                              borderwidth=1,
                              relief="solid",
-                             padding=5)
+                             padding=6)
         self.style.map("TButton",
-                       background=[('active', '#F0F0F0')]) # Lighter grey on hover
+                       background=[('active', BUTTON_ACTIVE_BG)])
 
         # Main frame
         self.main_frame = ttk.Frame(root, padding="10")
@@ -115,8 +134,15 @@ class BlackjackTrackerApp:
         self.predictions_frame = ttk.LabelFrame(self.live_tracker_tab, text="Predictions", padding="10")
         self.predictions_frame.pack(fill=tk.X, padx=10, pady=10)
 
-        self.prediction_label = ttk.Label(self.predictions_frame, text="Next 4 Cards: [ ? ] [ ? ] [ ? ] [ ? ]", font=("Courier New", 14, "bold"))
+        self.prediction_label = ttk.Label(self.predictions_frame, text="Next 10-Val Window: [ ? | ? | ? | <10> | ? | ? | ? ]", font=("Courier New", 12, "bold"))
         self.prediction_label.pack()
+
+        # Zone Analysis Frame
+        self.zone_analysis_frame = ttk.LabelFrame(self.live_tracker_tab, text="Zone Analysis", padding="10")
+        self.zone_analysis_frame.pack(fill=tk.X, padx=10, pady=5)
+
+        self.zone_analysis_label = ttk.Label(self.zone_analysis_frame, text="Zone analysis requires a tracked shoe.", justify=tk.LEFT, font=FONT_MONO)
+        self.zone_analysis_label.pack()
 
 
         # Display Area
@@ -292,23 +318,53 @@ class BlackjackTrackerApp:
         self.cards_played_label.config(text=f"Cards Played: {cards_played}")
         self.decks_remaining_label.config(text=f"Decks Left: {decks_remaining:.1f}")
         self.update_predictions()
+        self.update_zone_analysis()
+
+    def update_zone_analysis(self):
+        """Updates the zone analysis label."""
+        active_shoe_name = self.shoe_manager.active_shoe_name
+        if active_shoe_name != "None":
+            shuffle_manager = self.shoe_manager.shuffle_managers.get(active_shoe_name)
+            if shuffle_manager:
+                summaries = shuffle_manager.get_all_zone_summaries()
+                self.zone_analysis_label.config(text="\n".join(summaries))
+            else:
+                self.zone_analysis_label.config(text="No shuffle manager for this shoe.")
+        else:
+            self.zone_analysis_label.config(text="Zone analysis requires a tracked shoe.")
+
 
     def update_predictions(self):
         """Updates the prediction label based on the active shoe."""
         active_shoe = self.shoe_manager.get_active_shoe()
-        if active_shoe and self.shoe_manager.active_shoe_name != "None":
-            # Peek at the next 4 cards without removing them
-            next_cards = list(active_shoe.undealt_cards)[:4]
-            card_strs = [f"[ {str(c)} ]" for c in next_cards]
-            # Pad with placeholders if less than 4 cards are left
-            while len(card_strs) < 4:
-                card_strs.append("[ ? ]")
+        prediction_text = "Next 10-Val Window: [ ? | ? | ? | <10> | ? | ? | ? ]"
 
-            prediction_text = "Next 4 Cards: " + " ".join(card_strs)
-            self.prediction_label.config(text=prediction_text)
-        else:
-            # Reset to default if no predicted shoe is active
-            self.prediction_label.config(text="Next 4 Cards: [ ? ] [ ? ] [ ? ] [ ? ]")
+        if active_shoe and self.shoe_manager.active_shoe_name != "None":
+            undealt_cards = list(active_shoe.undealt_cards)
+
+            # Find the index of the next 10-value card
+            next_ten_index = -1
+            for i, card in enumerate(undealt_cards):
+                if card.value == 10:
+                    next_ten_index = i
+                    break
+
+            if next_ten_index != -1:
+                # Get the 7-card window: 3 before, the 10, 3 after
+                start = max(0, next_ten_index - 3)
+                end = min(len(undealt_cards), next_ten_index + 4)
+                window = undealt_cards[start:end]
+
+                card_strs = []
+                for card in window:
+                    if card.value == 10:
+                        card_strs.append(f"<{str(card)}>")
+                    else:
+                        card_strs.append(str(card))
+
+                prediction_text = f"Next 10-Val Window: [ {' | '.join(card_strs)} ]"
+
+        self.prediction_label.config(text=prediction_text)
 
 
     def update_game_display(self, message):
@@ -336,8 +392,15 @@ class BlackjackTrackerApp:
     def mark_end_of_shoe(self):
         """Callback for the 'Mark End of Shoe' button."""
         print("[UI] 'Mark End of Shoe' button pressed.")
+        current_shoe = self.shoe_manager.active_shoe_name
         if self.shoe_manager.end_current_shoe():
-            self.update_game_display("--- End of Shoe Marked ---\nRemaining cards are ready for shuffling.\n")
+            self.update_game_display(f"--- End of {current_shoe} Marked ---\nRemaining cards are ready for shuffling.\n")
+
+            # Automatically switch to the other shoe
+            next_shoe = "Shoe 2" if current_shoe == "Shoe 1" else "Shoe 1"
+            self.shoe_var.set(next_shoe) # This will trigger on_shoe_select
+            self.on_shoe_select(next_shoe)
+            self.update_game_display(f"--- Switched to {next_shoe} ---\n")
         else:
             self.update_game_display("--- No active shoe to end ---\n")
 

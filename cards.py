@@ -23,7 +23,7 @@ class Card:
         self.value = RANKS[rank_str]
 
     def __str__(self):
-        return f"{self.rank_str}{self.suit[0]}"
+        return f"{self.rank_str}{SUIT_SYMBOLS.get(self.suit, '?')}"
 
     def __repr__(self):
         return f"Card('{self.suit}', '{self.rank_str}')"

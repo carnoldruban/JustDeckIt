@@ -2,14 +2,23 @@ from cards import Card, Shoe
 from shuffling import ShuffleManager
 
 class ShoeManager:
-    def __init__(self):
+    def __init__(self, default_regions=8):
+        self.default_regions = default_regions
         self.shoes = {
-            "None": None, # Represents an unknown, untracked shoe
-            "Shoe 1": Shoe(num_physical_decks=8),
-            "Shoe 2": Shoe(num_physical_decks=8)
+            "None": None,
+            "Shoe 1": self._create_new_tracked_shoe(),
+            "Shoe 2": self._create_new_tracked_shoe()
+        }
+        self.shuffle_managers = {
+            "Shoe 1": ShuffleManager(self.shoes["Shoe 1"], self.default_regions),
+            "Shoe 2": ShuffleManager(self.shoes["Shoe 2"], self.default_regions)
         }
         self.active_shoe_name = "None"
-        self.unshuffled_cards = [] # To hold cards from a finished shoe, ready for shuffling
+        self.unshuffled_cards = []
+
+    def _create_new_tracked_shoe(self) -> Shoe:
+        """Creates a fresh, randomly shuffled 8-deck shoe."""
+        return Shoe(num_physical_decks=8, shuffle_now=True)
 
     def get_active_shoe(self) -> Shoe | None:
         return self.shoes.get(self.active_shoe_name)
@@ -28,11 +37,19 @@ class ShoeManager:
             print("Cannot end shoe, no active shoe is being tracked.")
             return False
 
+        # If there are already unshuffled cards waiting, it means the user skipped a shuffle.
+        # The shoe that was just ended should be reset to a new random state.
+        if self.unshuffled_cards:
+            print(f"Skipped shuffle for previous shoe. Resetting {self.active_shoe_name} to a new random shoe.")
+            self.shoes[self.active_shoe_name] = self._create_new_tracked_shoe()
+            self.shuffle_managers[self.active_shoe_name] = ShuffleManager(self.shoes[self.active_shoe_name], self.default_regions)
+
         self.unshuffled_cards = list(active_shoe.undealt_cards)
         print(f"{len(self.unshuffled_cards)} undealt cards from {self.active_shoe_name} are now ready for shuffling.")
 
-        # Reset the shoe that just ended to a fresh, random 8-deck shoe
-        active_shoe.__init__(num_physical_decks=8)
+        # The shoe that just ended is now empty, waiting for the result of the shuffle
+        active_shoe.undealt_cards.clear()
+
         return True
 
     def process_discard_logic(self, payload: dict):
