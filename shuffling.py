@@ -288,6 +288,51 @@ class ShuffleManager:
         self.shoe.undealt_cards = collections.deque(new_undealt_pile)
         self.initialize_zones(len(self.zones))
 
+    def perform_full_shoe_shuffle(self):
+        """
+        Implements the user-defined full shoe shuffle algorithm.
+        - Discards on top of remaining deck.
+        - Split into 8 chunks.
+        - Riffle chunks together 4 times.
+        - Perform a final shuffle.
+        """
+        print(f"Starting full shoe shuffle for shoe with {len(self.shoe.undealt_cards)} undealt and {len(self.shoe.discard_pile)} in discard.")
+
+        # 1. Combine discard pile on top of the undealt cards
+        full_deck = self.shoe.discard_pile + list(self.shoe.undealt_cards)
+        self.shoe.discard_pile.clear()
+        self.shoe.undealt_cards.clear()
+
+        if not full_deck:
+            print("Shoe is empty, nothing to shuffle.")
+            return
+
+        # 2. Perform the 4-pass riffle shuffle with 8 chunks
+        current_deck = full_deck
+        for i in range(4): # 4 passes
+            print(f"  - Shuffle Pass {i+1}/4...")
+            chunks = self.split_list_into_k_chunks(current_deck, 8)
+
+            # Riffle the chunks together sequentially
+            shuffled_deck = chunks.pop(0)
+            while chunks:
+                next_chunk = chunks.pop(0)
+                shuffled_deck = self.riffle_card_lists(shuffled_deck, next_chunk)
+            current_deck = shuffled_deck
+            print(f"  - Pass {i+1} complete. Deck size: {len(current_deck)}")
+
+        # 3. Perform a final shuffle (simple random shuffle as placeholder)
+        print("  - Performing final shuffle...")
+        random.shuffle(current_deck)
+
+        # 4. Update the shoe object with the newly shuffled deck
+        self.shoe.undealt_cards = collections.deque(current_deck)
+        print(f"Shuffle complete. Shoe now has {len(self.shoe.undealt_cards)} cards.")
+
+        # Re-initialize zones if they are being used
+        if self.zones:
+            self.initialize_zones(len(self.zones))
+
     def print_zone_summaries(self):
         if not self.zones:
             print("ShuffleManager: No zones initialized to print.")

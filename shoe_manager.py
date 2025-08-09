@@ -31,24 +31,30 @@ class ShoeManager:
             print(f"Error: Shoe '{name}' not found.")
 
     def end_current_shoe(self):
-        """Marks the current shoe as finished and prepares its remaining cards for shuffling."""
-        active_shoe = self.get_active_shoe()
-        if not active_shoe:
-            print("Cannot end shoe, no active shoe is being tracked.")
+        """
+        Marks the current shoe as finished, starts shuffling it in the background,
+        and switches the active shoe.
+        """
+        if self.active_shoe_name == "None":
+            print("No active shoe selected to mark as ended.")
             return False
 
-        # If there are already unshuffled cards waiting, it means the user skipped a shuffle.
-        # The shoe that was just ended should be reset to a new random state.
-        if self.unshuffled_cards:
-            print(f"Skipped shuffle for previous shoe. Resetting {self.active_shoe_name} to a new random shoe.")
-            self.shoes[self.active_shoe_name] = self._create_new_tracked_shoe()
-            self.shuffle_managers[self.active_shoe_name] = ShuffleManager(self.shoes[self.active_shoe_name], self.default_regions)
+        if self.shuffle_thread and self.shuffle_thread.is_alive():
+            print("A shuffle is already in progress. Please wait for it to complete.")
+            return False
 
-        self.unshuffled_cards = list(active_shoe.undealt_cards)
-        print(f"{len(self.unshuffled_cards)} undealt cards from {self.active_shoe_name} are now ready for shuffling.")
+        shoe_to_shuffle_name = self.active_shoe_name
+        shuffle_manager_instance = self.shuffle_managers[shoe_to_shuffle_name]
 
-        # The shoe that just ended is now empty, waiting for the result of the shuffle
-        active_shoe.undealt_cards.clear()
+        print(f"Ending {shoe_to_shuffle_name}. It will be shuffled in the background.")
+
+        # The `perform_full_shoe_shuffle` method now handles combining the cards.
+        self.shuffle_thread = threading.Thread(target=shuffle_manager_instance.perform_full_shoe_shuffle, daemon=True)
+        self.shuffle_thread.start()
+
+        # Immediately switch to the other shoe so play can continue
+        next_shoe = "Shoe 2" if self.active_shoe_name == "Shoe 1" else "Shoe 1"
+        self.set_active_shoe(next_shoe)
 
         return True
 

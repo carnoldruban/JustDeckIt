@@ -4,222 +4,145 @@ import requests
 import websockets
 import time
 import threading
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import NoSuchElementException
 
 class Scraper:
     def __init__(self, data_queue):
         self.data_queue = data_queue
         self.stop_event = threading.Event()
+        self.driver = None
         self.CHROME_DEBUG_URL = "http://127.0.0.1:9222"
         self.TARGET_URL_PART = "casino.draftkings.com/games/"
         self.IFRAME_URL_PART = "evo-games.com"
+        self.ws_listener_thread = None
 
     def log_status(self, message):
         """Prints a status message to the console."""
         print(f"[Scraper] {message}")
 
     def get_websocket_url(self):
-        self.log_status("--> STEP 1: Connecting to Chrome...")
+        self.log_status("Connecting to Chrome...")
         try:
             response = requests.get(f"{self.CHROME_DEBUG_URL}/json/list", timeout=5)
             response.raise_for_status()
             targets = response.json()
             for target in targets:
-                if self.TARGET_URL_PART in target.get("url", "") and target.get("type") == "page":
-                    self.log_status(f"--> SUCCESS: Found target page: {target.get('title')}")
+                if target.get("type") == "page" and self.TARGET_URL_PART in target.get("url", ""):
+                    self.log_status(f"Found target page: {target.get('title')}")
                     return target.get("webSocketDebuggerUrl")
-            self.log_status("--> FAILED: Could not find the DraftKings game tab.")
+            self.log_status("Could not find the DraftKings game tab.")
             return None
         except requests.exceptions.RequestException as e:
-            self.log_status(f"--> FAILED: Error connecting to Chrome: {e}")
+            self.log_status(f"Error connecting to Chrome: {e}")
             return None
 
-    async def handle_inactivity_popup(self, websocket, session_id):
-        """Periodically checks for and clicks the inactivity popup."""
-        request_id_counter = 20000 # Use a different range for these requests
+    def check_for_inactivity_and_click(self):
+        """Checks for the inactivity message and clicks the play button if it appears."""
+        if not self.driver:
+            return
+        try:
+            # Switch to the iframe to check for the inactivity message
+            iframes = self.driver.find_elements("tag name", "iframe")
+            for iframe in iframes:
+                if self.IFRAME_URL_PART in iframe.get_attribute("src"):
+                    self.driver.switch_to.frame(iframe)
+                    try:
+                        # Check for the inactivity container
+                        inactivity_container = self.driver.find_elements("css selector", '[data-role="inactivity-message-container"]')
+                        if inactivity_container:
+                            self.log_status("Inactivity message detected. Attempting to click 'Play' button.")
+                            play_button = self.driver.find_element("css selector", '[data-role="play-button"]')
+                            play_button.click()
+                            self.log_status("Clicked 'Play' button to resume game.")
+                    except NoSuchElementException:
+                        # This is expected if the popup is not present
+                        pass
+                    finally:
+                        # Always switch back to the default content
+                        self.driver.switch_to.default_content()
+                    break # Assuming only one game iframe
+        except Exception as e:
+            self.log_status(f"Error checking for inactivity: {e}")
 
-        # Enable the DOM domain
-        await websocket.send(json.dumps({"id": request_id_counter, "method": "DOM.enable", "sessionId": session_id}))
-        request_id_counter += 1
 
-        while not self.stop_event.is_set():
-            try:
-                # 1. Get document root
-                doc_req_id = request_id_counter
-                await websocket.send(json.dumps({"id": doc_req_id, "method": "DOM.getDocument", "sessionId": session_id, "params": {"depth": -1}}))
-                request_id_counter += 1
+    async def listen_for_game_data(self, ws_url):
+        """Connects to the websocket and listens for game data."""
+        async with websockets.connect(ws_url, ping_interval=20, ping_timeout=20) as websocket:
+            await websocket.send(json.dumps({"id": 1, "method": "Network.enable"}))
+            self.log_status("Network domain enabled. Listening for WebSocket frames...")
 
-                # 2. Query for the button
-                query_req_id = request_id_counter
-                # We need the root node ID from the previous call's response, but we can't easily wait for it here.
-                # A better approach is to send a script to execute.
-                script_req_id = request_id_counter
-                await websocket.send(json.dumps({
-                    "id": script_req_id,
-                    "method": "Runtime.evaluate",
-                    "sessionId": session_id,
-                    "params": {
-                        "expression": "document.querySelector('[data-role=\"play-button\"]')"
-                    }
-                }))
-                request_id_counter += 1
+            while not self.stop_event.is_set():
+                try:
+                    message_json = await asyncio.wait_for(websocket.recv(), timeout=1.0)
+                    message = json.loads(message_json)
 
-                # In a real application, we'd wait for the response to script_req_id.
-                # For this implementation, we will assume if a popup exists, a click at a reasonable
-                # location might work, or that we can fire-and-forget a click on the element if found.
-                # A more robust solution would be to properly handle the async responses.
+                    if message.get("method") == "Network.webSocketFrameReceived":
+                        payload_data_str = message.get("params", {}).get("response", {}).get("payloadData", "")
 
-                # Let's try to click the button if it exists via a single script.
-                click_script = """
-                () => {
-                    const button = document.querySelector('[data-role="play-button"]');
-                    if (button) {
-                        button.click();
-                        return true; // Indicate that a click was attempted
-                    }
-                    return false; // Indicate no button was found
-                }
-                """
-
-                eval_req_id = request_id_counter
-                pending_requests[eval_req_id] = "inactivity_check" # Mark this request
-                await websocket.send(json.dumps({
-                    "id": eval_req_id,
-                    "method": "Runtime.evaluate",
-                    "sessionId": session_id,
-                    "params": {"expression": click_script, "userGesture": True, "returnByValue": True}
-                }))
-                request_id_counter += 1
-                self.log_status("Checking for inactivity popup...")
-
-                await asyncio.sleep(20) # Check every 20 seconds
-            except Exception as e:
-                self.log_status(f"Popup handler failed: {e}")
-                await asyncio.sleep(20) # Wait before retrying
-
-    async def listen_for_game_data(self, websocket, session_id):
-        """The main loop for listening to and processing game data events."""
-        request_id_counter = 100
-        pending_requests = {}
-        is_game_message_next = False
-
-        while not self.stop_event.is_set():
-            try:
-                msg_str = await asyncio.wait_for(websocket.recv(), timeout=1.0)
-                msg = json.loads(msg_str)
-
-                if "id" in msg and msg["id"] in pending_requests:
-                    request_type = pending_requests.pop(msg["id"])
-                    if request_type == "inactivity_check":
-                        result = msg.get("result", {}).get("result", {})
-                        self.log_status(f"Inactivity check result: {result.get('value')}")
-                    else: # Assumes it's a game data request
-                        self.log_status("  - SUCCESS: Received game data response from browser.")
-                        result_value = msg.get("result", {}).get("result", {}).get("value")
-                        if result_value:
+                        # Find the start of the JSON data within the payload string
+                        json_start_index = payload_data_str.find('[')
+                        if json_start_index != -1:
                             try:
-                                full_data_obj = json.loads(result_value)
-                                self.data_queue.put(full_data_obj)
+                                data_list = json.loads(payload_data_str[json_start_index:])
+                                if isinstance(data_list, list) and len(data_list) > 1:
+                                    event_name = data_list[0]
+                                    event_data = data_list[1]
+                                    # Filter for blackjack messages and put them in the queue
+                                    if "blackjack.v3" in event_name:
+                                        self.data_queue.put(event_data)
                             except json.JSONDecodeError:
-                                self.log_status("  - FAILED: Could not parse response as JSON.")
-                        else:
-                            self.log_status("  - FAILED: Response did not contain a result value.")
-                    continue
+                                continue # Ignore payloads that aren't valid JSON
 
-                if msg.get("method") == "Runtime.consoleAPICalled" and msg.get("sessionId") == session_id:
-                    params = msg.get("params", {})
-                    if is_game_message_next and params.get("type") == "log":
-                        args = params.get("args", [])
-                        if args and args[0].get("type") == "object":
-                            object_id = args[0].get("objectId")
-                            self.log_status(f"  - Found game object! ID: {object_id}. Requesting data...")
+                except asyncio.TimeoutError:
+                    continue # No message, continue loop
+                except Exception as e:
+                    self.log_status(f"Error in WebSocket listener: {e}")
+                    break
 
-                            current_request_id = request_id_counter
-                            request_id_counter += 1
-                            pending_requests[current_request_id] = "game_data"
+    def start_ws_listener(self, ws_url):
+        """Runs the asyncio event loop in a separate thread."""
+        asyncio.run(self.listen_for_game_data(ws_url))
 
-                            await websocket.send(json.dumps({
-                                "id": current_request_id, "method": "Runtime.callFunctionOn",
-                                "sessionId": session_id,
-                                "params": {
-                                    "functionDeclaration": "function() { return JSON.stringify(this); }",
-                                    "objectId": object_id, "returnByValue": True
-                                }
-                            }))
-                        is_game_message_next = False
+    def start(self):
+        self.stop_event.clear()
 
-                    elif params.get("type") == "startGroupCollapsed":
-                        args = params.get("args", [])
-                        if args and "game" in args[0].get("value", ""):
-                            self.log_status(f"Found game-related log group: '{args[0].get('value', '')}'")
-                            is_game_message_next = True
-                        else:
-                            is_game_message_next = False
-            except asyncio.TimeoutError:
-                continue
+        # Setup Selenium driver
+        try:
+            chrome_options = Options()
+            chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
+            self.driver = webdriver.Chrome(options=chrome_options)
+            self.log_status("Selenium connected to existing Chrome instance.")
+        except Exception as e:
+            self.log_status(f"Failed to connect Selenium to Chrome: {e}")
+            return
 
-    async def run_scraper(self):
+        # Start WebSocket listener in a background thread
         ws_url = self.get_websocket_url()
         if not ws_url:
             self.log_status("Scraper cannot start. No valid WebSocket URL found.")
+            if self.driver:
+                self.driver.quit()
             return
 
-        try:
-            async with websockets.connect(ws_url, ping_interval=20, ping_timeout=20) as websocket:
-                self.log_status("--> STEP 2: Connected to browser's main WebSocket.")
+        self.ws_listener_thread = threading.Thread(target=self.start_ws_listener, args=(ws_url,), daemon=True)
+        self.ws_listener_thread.start()
+        self.log_status("WebSocket listener started in background thread.")
 
-                await websocket.send(json.dumps({"id": 1, "method": "Target.getTargets"}))
-                msg = await websocket.recv()
-                targets = json.loads(msg).get("result", {}).get("targetInfos", [])
+        # Main synchronous loop for inactivity checks
+        while not self.stop_event.is_set():
+            self.check_for_inactivity_and_click()
+            time.sleep(10) # Check for inactivity every 10 seconds
 
-                iframe_target_id = None
-                for target in targets:
-                    if self.IFRAME_URL_PART in target.get("url", "") and target.get("type") == "iframe":
-                        iframe_target_id = target.get("targetId")
-                        self.log_status(f"--> STEP 3: Found game iframe with ID: {iframe_target_id}")
-                        break
+        self.log_status("Scraper main loop finished.")
 
-                if not iframe_target_id:
-                    self.log_status("--> FAILED: Game iframe not found.")
-                    return
-
-                await websocket.send(json.dumps({"id": 2, "method": "Target.attachToTarget", "params": {"targetId": iframe_target_id, "flatten": True}}))
-
-                iframe_session_id = None
-                while not self.stop_event.is_set():
-                    try:
-                        msg_str = await asyncio.wait_for(websocket.recv(), timeout=1.0)
-                        msg = json.loads(msg_str)
-                        if msg.get("method") == "Target.attachedToTarget":
-                            iframe_session_id = msg.get("params", {}).get("sessionId")
-                            self.log_status(f"--> STEP 4: SUCCESS: Attached to iframe session: {iframe_session_id}")
-                            break
-                    except asyncio.TimeoutError:
-                        continue
-
-                if not iframe_session_id:
-                    self.log_status("--> FAILED: Could not get session ID after attachment.")
-                    return
-
-                await websocket.send(json.dumps({"id": 3, "method": "Runtime.enable", "sessionId": iframe_session_id}))
-                self.log_status("--> STEP 5: Starting data listener and keep-alive tasks...")
-
-                # Run both tasks concurrently
-                await asyncio.gather(
-                    self.listen_for_game_data(websocket, iframe_session_id),
-                    self.handle_inactivity_popup(websocket, iframe_session_id)
-                )
-
-        except Exception as e:
-            self.log_status(f"An error occurred in the scraper: {e}")
-        finally:
-            self.log_status("Scraper has stopped.")
-
-    def start(self):
-        # This will be called from the GUI thread
-        self.stop_event.clear()
-        asyncio.run(self.run_scraper())
 
     def stop(self):
-        # This will be called from the GUI thread
         self.stop_event.set()
-        self.log_status("Stop signal sent to scraper.")
+        if self.ws_listener_thread and self.ws_listener_thread.is_alive():
+            self.ws_listener_thread.join(timeout=2)
+        if self.driver:
+            self.driver.quit()
+            self.log_status("Selenium driver quit.")
+        self.log_status("Scraper has stopped.")

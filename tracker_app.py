@@ -9,11 +9,12 @@ from scraper import Scraper
 from card_counter import CardCounter
 from database_manager import DBManager
 from shoe_manager import ShoeManager
+from predictor import SequencePredictor
 
 class BlackjackTrackerApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Blackjack Tracker")
+        self.root.title("Blackjack Tracker & Predictor")
         self.root.geometry("800x700")
         self.root.configure(bg="#FFFACD")  # LemonChiffon
 
@@ -23,6 +24,7 @@ class BlackjackTrackerApp:
         self.card_counter = CardCounter(num_decks=8)
         self.db_manager = DBManager()
         self.shoe_manager = ShoeManager()
+        self.predictor = SequencePredictor()
 
         # UI State
         self.round_counter = 0
@@ -135,7 +137,10 @@ class BlackjackTrackerApp:
         self.predictions_frame.pack(fill=tk.X, padx=10, pady=10)
 
         self.prediction_label = ttk.Label(self.predictions_frame, text="Next 10-Val Window: [ ? | ? | ? | <10> | ? | ? | ? ]", font=("Courier New", 12, "bold"))
-        self.prediction_label.pack()
+        self.prediction_label.pack(pady=(0, 5))
+
+        self.sequence_prediction_label = ttk.Label(self.predictions_frame, text="Sequence Prediction: Analyzing...", font=("Courier New", 12, "bold"), foreground="blue")
+        self.sequence_prediction_label.pack()
 
         # Zone Analysis Frame
         self.zone_analysis_frame = ttk.LabelFrame(self.live_tracker_tab, text="Zone Analysis", padding="10")
@@ -242,11 +247,16 @@ class BlackjackTrackerApp:
                                 all_cards_in_payload.extend([c['value'] for c in seat['first']['cards']])
 
                     if self.card_counter.process_cards(all_cards_in_payload):
+                        for card_rank in all_cards_in_payload:
+                            if len(card_rank) > 0:
+                                self.predictor.track_card(card_rank)
                         self.update_count_labels()
                 elif newly_dealt_cards:
                     # If we are tracking, only count the newly dealt cards
                     card_strings = [str(c) for c in newly_dealt_cards]
                     if self.card_counter.process_cards(card_strings):
+                        for card in newly_dealt_cards:
+                            self.predictor.track_card(card.rank_str)
                         self.update_count_labels()
 
 
@@ -257,7 +267,8 @@ class BlackjackTrackerApp:
                     # If it's a new shoe, reset everything
                     if "New Shoe" in str(payload):
                         self.card_counter.reset()
-                        self.update_game_display("--- NEW SHOE DETECTED, COUNTER RESET ---\n")
+                        self.predictor.reset()
+                        self.update_game_display("--- NEW SHOE DETECTED, COUNTERS RESET ---\n")
                         self.update_count_labels()
                         self.round_counter = 1
                         self.round_line_map = {}
@@ -317,6 +328,7 @@ class BlackjackTrackerApp:
         self.true_count_label.config(text=f"True Count: {true_count:.2f}")
         self.cards_played_label.config(text=f"Cards Played: {cards_played}")
         self.decks_remaining_label.config(text=f"Decks Left: {decks_remaining:.1f}")
+        self.sequence_prediction_label.config(text=self.predictor.get_prediction())
         self.update_predictions()
         self.update_zone_analysis()
 
