@@ -295,8 +295,9 @@ class ShuffleManager:
         print("Starting new user-defined full shoe shuffle...")
 
         # 1. Combine unplayed and discarded cards into a single shuffling stack
-        # Per user: "Unplayed cards + discarded cards"
-        shuffling_stack = list(self.shoe.undealt_cards) + self.shoe.discard_pile
+        # Per user: "last round first card for dealer will be the top card of the discarded cards which will be the top of shuffling stack"
+        # This means discard pile goes on top of the remaining undealt cards.
+        shuffling_stack = self.shoe.discard_pile + list(self.shoe.undealt_cards)
         self.shoe.discard_pile.clear()
         self.shoe.undealt_cards.clear()
 
