@@ -25,7 +25,7 @@ class BlackjackTrackerApp:
         self.data_queue = queue.Queue()
         self.card_counter = CardCounter(num_decks=8)
         self.db_manager = DBManager()
-        self.shoe_manager = ShoeManager()
+        self.shoe_manager = ShoeManager(default_regions=8)
         self.predictor = SequencePredictor()
         self.analytics_engine = AnalyticsEngine(self.db_manager)
         self.prediction_validator = PredictionValidator(self.analytics_engine)
@@ -126,8 +126,8 @@ class BlackjackTrackerApp:
         self.shoe_select_label = ttk.Label(self.shoe_controls_frame, text="Active Shoe:")
         self.shoe_select_label.pack(side=tk.LEFT, padx=(0, 5))
 
-        self.shoe_var = tk.StringVar(value="None")
-        self.shoe_select_menu = ttk.OptionMenu(self.shoe_controls_frame, self.shoe_var, "None", "Shoe 1", "Shoe 2", command=self.on_shoe_select)
+        self.shoe_var = tk.StringVar(value="Shoe 1")
+        self.shoe_select_menu = ttk.OptionMenu(self.shoe_controls_frame, self.shoe_var, "Shoe 1", "Shoe 1", "Shoe 2", command=self.on_shoe_select)
         self.shoe_select_menu.pack(side=tk.LEFT, padx=5)
 
         self.end_shoe_button = ttk.Button(self.shoe_controls_frame, text="Mark End of Shoe", command=self.mark_end_of_shoe)

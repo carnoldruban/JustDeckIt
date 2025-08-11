@@ -2,19 +2,19 @@ from cards import Card, Shoe
 from shuffling import ShuffleManager
 
 class ShoeManager:
-    def __init__(self, default_regions=8):
-        self.default_regions = default_regions
+    def __init__(self):
         self.shoes = {
-            "None": None,
             "Shoe 1": self._create_new_tracked_shoe(),
             "Shoe 2": self._create_new_tracked_shoe()
         }
+        # Per user requirement, explicitly initialize each shoe with 8 tracking zones.
         self.shuffle_managers = {
-            "Shoe 1": ShuffleManager(self.shoes["Shoe 1"], self.default_regions),
-            "Shoe 2": ShuffleManager(self.shoes["Shoe 2"], self.default_regions)
+            "Shoe 1": ShuffleManager(self.shoes["Shoe 1"], 8),
+            "Shoe 2": ShuffleManager(self.shoes["Shoe 2"], 8)
         }
-        self.active_shoe_name = "None"
+        self.active_shoe_name = "Shoe 1"
         self.unshuffled_cards = []
+        self.shuffle_thread = None
 
     def _create_new_tracked_shoe(self) -> Shoe:
         """Creates a fresh, randomly shuffled 8-deck shoe."""

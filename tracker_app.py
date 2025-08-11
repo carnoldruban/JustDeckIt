@@ -26,7 +26,7 @@ class BlackjackTrackerApp:
         self.data_queue = queue.Queue()
         self.card_counter = CardCounter(num_decks=8)
         self.db_manager = DBManager()
-        self.shoe_manager = ShoeManager()
+        self.shoe_manager = ShoeManager(default_regions=8)
         self.predictor = SequencePredictor()
         self.analytics_engine = AnalyticsEngine(self.db_manager)
         self.prediction_validator = PredictionValidator(self.analytics_engine)
@@ -44,46 +44,46 @@ class BlackjackTrackerApp:
         self.style = ttk.Style()
         self.style.theme_use('clam')
 
-    # Colors
-    BG_COLOR = "#FFFACD"      # LemonChiffon
-    FRAME_BG_COLOR = "#FFFFF0" # Ivory
-    BUTTON_BG = "#FFFFFF"     # White
-    BUTTON_ACTIVE_BG = "#F0F0F0"
-    TEXT_COLOR = "#333333"
+        # Colors
+        BG_COLOR = "#FFFACD"      # LemonChiffon
+        FRAME_BG_COLOR = "#FFFFF0" # Ivory
+        BUTTON_BG = "#FFFFFF"     # White
+        BUTTON_ACTIVE_BG = "#F0F0F0"
+        TEXT_COLOR = "#333333"
 
-    # Fonts
-    FONT_FAMILY = "Segoe UI"
-    FONT_NORMAL = (FONT_FAMILY, 10)
-    FONT_BOLD = (FONT_FAMILY, 10, "bold")
-    FONT_HEADER = (FONT_FAMILY, 12, "bold")
-    FONT_MONO = ("Courier New", 10)
+        # Fonts
+        FONT_FAMILY = "Segoe UI"
+        FONT_NORMAL = (FONT_FAMILY, 10)
+        FONT_BOLD = (FONT_FAMILY, 10, "bold")
+        FONT_HEADER = (FONT_FAMILY, 12, "bold")
+        FONT_MONO = ("Courier New", 10)
 
-    self.BG_COLOR = BG_COLOR
-    self.FRAME_BG_COLOR = FRAME_BG_COLOR
-    self.BUTTON_BG = BUTTON_BG
-    self.BUTTON_ACTIVE_BG = BUTTON_ACTIVE_BG
-    self.TEXT_COLOR = TEXT_COLOR
-    self.FONT_FAMILY = FONT_FAMILY
-    self.FONT_NORMAL = FONT_NORMAL
-    self.FONT_BOLD = FONT_BOLD
-    self.FONT_HEADER = FONT_HEADER
-    self.FONT_MONO = FONT_MONO
+        self.BG_COLOR = BG_COLOR
+        self.FRAME_BG_COLOR = FRAME_BG_COLOR
+        self.BUTTON_BG = BUTTON_BG
+        self.BUTTON_ACTIVE_BG = BUTTON_ACTIVE_BG
+        self.TEXT_COLOR = TEXT_COLOR
+        self.FONT_FAMILY = FONT_FAMILY
+        self.FONT_NORMAL = FONT_NORMAL
+        self.FONT_BOLD = FONT_BOLD
+        self.FONT_HEADER = FONT_HEADER
+        self.FONT_MONO = FONT_MONO
 
-    self.style.configure(".", background=self.BG_COLOR, foreground=self.TEXT_COLOR, font=self.FONT_NORMAL)
-    self.style.configure("TFrame", background=self.BG_COLOR)
-    self.style.configure("TLabel", background=self.BG_COLOR, font=self.FONT_NORMAL)
-    self.style.configure("TLabelFrame", background=self.BG_COLOR, font=self.FONT_BOLD)
-    self.style.configure("TLabelFrame.Label", background=self.BG_COLOR, font=self.FONT_BOLD)
+        self.style.configure(".", background=self.BG_COLOR, foreground=self.TEXT_COLOR, font=self.FONT_NORMAL)
+        self.style.configure("TFrame", background=self.BG_COLOR)
+        self.style.configure("TLabel", background=self.BG_COLOR, font=self.FONT_NORMAL)
+        self.style.configure("TLabelFrame", background=self.BG_COLOR, font=self.FONT_BOLD)
+        self.style.configure("TLabelFrame.Label", background=self.BG_COLOR, font=self.FONT_BOLD)
 
-    self.style.configure("TButton",
-                 background=self.BUTTON_BG,
-                 foreground=self.TEXT_COLOR,
-                 font=self.FONT_BOLD,
-                 borderwidth=1,
-                 relief="solid",
-                 padding=6)
-    self.style.map("TButton",
-               background=[('active', self.BUTTON_ACTIVE_BG)])
+        self.style.configure("TButton",
+                     background=self.BUTTON_BG,
+                     foreground=self.TEXT_COLOR,
+                     font=self.FONT_BOLD,
+                     borderwidth=1,
+                     relief="solid",
+                     padding=6)
+        self.style.map("TButton",
+                   background=[('active', self.BUTTON_ACTIVE_BG)])
 
         # Main frame
         self.main_frame = ttk.Frame(root, padding="10")
@@ -104,7 +104,57 @@ class BlackjackTrackerApp:
         # Initialize live demo monitoring
         self.live_demo_active = False
         self.live_demo_data = {}
+
+    def reset_ui_for_new_shoe(self):
+        """Resets the UI and state for the start of a new shoe."""
+        print("[UI] Resetting UI for new shoe.")
+
+        # 1. Reset backend counters and predictors
+        self.card_counter.reset()
+        self.predictor.reset()
+        self.prediction_validator.reset()
+
+        # 2. Reset UI state variables
+        self.round_counter = 0
+        self.round_line_map = {}
+        self.last_game_id = None
+
+        # 3. Update count labels to show "0" and hide predictions
+        self.update_count_labels()
+        self.predictions_frame.pack_forget()
+
+        # 4. Clear the main display area
+        self.display_area.configure(state='normal')
+        self.display_area.delete('1.0', tk.END)
+        self.display_area.insert(tk.END, "--- NEW SHOE STARTED ---\n")
+        self.display_area.configure(state='disabled')
         # Removed calls to non-existent methods to prevent AttributeError
+
+    def mark_end_of_shoe(self):
+        """Ends the current shoe, starts the shuffle, and switches to the next shoe."""
+        print("[UI] 'Mark End of Shoe' button pressed.")
+
+        # End current analytics session
+        if self.current_session_id:
+            self.analytics_engine.end_session_tracking()
+            self.current_session_id = None
+
+        # Tell the shoe manager to start shuffling the current shoe and switch active shoes
+        if self.shoe_manager.end_current_shoe():
+            # Get the new active shoe name from the manager
+            new_shoe = self.shoe_manager.active_shoe_name
+
+            # Update the UI dropdown to reflect the change
+            self.shoe_var.set(new_shoe)
+
+            # Reset the UI for the new shoe
+            self.reset_ui_for_new_shoe()
+
+            # Update the display message
+            self.update_game_display(f"--- Switched to {new_shoe} ---\n")
+        else:
+            self.update_game_display("--- Could not end shoe (shuffle may be in progress) ---\n")
+
     def start_auto_clicker(self):
         import threading
         def click_center_chrome():
@@ -159,8 +209,8 @@ class BlackjackTrackerApp:
         self.shoe_select_label = ttk.Label(self.shoe_controls_frame, text="Active Shoe:")
         self.shoe_select_label.pack(side=tk.LEFT, padx=(0, 5))
 
-        self.shoe_var = tk.StringVar(value="None")
-        self.shoe_select_menu = ttk.OptionMenu(self.shoe_controls_frame, self.shoe_var, "None", "Shoe 1", "Shoe 2", command=self.on_shoe_select)
+        self.shoe_var = tk.StringVar(value="Shoe 1")
+        self.shoe_select_menu = ttk.OptionMenu(self.shoe_controls_frame, self.shoe_var, "Shoe 1", "Shoe 1", "Shoe 2", command=self.on_shoe_select)
         self.shoe_select_menu.pack(side=tk.LEFT, padx=5)
 
         self.end_shoe_button = ttk.Button(self.shoe_controls_frame, text="Mark End of Shoe", command=self.mark_end_of_shoe)
@@ -217,7 +267,7 @@ class BlackjackTrackerApp:
         self.zone_analysis_frame = ttk.LabelFrame(self.live_tracker_tab, text="Zone Analysis", padding="10")
         self.zone_analysis_frame.pack(fill=tk.X, padx=10, pady=5)
 
-    self.zone_analysis_label = ttk.Label(self.zone_analysis_frame, text="Zone analysis requires a tracked shoe.", justify=tk.LEFT, font=self.FONT_MONO)
+        self.zone_analysis_label = ttk.Label(self.zone_analysis_frame, text="Zone analysis requires a tracked shoe.", justify=tk.LEFT, font=self.FONT_MONO)
         self.zone_analysis_label.pack()
 
 
