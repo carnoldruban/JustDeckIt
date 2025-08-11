@@ -1,0 +1,352 @@
+[
+  {
+    "round": 1,
+    "position": 0,
+    "card": "4D",
+    "seat": 4,
+    "timestamp": "2025-08-09T15:40:11.197900"
+  },
+  {
+    "round": 1,
+    "position": 1,
+    "card": "QS",
+    "seat": 3,
+    "timestamp": "2025-08-09T15:40:14.197900"
+  },
+  {
+    "round": 1,
+    "position": 2,
+    "card": "5H",
+    "seat": 4,
+    "timestamp": "2025-08-09T15:40:17.197900"
+  },
+  {
+    "round": 1,
+    "position": 3,
+    "card": "AH",
+    "seat": 0,
+    "timestamp": "2025-08-09T15:40:20.197900"
+  },
+  {
+    "round": 1,
+    "position": 4,
+    "card": "TC",
+    "seat": 0,
+    "timestamp": "2025-08-09T15:40:23.197900"
+  },
+  {
+    "round": 1,
+    "position": 5,
+    "card": "7C",
+    "seat": 5,
+    "timestamp": "2025-08-09T15:40:26.197900"
+  },
+  {
+    "round": 1,
+    "position": 6,
+    "card": "9S",
+    "seat": -1,
+    "timestamp": "2025-08-09T15:40:29.197900"
+  },
+  {
+    "round": 2,
+    "position": 0,
+    "card": "8D",
+    "seat": 2,
+    "timestamp": "2025-08-09T15:40:32.197900"
+  },
+  {
+    "round": 2,
+    "position": 1,
+    "card": "5S",
+    "seat": 4,
+    "timestamp": "2025-08-09T15:40:35.197900"
+  },
+  {
+    "round": 2,
+    "position": 2,
+    "card": "9D",
+    "seat": 3,
+    "timestamp": "2025-08-09T15:40:38.197900"
+  },
+  {
+    "round": 2,
+    "position": 3,
+    "card": "7D",
+    "seat": 5,
+    "timestamp": "2025-08-09T15:40:41.197900"
+  },
+  {
+    "round": 2,
+    "position": 4,
+    "card": "QS",
+    "seat": 3,
+    "timestamp": "2025-08-09T15:40:44.197900"
+  },
+  {
+    "round": 2,
+    "position": 5,
+    "card": "9D",
+    "seat": 6,
+    "timestamp": "2025-08-09T15:40:47.197900"
+  },
+  {
+    "round": 2,
+    "position": 6,
+    "card": "TD",
+    "seat": -1,
+    "timestamp": "2025-08-09T15:40:50.197900"
+  },
+  {
+    "round": 3,
+    "position": 0,
+    "card": "QD",
+    "seat": 2,
+    "timestamp": "2025-08-09T15:40:53.197900"
+  },
+  {
+    "round": 3,
+    "position": 1,
+    "card": "AS",
+    "seat": -1,
+    "timestamp": "2025-08-09T15:40:56.197900"
+  },
+  {
+    "round": 3,
+    "position": 2,
+    "card": "KD",
+    "seat": -1,
+    "timestamp": "2025-08-09T15:40:59.197900"
+  },
+  {
+    "round": 3,
+    "position": 3,
+    "card": "7H",
+    "seat": 4,
+    "timestamp": "2025-08-09T15:41:02.197900"
+  },
+  {
+    "round": 3,
+    "position": 4,
+    "card": "5H",
+    "seat": 2,
+    "timestamp": "2025-08-09T15:41:05.197900"
+  },
+  {
+    "round": 3,
+    "position": 5,
+    "card": "3C",
+    "seat": -1,
+    "timestamp": "2025-08-09T15:41:08.197900"
+  },
+  {
+    "round": 3,
+    "position": 6,
+    "card": "2S",
+    "seat": -1,
+    "timestamp": "2025-08-09T15:41:11.197900"
+  },
+  {
+    "round": 4,
+    "position": 0,
+    "card": "QD",
+    "seat": 3,
+    "timestamp": "2025-08-09T15:41:14.197900"
+  },
+  {
+    "round": 4,
+    "position": 1,
+    "card": "4H",
+    "seat": 1,
+    "timestamp": "2025-08-09T15:41:17.197900"
+  },
+  {
+    "round": 4,
+    "position": 2,
+    "card": "7D",
+    "seat": 3,
+    "timestamp": "2025-08-09T15:41:20.197900"
+  },
+  {
+    "round": 4,
+    "position": 3,
+    "card": "4S",
+    "seat": 2,
+    "timestamp": "2025-08-09T15:41:23.197900"
+  },
+  {
+    "round": 4,
+    "position": 4,
+    "card": "3D",
+    "seat": 6,
+    "timestamp": "2025-08-09T15:41:26.197900"
+  },
+  {
+    "round": 4,
+    "position": 5,
+    "card": "7S",
+    "seat": 5,
+    "timestamp": "2025-08-09T15:41:29.197900"
+  },
+  {
+    "round": 4,
+    "position": 6,
+    "card": "KD",
+    "seat": -1,
+    "timestamp": "2025-08-09T15:41:32.197900"
+  },
+  {
+    "round": 5,
+    "position": 0,
+    "card": "5C",
+    "seat": 3,
+    "timestamp": "2025-08-09T15:41:35.197900"
+  },
+  {
+    "round": 5,
+    "position": 1,
+    "card": "4C",
+    "seat": 1,
+    "timestamp": "2025-08-09T15:41:38.197900"
+  },
+  {
+    "round": 5,
+    "position": 2,
+    "card": "6C",
+    "seat": 4,
+    "timestamp": "2025-08-09T15:41:41.197900"
+  },
+  {
+    "round": 5,
+    "position": 3,
+    "card": "AS",
+    "seat": 4,
+    "timestamp": "2025-08-09T15:41:44.197900"
+  },
+  {
+    "round": 5,
+    "position": 4,
+    "card": "KH",
+    "seat": 5,
+    "timestamp": "2025-08-09T15:41:47.197900"
+  },
+  {
+    "round": 5,
+    "position": 5,
+    "card": "8H",
+    "seat": 2,
+    "timestamp": "2025-08-09T15:41:50.197900"
+  },
+  {
+    "round": 5,
+    "position": 6,
+    "card": "AC",
+    "seat": -1,
+    "timestamp": "2025-08-09T15:41:53.197900"
+  },
+  {
+    "round": 6,
+    "position": 0,
+    "card": "2D",
+    "seat": 4,
+    "timestamp": "2025-08-09T15:41:56.197900"
+  },
+  {
+    "round": 6,
+    "position": 1,
+    "card": "7H",
+    "seat": 0,
+    "timestamp": "2025-08-09T15:41:59.197900"
+  },
+  {
+    "round": 6,
+    "position": 2,
+    "card": "5D",
+    "seat": 6,
+    "timestamp": "2025-08-09T15:42:02.197900"
+  },
+  {
+    "round": 6,
+    "position": 3,
+    "card": "TD",
+    "seat": 6,
+    "timestamp": "2025-08-09T15:42:05.197900"
+  },
+  {
+    "round": 6,
+    "position": 4,
+    "card": "9D",
+    "seat": 6,
+    "timestamp": "2025-08-09T15:42:08.197900"
+  },
+  {
+    "round": 6,
+    "position": 5,
+    "card": "6D",
+    "seat": 4,
+    "timestamp": "2025-08-09T15:42:11.197900"
+  },
+  {
+    "round": 6,
+    "position": 6,
+    "card": "9H",
+    "seat": -1,
+    "timestamp": "2025-08-09T15:42:14.197900"
+  },
+  {
+    "round": 7,
+    "position": 0,
+    "card": "7C",
+    "seat": 6,
+    "timestamp": "2025-08-09T15:42:17.197900"
+  },
+  {
+    "round": 7,
+    "position": 1,
+    "card": "JC",
+    "seat": 2,
+    "timestamp": "2025-08-09T15:42:20.197900"
+  },
+  {
+    "round": 7,
+    "position": 2,
+    "card": "KC",
+    "seat": 6,
+    "timestamp": "2025-08-09T15:42:23.198900"
+  },
+  {
+    "round": 7,
+    "position": 3,
+    "card": "4H",
+    "seat": 1,
+    "timestamp": "2025-08-09T15:42:26.198900"
+  },
+  {
+    "round": 7,
+    "position": 4,
+    "card": "2C",
+    "seat": 2,
+    "timestamp": "2025-08-09T15:42:29.198900"
+  },
+  {
+    "round": 7,
+    "position": 5,
+    "card": "5C",
+    "seat": 4,
+    "timestamp": "2025-08-09T15:42:32.198900"
+  },
+  {
+    "round": 7,
+    "position": 6,
+    "card": "KH",
+    "seat": -1,
+    "timestamp": "2025-08-09T15:42:35.198900"
+  },
+  {
+    "round": 8,
+    "position": 0,
+    "card": "3S",
+    "seat": 1,
+    "timestamp": "2025-08-09T15:42:38.198900"
+  }
+]

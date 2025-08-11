@@ -1,0 +1,8294 @@
+[
+  {
+    "gameId": "game_5000",
+    "tableId": "table_shoe_1",
+    "roundNumber": 1,
+    "timestamp": "2025-08-09T14:02:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "clubs"
+        },
+        {
+          "value": "Q",
+          "suit": "hearts"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "clubs"
+            },
+            {
+              "value": "A",
+              "suit": "spades"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 1,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5001",
+    "tableId": "table_shoe_1",
+    "roundNumber": 2,
+    "timestamp": "2025-08-09T14:03:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "spades"
+        },
+        {
+          "value": "10",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "spades"
+            },
+            {
+              "value": "10",
+              "suit": "clubs"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 2,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5002",
+    "tableId": "table_shoe_1",
+    "roundNumber": 3,
+    "timestamp": "2025-08-09T14:04:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "clubs"
+        },
+        {
+          "value": "9",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "diamonds"
+            },
+            {
+              "value": "8",
+              "suit": "hearts"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 3,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5003",
+    "tableId": "table_shoe_1",
+    "roundNumber": 4,
+    "timestamp": "2025-08-09T14:05:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "spades"
+        },
+        {
+          "value": "K",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "hearts"
+            },
+            {
+              "value": "A",
+              "suit": "hearts"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 4,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5004",
+    "tableId": "table_shoe_1",
+    "roundNumber": 5,
+    "timestamp": "2025-08-09T14:06:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "hearts"
+        },
+        {
+          "value": "10",
+          "suit": "hearts"
+        },
+        {
+          "value": "J",
+          "suit": "hearts"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "hearts"
+            },
+            {
+              "value": "10",
+              "suit": "clubs"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 5,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5005",
+    "tableId": "table_shoe_1",
+    "roundNumber": 6,
+    "timestamp": "2025-08-09T14:07:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "hearts"
+        },
+        {
+          "value": "Q",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "diamonds"
+            },
+            {
+              "value": "A",
+              "suit": "hearts"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 6,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5006",
+    "tableId": "table_shoe_1",
+    "roundNumber": 7,
+    "timestamp": "2025-08-09T14:08:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "hearts"
+        },
+        {
+          "value": "J",
+          "suit": "hearts"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "diamonds"
+            },
+            {
+              "value": "10",
+              "suit": "clubs"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 7,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5007",
+    "tableId": "table_shoe_1",
+    "roundNumber": 8,
+    "timestamp": "2025-08-09T14:09:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "hearts"
+        },
+        {
+          "value": "9",
+          "suit": "clubs"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "diamonds"
+            },
+            {
+              "value": "8",
+              "suit": "hearts"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 8,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5008",
+    "tableId": "table_shoe_1",
+    "roundNumber": 9,
+    "timestamp": "2025-08-09T14:10:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "hearts"
+        },
+        {
+          "value": "K",
+          "suit": "spades"
+        },
+        {
+          "value": "J",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "spades"
+            },
+            {
+              "value": "9",
+              "suit": "hearts"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 9,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5009",
+    "tableId": "table_shoe_1",
+    "roundNumber": 10,
+    "timestamp": "2025-08-09T14:11:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "hearts"
+        },
+        {
+          "value": "10",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "diamonds"
+            },
+            {
+              "value": "7",
+              "suit": "spades"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 10,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5010",
+    "tableId": "table_shoe_1",
+    "roundNumber": 11,
+    "timestamp": "2025-08-09T14:12:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "hearts"
+        },
+        {
+          "value": "10",
+          "suit": "spades"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "diamonds"
+            },
+            {
+              "value": "A",
+              "suit": "clubs"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 11,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5011",
+    "tableId": "table_shoe_1",
+    "roundNumber": 12,
+    "timestamp": "2025-08-09T14:13:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "diamonds"
+        },
+        {
+          "value": "9",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "spades"
+            },
+            {
+              "value": "6",
+              "suit": "spades"
+            },
+            {
+              "value": "8",
+              "suit": "hearts"
+            }
+          ],
+          "total": 24,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 12,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5012",
+    "tableId": "table_shoe_1",
+    "roundNumber": 13,
+    "timestamp": "2025-08-09T14:14:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "spades"
+        },
+        {
+          "value": "K",
+          "suit": "hearts"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "diamonds"
+            },
+            {
+              "value": "A",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 13,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5013",
+    "tableId": "table_shoe_1",
+    "roundNumber": 14,
+    "timestamp": "2025-08-09T14:15:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "clubs"
+        },
+        {
+          "value": "J",
+          "suit": "spades"
+        },
+        {
+          "value": "9",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 25
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "diamonds"
+            },
+            {
+              "value": "9",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 14,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5014",
+    "tableId": "table_shoe_1",
+    "roundNumber": 15,
+    "timestamp": "2025-08-09T14:16:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "spades"
+        },
+        {
+          "value": "10",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "clubs"
+            },
+            {
+              "value": "8",
+              "suit": "spades"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 15,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5015",
+    "tableId": "table_shoe_1",
+    "roundNumber": 16,
+    "timestamp": "2025-08-09T14:17:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "diamonds"
+        },
+        {
+          "value": "10",
+          "suit": "spades"
+        }
+      ],
+      "total": 20
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "hearts"
+            },
+            {
+              "value": "6",
+              "suit": "spades"
+            },
+            {
+              "value": "8",
+              "suit": "clubs"
+            }
+          ],
+          "total": 24,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 16,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5016",
+    "tableId": "table_shoe_1",
+    "roundNumber": 17,
+    "timestamp": "2025-08-09T14:18:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "spades"
+        },
+        {
+          "value": "8",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "spades"
+            },
+            {
+              "value": "8",
+              "suit": "spades"
+            }
+          ],
+          "total": 18,
+          "outcome": "Push",
+          "bet": 100,
+          "payout": 0
+        }
+      }
+    },
+    "payloadData": {
+      "round": 17,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5017",
+    "tableId": "table_shoe_1",
+    "roundNumber": 18,
+    "timestamp": "2025-08-09T14:19:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "spades"
+        },
+        {
+          "value": "K",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "spades"
+            },
+            {
+              "value": "A",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 18,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5018",
+    "tableId": "table_shoe_1",
+    "roundNumber": 19,
+    "timestamp": "2025-08-09T14:20:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "diamonds"
+        },
+        {
+          "value": "10",
+          "suit": "spades"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "clubs"
+            },
+            {
+              "value": "10",
+              "suit": "clubs"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 19,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5019",
+    "tableId": "table_shoe_1",
+    "roundNumber": 20,
+    "timestamp": "2025-08-09T14:21:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "hearts"
+        },
+        {
+          "value": "8",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "9",
+              "suit": "hearts"
+            },
+            {
+              "value": "8",
+              "suit": "hearts"
+            }
+          ],
+          "total": 17,
+          "outcome": "Push",
+          "bet": 100,
+          "payout": 0
+        }
+      }
+    },
+    "payloadData": {
+      "round": 20,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5020",
+    "tableId": "table_shoe_1",
+    "roundNumber": 21,
+    "timestamp": "2025-08-09T14:22:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "clubs"
+        },
+        {
+          "value": "K",
+          "suit": "clubs"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "hearts"
+            },
+            {
+              "value": "A",
+              "suit": "clubs"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 21,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5021",
+    "tableId": "table_shoe_1",
+    "roundNumber": 22,
+    "timestamp": "2025-08-09T14:23:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "diamonds"
+        },
+        {
+          "value": "7",
+          "suit": "clubs"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "diamonds"
+            },
+            {
+              "value": "8",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 18,
+          "outcome": "Push",
+          "bet": 100,
+          "payout": 0
+        }
+      }
+    },
+    "payloadData": {
+      "round": 22,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5022",
+    "tableId": "table_shoe_1",
+    "roundNumber": 23,
+    "timestamp": "2025-08-09T14:24:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "spades"
+        },
+        {
+          "value": "J",
+          "suit": "spades"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "hearts"
+            },
+            {
+              "value": "9",
+              "suit": "spades"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 23,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5023",
+    "tableId": "table_shoe_1",
+    "roundNumber": 24,
+    "timestamp": "2025-08-09T14:25:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "spades"
+        },
+        {
+          "value": "10",
+          "suit": "diamonds"
+        },
+        {
+          "value": "J",
+          "suit": "spades"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "hearts"
+            },
+            {
+              "value": "10",
+              "suit": "hearts"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 24,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5024",
+    "tableId": "table_shoe_1",
+    "roundNumber": 25,
+    "timestamp": "2025-08-09T14:26:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "clubs"
+        },
+        {
+          "value": "10",
+          "suit": "diamonds"
+        },
+        {
+          "value": "8",
+          "suit": "hearts"
+        }
+      ],
+      "total": 24
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "diamonds"
+            },
+            {
+              "value": "10",
+              "suit": "spades"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 25,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5025",
+    "tableId": "table_shoe_1",
+    "roundNumber": 26,
+    "timestamp": "2025-08-09T14:27:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "diamonds"
+        },
+        {
+          "value": "9",
+          "suit": "hearts"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "hearts"
+            },
+            {
+              "value": "7",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 26,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5026",
+    "tableId": "table_shoe_1",
+    "roundNumber": 27,
+    "timestamp": "2025-08-09T14:28:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "clubs"
+        },
+        {
+          "value": "9",
+          "suit": "hearts"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "hearts"
+            },
+            {
+              "value": "7",
+              "suit": "clubs"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 27,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5027",
+    "tableId": "table_shoe_1",
+    "roundNumber": 28,
+    "timestamp": "2025-08-09T14:29:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "diamonds"
+        },
+        {
+          "value": "K",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "diamonds"
+            },
+            {
+              "value": "A",
+              "suit": "spades"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 28,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5028",
+    "tableId": "table_shoe_1",
+    "roundNumber": 29,
+    "timestamp": "2025-08-09T14:30:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "diamonds"
+        },
+        {
+          "value": "Q",
+          "suit": "spades"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "spades"
+            },
+            {
+              "value": "9",
+              "suit": "clubs"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 29,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5029",
+    "tableId": "table_shoe_1",
+    "roundNumber": 30,
+    "timestamp": "2025-08-09T14:31:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "hearts"
+        },
+        {
+          "value": "K",
+          "suit": "hearts"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "clubs"
+            },
+            {
+              "value": "9",
+              "suit": "spades"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 30,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5030",
+    "tableId": "table_shoe_1",
+    "roundNumber": 31,
+    "timestamp": "2025-08-09T14:32:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "diamonds"
+        },
+        {
+          "value": "8",
+          "suit": "hearts"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "clubs"
+            },
+            {
+              "value": "8",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 18,
+          "outcome": "Push",
+          "bet": 100,
+          "payout": 0
+        }
+      }
+    },
+    "payloadData": {
+      "round": 31,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5031",
+    "tableId": "table_shoe_1",
+    "roundNumber": 32,
+    "timestamp": "2025-08-09T14:33:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "diamonds"
+        },
+        {
+          "value": "10",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 20
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "hearts"
+            },
+            {
+              "value": "8",
+              "suit": "hearts"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 32,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5032",
+    "tableId": "table_shoe_1",
+    "roundNumber": 33,
+    "timestamp": "2025-08-09T14:34:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "clubs"
+        },
+        {
+          "value": "9",
+          "suit": "clubs"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "hearts"
+            },
+            {
+              "value": "8",
+              "suit": "clubs"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 33,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5033",
+    "tableId": "table_shoe_1",
+    "roundNumber": 34,
+    "timestamp": "2025-08-09T14:35:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "hearts"
+        },
+        {
+          "value": "J",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "hearts"
+            },
+            {
+              "value": "A",
+              "suit": "clubs"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 34,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5034",
+    "tableId": "table_shoe_1",
+    "roundNumber": 35,
+    "timestamp": "2025-08-09T14:36:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "clubs"
+        },
+        {
+          "value": "Q",
+          "suit": "clubs"
+        },
+        {
+          "value": "8",
+          "suit": "hearts"
+        }
+      ],
+      "total": 24
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "hearts"
+            },
+            {
+              "value": "9",
+              "suit": "hearts"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 35,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5035",
+    "tableId": "table_shoe_1",
+    "roundNumber": 36,
+    "timestamp": "2025-08-09T14:37:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "clubs"
+        },
+        {
+          "value": "10",
+          "suit": "spades"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "diamonds"
+            },
+            {
+              "value": "6",
+              "suit": "hearts"
+            },
+            {
+              "value": "8",
+              "suit": "hearts"
+            }
+          ],
+          "total": 24,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 36,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5036",
+    "tableId": "table_shoe_1",
+    "roundNumber": 37,
+    "timestamp": "2025-08-09T14:38:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "hearts"
+        },
+        {
+          "value": "J",
+          "suit": "hearts"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "spades"
+            },
+            {
+              "value": "A",
+              "suit": "clubs"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 37,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5037",
+    "tableId": "table_shoe_1",
+    "roundNumber": 38,
+    "timestamp": "2025-08-09T14:39:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "spades"
+        },
+        {
+          "value": "10",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "clubs"
+            },
+            {
+              "value": "A",
+              "suit": "spades"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 38,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5038",
+    "tableId": "table_shoe_1",
+    "roundNumber": 39,
+    "timestamp": "2025-08-09T14:40:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "diamonds"
+        },
+        {
+          "value": "10",
+          "suit": "spades"
+        },
+        {
+          "value": "J",
+          "suit": "hearts"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "spades"
+            },
+            {
+              "value": "A",
+              "suit": "clubs"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 39,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5039",
+    "tableId": "table_shoe_1",
+    "roundNumber": 40,
+    "timestamp": "2025-08-09T14:41:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "clubs"
+        },
+        {
+          "value": "8",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "9",
+              "suit": "hearts"
+            },
+            {
+              "value": "8",
+              "suit": "spades"
+            }
+          ],
+          "total": 17,
+          "outcome": "Push",
+          "bet": 100,
+          "payout": 0
+        }
+      }
+    },
+    "payloadData": {
+      "round": 40,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5040",
+    "tableId": "table_shoe_1",
+    "roundNumber": 41,
+    "timestamp": "2025-08-09T14:42:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "hearts"
+        },
+        {
+          "value": "10",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 20
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "hearts"
+            },
+            {
+              "value": "7",
+              "suit": "hearts"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 41,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5041",
+    "tableId": "table_shoe_1",
+    "roundNumber": 42,
+    "timestamp": "2025-08-09T14:43:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "spades"
+        },
+        {
+          "value": "9",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "hearts"
+            },
+            {
+              "value": "8",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 42,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5042",
+    "tableId": "table_shoe_1",
+    "roundNumber": 43,
+    "timestamp": "2025-08-09T14:44:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "diamonds"
+        },
+        {
+          "value": "Q",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "clubs"
+            },
+            {
+              "value": "10",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 43,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5043",
+    "tableId": "table_shoe_1",
+    "roundNumber": 44,
+    "timestamp": "2025-08-09T14:45:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "clubs"
+        },
+        {
+          "value": "K",
+          "suit": "diamonds"
+        },
+        {
+          "value": "9",
+          "suit": "hearts"
+        }
+      ],
+      "total": 25
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "hearts"
+            },
+            {
+              "value": "10",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 44,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5044",
+    "tableId": "table_shoe_1",
+    "roundNumber": 45,
+    "timestamp": "2025-08-09T14:46:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "diamonds"
+        },
+        {
+          "value": "8",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "clubs"
+            },
+            {
+              "value": "7",
+              "suit": "clubs"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 45,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5045",
+    "tableId": "table_shoe_2",
+    "roundNumber": 46,
+    "timestamp": "2025-08-09T14:47:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "diamonds"
+        },
+        {
+          "value": "10",
+          "suit": "hearts"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "clubs"
+            },
+            {
+              "value": "7",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 46,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5046",
+    "tableId": "table_shoe_2",
+    "roundNumber": 47,
+    "timestamp": "2025-08-09T14:48:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "clubs"
+        },
+        {
+          "value": "K",
+          "suit": "hearts"
+        },
+        {
+          "value": "10",
+          "suit": "spades"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "clubs"
+            },
+            {
+              "value": "10",
+              "suit": "clubs"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 47,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5047",
+    "tableId": "table_shoe_2",
+    "roundNumber": 48,
+    "timestamp": "2025-08-09T14:49:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "clubs"
+        },
+        {
+          "value": "8",
+          "suit": "hearts"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "spades"
+            },
+            {
+              "value": "7",
+              "suit": "clubs"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 48,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5048",
+    "tableId": "table_shoe_2",
+    "roundNumber": 49,
+    "timestamp": "2025-08-09T14:50:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "hearts"
+        },
+        {
+          "value": "8",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "spades"
+            },
+            {
+              "value": "8",
+              "suit": "hearts"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 49,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5049",
+    "tableId": "table_shoe_2",
+    "roundNumber": 50,
+    "timestamp": "2025-08-09T14:51:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "diamonds"
+        },
+        {
+          "value": "8",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "hearts"
+            },
+            {
+              "value": "6",
+              "suit": "diamonds"
+            },
+            {
+              "value": "8",
+              "suit": "clubs"
+            }
+          ],
+          "total": 24,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 50,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5050",
+    "tableId": "table_shoe_2",
+    "roundNumber": 51,
+    "timestamp": "2025-08-09T14:52:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "clubs"
+        },
+        {
+          "value": "8",
+          "suit": "hearts"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "diamonds"
+            },
+            {
+              "value": "6",
+              "suit": "spades"
+            },
+            {
+              "value": "10",
+              "suit": "hearts"
+            }
+          ],
+          "total": 26,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 51,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5051",
+    "tableId": "table_shoe_2",
+    "roundNumber": 52,
+    "timestamp": "2025-08-09T14:53:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "diamonds"
+        },
+        {
+          "value": "K",
+          "suit": "diamonds"
+        },
+        {
+          "value": "J",
+          "suit": "clubs"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "spades"
+            },
+            {
+              "value": "10",
+              "suit": "hearts"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 52,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5052",
+    "tableId": "table_shoe_2",
+    "roundNumber": 53,
+    "timestamp": "2025-08-09T14:54:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "clubs"
+        },
+        {
+          "value": "Q",
+          "suit": "hearts"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "hearts"
+            },
+            {
+              "value": "9",
+              "suit": "hearts"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 53,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5053",
+    "tableId": "table_shoe_2",
+    "roundNumber": 54,
+    "timestamp": "2025-08-09T14:55:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "spades"
+        },
+        {
+          "value": "8",
+          "suit": "spades"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "diamonds"
+            },
+            {
+              "value": "6",
+              "suit": "hearts"
+            },
+            {
+              "value": "10",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 26,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 54,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5054",
+    "tableId": "table_shoe_2",
+    "roundNumber": 55,
+    "timestamp": "2025-08-09T14:56:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "hearts"
+        },
+        {
+          "value": "10",
+          "suit": "clubs"
+        }
+      ],
+      "total": 20
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "diamonds"
+            },
+            {
+              "value": "7",
+              "suit": "clubs"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 55,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5055",
+    "tableId": "table_shoe_2",
+    "roundNumber": 56,
+    "timestamp": "2025-08-09T14:57:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "hearts"
+        },
+        {
+          "value": "9",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "clubs"
+            },
+            {
+              "value": "6",
+              "suit": "clubs"
+            },
+            {
+              "value": "8",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 24,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 56,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5056",
+    "tableId": "table_shoe_2",
+    "roundNumber": 57,
+    "timestamp": "2025-08-09T14:58:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "clubs"
+        },
+        {
+          "value": "10",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "hearts"
+            },
+            {
+              "value": "9",
+              "suit": "spades"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 57,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5057",
+    "tableId": "table_shoe_2",
+    "roundNumber": 58,
+    "timestamp": "2025-08-09T14:59:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "diamonds"
+        },
+        {
+          "value": "9",
+          "suit": "spades"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "diamonds"
+            },
+            {
+              "value": "7",
+              "suit": "hearts"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 58,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5058",
+    "tableId": "table_shoe_2",
+    "roundNumber": 59,
+    "timestamp": "2025-08-09T15:00:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "diamonds"
+        },
+        {
+          "value": "J",
+          "suit": "hearts"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "diamonds"
+            },
+            {
+              "value": "10",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 59,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5059",
+    "tableId": "table_shoe_2",
+    "roundNumber": 60,
+    "timestamp": "2025-08-09T15:01:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "clubs"
+        },
+        {
+          "value": "J",
+          "suit": "hearts"
+        },
+        {
+          "value": "8",
+          "suit": "spades"
+        }
+      ],
+      "total": 24
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "spades"
+            },
+            {
+              "value": "9",
+              "suit": "clubs"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 60,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5060",
+    "tableId": "table_shoe_2",
+    "roundNumber": 61,
+    "timestamp": "2025-08-09T15:02:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "hearts"
+        },
+        {
+          "value": "8",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "clubs"
+            },
+            {
+              "value": "6",
+              "suit": "spades"
+            },
+            {
+              "value": "10",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 26,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 61,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5061",
+    "tableId": "table_shoe_2",
+    "roundNumber": 62,
+    "timestamp": "2025-08-09T15:03:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "hearts"
+        },
+        {
+          "value": "8",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "diamonds"
+            },
+            {
+              "value": "8",
+              "suit": "spades"
+            }
+          ],
+          "total": 18,
+          "outcome": "Push",
+          "bet": 100,
+          "payout": 0
+        }
+      }
+    },
+    "payloadData": {
+      "round": 62,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5062",
+    "tableId": "table_shoe_2",
+    "roundNumber": 63,
+    "timestamp": "2025-08-09T15:04:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "hearts"
+        },
+        {
+          "value": "8",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "diamonds"
+            },
+            {
+              "value": "7",
+              "suit": "hearts"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 63,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5063",
+    "tableId": "table_shoe_2",
+    "roundNumber": 64,
+    "timestamp": "2025-08-09T15:05:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "diamonds"
+        },
+        {
+          "value": "10",
+          "suit": "hearts"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "spades"
+            },
+            {
+              "value": "7",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 64,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5064",
+    "tableId": "table_shoe_2",
+    "roundNumber": 65,
+    "timestamp": "2025-08-09T15:06:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "clubs"
+        },
+        {
+          "value": "7",
+          "suit": "hearts"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "hearts"
+            },
+            {
+              "value": "8",
+              "suit": "clubs"
+            }
+          ],
+          "total": 18,
+          "outcome": "Push",
+          "bet": 100,
+          "payout": 0
+        }
+      }
+    },
+    "payloadData": {
+      "round": 65,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5065",
+    "tableId": "table_shoe_2",
+    "roundNumber": 66,
+    "timestamp": "2025-08-09T15:07:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "clubs"
+        },
+        {
+          "value": "9",
+          "suit": "clubs"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "diamonds"
+            },
+            {
+              "value": "6",
+              "suit": "clubs"
+            },
+            {
+              "value": "9",
+              "suit": "hearts"
+            }
+          ],
+          "total": 25,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 66,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5066",
+    "tableId": "table_shoe_2",
+    "roundNumber": 67,
+    "timestamp": "2025-08-09T15:08:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "spades"
+        },
+        {
+          "value": "8",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "diamonds"
+            },
+            {
+              "value": "6",
+              "suit": "diamonds"
+            },
+            {
+              "value": "9",
+              "suit": "spades"
+            }
+          ],
+          "total": 25,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 67,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5067",
+    "tableId": "table_shoe_2",
+    "roundNumber": 68,
+    "timestamp": "2025-08-09T15:09:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "hearts"
+        },
+        {
+          "value": "9",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "clubs"
+            },
+            {
+              "value": "6",
+              "suit": "diamonds"
+            },
+            {
+              "value": "8",
+              "suit": "clubs"
+            }
+          ],
+          "total": 24,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 68,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5068",
+    "tableId": "table_shoe_2",
+    "roundNumber": 69,
+    "timestamp": "2025-08-09T15:10:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "spades"
+        },
+        {
+          "value": "8",
+          "suit": "hearts"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "diamonds"
+            },
+            {
+              "value": "8",
+              "suit": "hearts"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 69,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5069",
+    "tableId": "table_shoe_2",
+    "roundNumber": 70,
+    "timestamp": "2025-08-09T15:11:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "spades"
+        },
+        {
+          "value": "8",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "spades"
+            },
+            {
+              "value": "7",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 70,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5070",
+    "tableId": "table_shoe_2",
+    "roundNumber": 71,
+    "timestamp": "2025-08-09T15:12:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "clubs"
+        },
+        {
+          "value": "8",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "clubs"
+            },
+            {
+              "value": "7",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 71,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5071",
+    "tableId": "table_shoe_2",
+    "roundNumber": 72,
+    "timestamp": "2025-08-09T15:13:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "hearts"
+        },
+        {
+          "value": "7",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "hearts"
+            },
+            {
+              "value": "8",
+              "suit": "hearts"
+            }
+          ],
+          "total": 18,
+          "outcome": "Push",
+          "bet": 100,
+          "payout": 0
+        }
+      }
+    },
+    "payloadData": {
+      "round": 72,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5072",
+    "tableId": "table_shoe_2",
+    "roundNumber": 73,
+    "timestamp": "2025-08-09T15:14:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "spades"
+        },
+        {
+          "value": "Q",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "spades"
+            },
+            {
+              "value": "10",
+              "suit": "clubs"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 73,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5073",
+    "tableId": "table_shoe_2",
+    "roundNumber": 74,
+    "timestamp": "2025-08-09T15:15:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "diamonds"
+        },
+        {
+          "value": "Q",
+          "suit": "hearts"
+        },
+        {
+          "value": "10",
+          "suit": "clubs"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "spades"
+            },
+            {
+              "value": "A",
+              "suit": "clubs"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 74,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5074",
+    "tableId": "table_shoe_2",
+    "roundNumber": 75,
+    "timestamp": "2025-08-09T15:16:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "diamonds"
+        },
+        {
+          "value": "9",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "hearts"
+            },
+            {
+              "value": "7",
+              "suit": "spades"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 75,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5075",
+    "tableId": "table_shoe_2",
+    "roundNumber": 76,
+    "timestamp": "2025-08-09T15:17:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "spades"
+        },
+        {
+          "value": "Q",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "clubs"
+            },
+            {
+              "value": "A",
+              "suit": "clubs"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 76,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5076",
+    "tableId": "table_shoe_2",
+    "roundNumber": 77,
+    "timestamp": "2025-08-09T15:18:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "hearts"
+        },
+        {
+          "value": "K",
+          "suit": "diamonds"
+        },
+        {
+          "value": "10",
+          "suit": "spades"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "diamonds"
+            },
+            {
+              "value": "10",
+              "suit": "clubs"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 77,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5077",
+    "tableId": "table_shoe_2",
+    "roundNumber": 78,
+    "timestamp": "2025-08-09T15:19:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "hearts"
+        },
+        {
+          "value": "Q",
+          "suit": "hearts"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "hearts"
+            },
+            {
+              "value": "9",
+              "suit": "hearts"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 78,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5078",
+    "tableId": "table_shoe_2",
+    "roundNumber": 79,
+    "timestamp": "2025-08-09T15:20:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "diamonds"
+        },
+        {
+          "value": "9",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "hearts"
+            },
+            {
+              "value": "7",
+              "suit": "clubs"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 79,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5079",
+    "tableId": "table_shoe_2",
+    "roundNumber": 80,
+    "timestamp": "2025-08-09T15:21:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "spades"
+        },
+        {
+          "value": "Q",
+          "suit": "spades"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "diamonds"
+            },
+            {
+              "value": "A",
+              "suit": "clubs"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 80,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5080",
+    "tableId": "table_shoe_2",
+    "roundNumber": 81,
+    "timestamp": "2025-08-09T15:22:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "spades"
+        },
+        {
+          "value": "9",
+          "suit": "clubs"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "spades"
+            },
+            {
+              "value": "7",
+              "suit": "clubs"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 81,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5081",
+    "tableId": "table_shoe_2",
+    "roundNumber": 82,
+    "timestamp": "2025-08-09T15:23:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "spades"
+        },
+        {
+          "value": "9",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "hearts"
+            },
+            {
+              "value": "7",
+              "suit": "spades"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 82,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5082",
+    "tableId": "table_shoe_2",
+    "roundNumber": 83,
+    "timestamp": "2025-08-09T15:24:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "spades"
+        },
+        {
+          "value": "Q",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "diamonds"
+            },
+            {
+              "value": "9",
+              "suit": "clubs"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 83,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5083",
+    "tableId": "table_shoe_2",
+    "roundNumber": 84,
+    "timestamp": "2025-08-09T15:25:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "diamonds"
+        },
+        {
+          "value": "8",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "clubs"
+            },
+            {
+              "value": "8",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 18,
+          "outcome": "Push",
+          "bet": 100,
+          "payout": 0
+        }
+      }
+    },
+    "payloadData": {
+      "round": 84,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5084",
+    "tableId": "table_shoe_2",
+    "roundNumber": 85,
+    "timestamp": "2025-08-09T15:26:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "hearts"
+        },
+        {
+          "value": "8",
+          "suit": "hearts"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "diamonds"
+            },
+            {
+              "value": "8",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 85,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5085",
+    "tableId": "table_shoe_2",
+    "roundNumber": 86,
+    "timestamp": "2025-08-09T15:27:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "spades"
+        },
+        {
+          "value": "10",
+          "suit": "spades"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "spades"
+            },
+            {
+              "value": "7",
+              "suit": "hearts"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 86,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5086",
+    "tableId": "table_shoe_2",
+    "roundNumber": 87,
+    "timestamp": "2025-08-09T15:28:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "spades"
+        },
+        {
+          "value": "Q",
+          "suit": "hearts"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "spades"
+            },
+            {
+              "value": "A",
+              "suit": "spades"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 87,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5087",
+    "tableId": "table_shoe_2",
+    "roundNumber": 88,
+    "timestamp": "2025-08-09T15:29:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "hearts"
+        },
+        {
+          "value": "8",
+          "suit": "hearts"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "diamonds"
+            },
+            {
+              "value": "8",
+              "suit": "spades"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 88,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5088",
+    "tableId": "table_shoe_2",
+    "roundNumber": 89,
+    "timestamp": "2025-08-09T15:30:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "spades"
+        },
+        {
+          "value": "K",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "diamonds"
+            },
+            {
+              "value": "A",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 89,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5089",
+    "tableId": "table_shoe_2",
+    "roundNumber": 90,
+    "timestamp": "2025-08-09T15:31:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "hearts"
+        },
+        {
+          "value": "J",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "hearts"
+            },
+            {
+              "value": "A",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 90,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5090",
+    "tableId": "table_shoe_1",
+    "roundNumber": 91,
+    "timestamp": "2025-08-09T15:32:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "diamonds"
+        },
+        {
+          "value": "Q",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "clubs"
+            },
+            {
+              "value": "A",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 91,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5091",
+    "tableId": "table_shoe_1",
+    "roundNumber": 92,
+    "timestamp": "2025-08-09T15:33:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "clubs"
+        },
+        {
+          "value": "J",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "hearts"
+            },
+            {
+              "value": "10",
+              "suit": "hearts"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 92,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5092",
+    "tableId": "table_shoe_1",
+    "roundNumber": 93,
+    "timestamp": "2025-08-09T15:34:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "spades"
+        },
+        {
+          "value": "8",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "spades"
+            },
+            {
+              "value": "7",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 93,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5093",
+    "tableId": "table_shoe_1",
+    "roundNumber": 94,
+    "timestamp": "2025-08-09T15:35:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "spades"
+        },
+        {
+          "value": "9",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "spades"
+            },
+            {
+              "value": "7",
+              "suit": "clubs"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 94,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5094",
+    "tableId": "table_shoe_1",
+    "roundNumber": 95,
+    "timestamp": "2025-08-09T15:36:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "spades"
+        },
+        {
+          "value": "9",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "spades"
+            },
+            {
+              "value": "6",
+              "suit": "spades"
+            },
+            {
+              "value": "10",
+              "suit": "hearts"
+            }
+          ],
+          "total": 26,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 95,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5095",
+    "tableId": "table_shoe_1",
+    "roundNumber": 96,
+    "timestamp": "2025-08-09T15:37:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "diamonds"
+        },
+        {
+          "value": "K",
+          "suit": "hearts"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "hearts"
+            },
+            {
+              "value": "10",
+              "suit": "spades"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 96,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5096",
+    "tableId": "table_shoe_1",
+    "roundNumber": 97,
+    "timestamp": "2025-08-09T15:38:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "hearts"
+        },
+        {
+          "value": "Q",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "spades"
+            },
+            {
+              "value": "A",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 97,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5097",
+    "tableId": "table_shoe_1",
+    "roundNumber": 98,
+    "timestamp": "2025-08-09T15:39:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "clubs"
+        },
+        {
+          "value": "10",
+          "suit": "spades"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "diamonds"
+            },
+            {
+              "value": "6",
+              "suit": "diamonds"
+            },
+            {
+              "value": "10",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 26,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 98,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5098",
+    "tableId": "table_shoe_1",
+    "roundNumber": 99,
+    "timestamp": "2025-08-09T15:40:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "hearts"
+        },
+        {
+          "value": "Q",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "clubs"
+            },
+            {
+              "value": "9",
+              "suit": "clubs"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 99,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5099",
+    "tableId": "table_shoe_1",
+    "roundNumber": 100,
+    "timestamp": "2025-08-09T15:41:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "spades"
+        },
+        {
+          "value": "10",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "clubs"
+            },
+            {
+              "value": "A",
+              "suit": "clubs"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 100,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5100",
+    "tableId": "table_shoe_1",
+    "roundNumber": 101,
+    "timestamp": "2025-08-09T15:42:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "clubs"
+        },
+        {
+          "value": "Q",
+          "suit": "spades"
+        },
+        {
+          "value": "10",
+          "suit": "clubs"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "hearts"
+            },
+            {
+              "value": "10",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 101,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5101",
+    "tableId": "table_shoe_1",
+    "roundNumber": 102,
+    "timestamp": "2025-08-09T15:43:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "clubs"
+        },
+        {
+          "value": "J",
+          "suit": "diamonds"
+        },
+        {
+          "value": "J",
+          "suit": "clubs"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "spades"
+            },
+            {
+              "value": "9",
+              "suit": "clubs"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 102,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5102",
+    "tableId": "table_shoe_1",
+    "roundNumber": 103,
+    "timestamp": "2025-08-09T15:44:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "diamonds"
+        },
+        {
+          "value": "K",
+          "suit": "hearts"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "hearts"
+            },
+            {
+              "value": "10",
+              "suit": "hearts"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 103,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5103",
+    "tableId": "table_shoe_1",
+    "roundNumber": 104,
+    "timestamp": "2025-08-09T15:45:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "clubs"
+        },
+        {
+          "value": "10",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "diamonds"
+            },
+            {
+              "value": "9",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 104,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5104",
+    "tableId": "table_shoe_1",
+    "roundNumber": 105,
+    "timestamp": "2025-08-09T15:46:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "hearts"
+        },
+        {
+          "value": "8",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "diamonds"
+            },
+            {
+              "value": "8",
+              "suit": "hearts"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 105,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5105",
+    "tableId": "table_shoe_1",
+    "roundNumber": 106,
+    "timestamp": "2025-08-09T15:47:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "spades"
+        },
+        {
+          "value": "Q",
+          "suit": "hearts"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "diamonds"
+            },
+            {
+              "value": "A",
+              "suit": "clubs"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 106,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5106",
+    "tableId": "table_shoe_1",
+    "roundNumber": 107,
+    "timestamp": "2025-08-09T15:48:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "diamonds"
+        },
+        {
+          "value": "K",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "clubs"
+            },
+            {
+              "value": "10",
+              "suit": "hearts"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 107,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5107",
+    "tableId": "table_shoe_1",
+    "roundNumber": 108,
+    "timestamp": "2025-08-09T15:49:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "hearts"
+        },
+        {
+          "value": "10",
+          "suit": "clubs"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "hearts"
+            },
+            {
+              "value": "9",
+              "suit": "clubs"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 108,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5108",
+    "tableId": "table_shoe_1",
+    "roundNumber": 109,
+    "timestamp": "2025-08-09T15:50:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "spades"
+        },
+        {
+          "value": "8",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "9",
+              "suit": "diamonds"
+            },
+            {
+              "value": "8",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 17,
+          "outcome": "Push",
+          "bet": 100,
+          "payout": 0
+        }
+      }
+    },
+    "payloadData": {
+      "round": 109,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5109",
+    "tableId": "table_shoe_1",
+    "roundNumber": 110,
+    "timestamp": "2025-08-09T15:51:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "hearts"
+        },
+        {
+          "value": "10",
+          "suit": "spades"
+        },
+        {
+          "value": "J",
+          "suit": "spades"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "spades"
+            },
+            {
+              "value": "9",
+              "suit": "spades"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 110,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5110",
+    "tableId": "table_shoe_1",
+    "roundNumber": 111,
+    "timestamp": "2025-08-09T15:52:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "clubs"
+        },
+        {
+          "value": "9",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "spades"
+            },
+            {
+              "value": "7",
+              "suit": "spades"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 111,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5111",
+    "tableId": "table_shoe_1",
+    "roundNumber": 112,
+    "timestamp": "2025-08-09T15:53:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "spades"
+        },
+        {
+          "value": "10",
+          "suit": "hearts"
+        },
+        {
+          "value": "J",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "spades"
+            },
+            {
+              "value": "A",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 112,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5112",
+    "tableId": "table_shoe_1",
+    "roundNumber": 113,
+    "timestamp": "2025-08-09T15:54:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "hearts"
+        },
+        {
+          "value": "10",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "spades"
+            },
+            {
+              "value": "9",
+              "suit": "clubs"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 113,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5113",
+    "tableId": "table_shoe_1",
+    "roundNumber": 114,
+    "timestamp": "2025-08-09T15:55:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "diamonds"
+        },
+        {
+          "value": "8",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "diamonds"
+            },
+            {
+              "value": "7",
+              "suit": "clubs"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 114,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5114",
+    "tableId": "table_shoe_1",
+    "roundNumber": 115,
+    "timestamp": "2025-08-09T15:56:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "hearts"
+        },
+        {
+          "value": "Q",
+          "suit": "hearts"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "spades"
+            },
+            {
+              "value": "10",
+              "suit": "hearts"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 115,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5115",
+    "tableId": "table_shoe_1",
+    "roundNumber": 116,
+    "timestamp": "2025-08-09T15:57:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "spades"
+        },
+        {
+          "value": "9",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "hearts"
+            },
+            {
+              "value": "7",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 116,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5116",
+    "tableId": "table_shoe_1",
+    "roundNumber": 117,
+    "timestamp": "2025-08-09T15:58:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "hearts"
+        },
+        {
+          "value": "8",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "spades"
+            },
+            {
+              "value": "7",
+              "suit": "hearts"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 117,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5117",
+    "tableId": "table_shoe_1",
+    "roundNumber": 118,
+    "timestamp": "2025-08-09T15:59:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "clubs"
+        },
+        {
+          "value": "K",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "hearts"
+            },
+            {
+              "value": "A",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 118,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5118",
+    "tableId": "table_shoe_1",
+    "roundNumber": 119,
+    "timestamp": "2025-08-09T16:00:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "clubs"
+        },
+        {
+          "value": "10",
+          "suit": "hearts"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "hearts"
+            },
+            {
+              "value": "10",
+              "suit": "clubs"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 119,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5119",
+    "tableId": "table_shoe_1",
+    "roundNumber": 120,
+    "timestamp": "2025-08-09T16:01:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "diamonds"
+        },
+        {
+          "value": "Q",
+          "suit": "spades"
+        },
+        {
+          "value": "J",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "clubs"
+            },
+            {
+              "value": "10",
+              "suit": "clubs"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 120,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5120",
+    "tableId": "table_shoe_1",
+    "roundNumber": 121,
+    "timestamp": "2025-08-09T16:02:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "diamonds"
+        },
+        {
+          "value": "J",
+          "suit": "spades"
+        },
+        {
+          "value": "8",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 24
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "hearts"
+            },
+            {
+              "value": "A",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 121,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5121",
+    "tableId": "table_shoe_1",
+    "roundNumber": 122,
+    "timestamp": "2025-08-09T16:03:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "spades"
+        },
+        {
+          "value": "10",
+          "suit": "clubs"
+        }
+      ],
+      "total": 20
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "clubs"
+            },
+            {
+              "value": "8",
+              "suit": "clubs"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 122,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5122",
+    "tableId": "table_shoe_1",
+    "roundNumber": 123,
+    "timestamp": "2025-08-09T16:04:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "hearts"
+        },
+        {
+          "value": "10",
+          "suit": "clubs"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "diamonds"
+            },
+            {
+              "value": "9",
+              "suit": "spades"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 123,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5123",
+    "tableId": "table_shoe_1",
+    "roundNumber": 124,
+    "timestamp": "2025-08-09T16:05:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "clubs"
+        },
+        {
+          "value": "8",
+          "suit": "hearts"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "clubs"
+            },
+            {
+              "value": "8",
+              "suit": "hearts"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 124,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5124",
+    "tableId": "table_shoe_1",
+    "roundNumber": 125,
+    "timestamp": "2025-08-09T16:06:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "spades"
+        },
+        {
+          "value": "J",
+          "suit": "hearts"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "diamonds"
+            },
+            {
+              "value": "9",
+              "suit": "clubs"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 125,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5125",
+    "tableId": "table_shoe_1",
+    "roundNumber": 126,
+    "timestamp": "2025-08-09T16:07:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "spades"
+        },
+        {
+          "value": "J",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "spades"
+            },
+            {
+              "value": "10",
+              "suit": "clubs"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 126,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5126",
+    "tableId": "table_shoe_1",
+    "roundNumber": 127,
+    "timestamp": "2025-08-09T16:08:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "diamonds"
+        },
+        {
+          "value": "9",
+          "suit": "clubs"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "diamonds"
+            },
+            {
+              "value": "8",
+              "suit": "clubs"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 127,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5127",
+    "tableId": "table_shoe_1",
+    "roundNumber": 128,
+    "timestamp": "2025-08-09T16:09:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "diamonds"
+        },
+        {
+          "value": "10",
+          "suit": "hearts"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "clubs"
+            },
+            {
+              "value": "A",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 128,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5128",
+    "tableId": "table_shoe_1",
+    "roundNumber": 129,
+    "timestamp": "2025-08-09T16:10:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "hearts"
+        },
+        {
+          "value": "Q",
+          "suit": "spades"
+        },
+        {
+          "value": "9",
+          "suit": "clubs"
+        }
+      ],
+      "total": 25
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "clubs"
+            },
+            {
+              "value": "9",
+              "suit": "spades"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 129,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5129",
+    "tableId": "table_shoe_1",
+    "roundNumber": 130,
+    "timestamp": "2025-08-09T16:11:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "clubs"
+        },
+        {
+          "value": "8",
+          "suit": "spades"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "spades"
+            },
+            {
+              "value": "6",
+              "suit": "clubs"
+            },
+            {
+              "value": "9",
+              "suit": "clubs"
+            }
+          ],
+          "total": 25,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 130,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5130",
+    "tableId": "table_shoe_1",
+    "roundNumber": 131,
+    "timestamp": "2025-08-09T16:12:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "clubs"
+        },
+        {
+          "value": "9",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "clubs"
+            },
+            {
+              "value": "8",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 131,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5131",
+    "tableId": "table_shoe_1",
+    "roundNumber": 132,
+    "timestamp": "2025-08-09T16:13:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "clubs"
+        },
+        {
+          "value": "K",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "clubs"
+            },
+            {
+              "value": "A",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 132,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5132",
+    "tableId": "table_shoe_1",
+    "roundNumber": 133,
+    "timestamp": "2025-08-09T16:14:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "clubs"
+        },
+        {
+          "value": "K",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "spades"
+            },
+            {
+              "value": "A",
+              "suit": "spades"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 133,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5133",
+    "tableId": "table_shoe_1",
+    "roundNumber": 134,
+    "timestamp": "2025-08-09T16:15:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "diamonds"
+        },
+        {
+          "value": "8",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "diamonds"
+            },
+            {
+              "value": "6",
+              "suit": "diamonds"
+            },
+            {
+              "value": "9",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 25,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 134,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5134",
+    "tableId": "table_shoe_1",
+    "roundNumber": 135,
+    "timestamp": "2025-08-09T16:16:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "hearts"
+        },
+        {
+          "value": "Q",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "diamonds"
+            },
+            {
+              "value": "10",
+              "suit": "clubs"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 135,
+      "shoe": "Shoe 1",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5135",
+    "tableId": "table_shoe_2",
+    "roundNumber": 136,
+    "timestamp": "2025-08-09T16:17:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "spades"
+        },
+        {
+          "value": "Q",
+          "suit": "spades"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "hearts"
+            },
+            {
+              "value": "A",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 136,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5136",
+    "tableId": "table_shoe_2",
+    "roundNumber": 137,
+    "timestamp": "2025-08-09T16:18:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "clubs"
+        },
+        {
+          "value": "10",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "hearts"
+            },
+            {
+              "value": "10",
+              "suit": "clubs"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 137,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5137",
+    "tableId": "table_shoe_2",
+    "roundNumber": 138,
+    "timestamp": "2025-08-09T16:19:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "spades"
+        },
+        {
+          "value": "Q",
+          "suit": "clubs"
+        },
+        {
+          "value": "10",
+          "suit": "hearts"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "spades"
+            },
+            {
+              "value": "A",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 138,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5138",
+    "tableId": "table_shoe_2",
+    "roundNumber": 139,
+    "timestamp": "2025-08-09T16:20:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "hearts"
+        },
+        {
+          "value": "J",
+          "suit": "hearts"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "hearts"
+            },
+            {
+              "value": "9",
+              "suit": "hearts"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 139,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5139",
+    "tableId": "table_shoe_2",
+    "roundNumber": 140,
+    "timestamp": "2025-08-09T16:21:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "spades"
+        },
+        {
+          "value": "Q",
+          "suit": "hearts"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "diamonds"
+            },
+            {
+              "value": "9",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 140,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5140",
+    "tableId": "table_shoe_2",
+    "roundNumber": 141,
+    "timestamp": "2025-08-09T16:22:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "hearts"
+        },
+        {
+          "value": "10",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "diamonds"
+            },
+            {
+              "value": "6",
+              "suit": "spades"
+            },
+            {
+              "value": "9",
+              "suit": "spades"
+            }
+          ],
+          "total": 25,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 141,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5141",
+    "tableId": "table_shoe_2",
+    "roundNumber": 142,
+    "timestamp": "2025-08-09T16:23:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "spades"
+        },
+        {
+          "value": "10",
+          "suit": "hearts"
+        },
+        {
+          "value": "10",
+          "suit": "hearts"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "spades"
+            },
+            {
+              "value": "9",
+              "suit": "clubs"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 142,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5142",
+    "tableId": "table_shoe_2",
+    "roundNumber": 143,
+    "timestamp": "2025-08-09T16:24:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "hearts"
+        },
+        {
+          "value": "8",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "hearts"
+            },
+            {
+              "value": "7",
+              "suit": "clubs"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 143,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5143",
+    "tableId": "table_shoe_2",
+    "roundNumber": 144,
+    "timestamp": "2025-08-09T16:25:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "clubs"
+        },
+        {
+          "value": "8",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "9",
+              "suit": "spades"
+            },
+            {
+              "value": "8",
+              "suit": "clubs"
+            }
+          ],
+          "total": 17,
+          "outcome": "Push",
+          "bet": 100,
+          "payout": 0
+        }
+      }
+    },
+    "payloadData": {
+      "round": 144,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5144",
+    "tableId": "table_shoe_2",
+    "roundNumber": 145,
+    "timestamp": "2025-08-09T16:26:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "spades"
+        },
+        {
+          "value": "10",
+          "suit": "clubs"
+        }
+      ],
+      "total": 20
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "diamonds"
+            },
+            {
+              "value": "7",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 145,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5145",
+    "tableId": "table_shoe_2",
+    "roundNumber": 146,
+    "timestamp": "2025-08-09T16:27:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "diamonds"
+        },
+        {
+          "value": "10",
+          "suit": "spades"
+        },
+        {
+          "value": "J",
+          "suit": "hearts"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "diamonds"
+            },
+            {
+              "value": "A",
+              "suit": "spades"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 146,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5146",
+    "tableId": "table_shoe_2",
+    "roundNumber": 147,
+    "timestamp": "2025-08-09T16:28:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "clubs"
+        },
+        {
+          "value": "8",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "9",
+              "suit": "diamonds"
+            },
+            {
+              "value": "8",
+              "suit": "spades"
+            }
+          ],
+          "total": 17,
+          "outcome": "Push",
+          "bet": 100,
+          "payout": 0
+        }
+      }
+    },
+    "payloadData": {
+      "round": 147,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5147",
+    "tableId": "table_shoe_2",
+    "roundNumber": 148,
+    "timestamp": "2025-08-09T16:29:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "spades"
+        },
+        {
+          "value": "10",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 20
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "hearts"
+            },
+            {
+              "value": "7",
+              "suit": "clubs"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 148,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5148",
+    "tableId": "table_shoe_2",
+    "roundNumber": 149,
+    "timestamp": "2025-08-09T16:30:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "spades"
+        },
+        {
+          "value": "Q",
+          "suit": "spades"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "diamonds"
+            },
+            {
+              "value": "10",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 149,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5149",
+    "tableId": "table_shoe_2",
+    "roundNumber": 150,
+    "timestamp": "2025-08-09T16:31:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "clubs"
+        },
+        {
+          "value": "K",
+          "suit": "diamonds"
+        },
+        {
+          "value": "J",
+          "suit": "clubs"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "diamonds"
+            },
+            {
+              "value": "9",
+              "suit": "spades"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 150,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5150",
+    "tableId": "table_shoe_2",
+    "roundNumber": 151,
+    "timestamp": "2025-08-09T16:32:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "diamonds"
+        },
+        {
+          "value": "8",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "hearts"
+            },
+            {
+              "value": "7",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 151,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5151",
+    "tableId": "table_shoe_2",
+    "roundNumber": 152,
+    "timestamp": "2025-08-09T16:33:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "hearts"
+        },
+        {
+          "value": "K",
+          "suit": "hearts"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "diamonds"
+            },
+            {
+              "value": "10",
+              "suit": "clubs"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 152,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5152",
+    "tableId": "table_shoe_2",
+    "roundNumber": 153,
+    "timestamp": "2025-08-09T16:34:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "hearts"
+        },
+        {
+          "value": "8",
+          "suit": "hearts"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "clubs"
+            },
+            {
+              "value": "7",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 153,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5153",
+    "tableId": "table_shoe_2",
+    "roundNumber": 154,
+    "timestamp": "2025-08-09T16:35:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "diamonds"
+        },
+        {
+          "value": "10",
+          "suit": "clubs"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "clubs"
+            },
+            {
+              "value": "A",
+              "suit": "spades"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 154,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5154",
+    "tableId": "table_shoe_2",
+    "roundNumber": 155,
+    "timestamp": "2025-08-09T16:36:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "hearts"
+        },
+        {
+          "value": "9",
+          "suit": "hearts"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "spades"
+            },
+            {
+              "value": "7",
+              "suit": "hearts"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 155,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5155",
+    "tableId": "table_shoe_2",
+    "roundNumber": 156,
+    "timestamp": "2025-08-09T16:37:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "clubs"
+        },
+        {
+          "value": "K",
+          "suit": "hearts"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "spades"
+            },
+            {
+              "value": "A",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 156,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5156",
+    "tableId": "table_shoe_2",
+    "roundNumber": 157,
+    "timestamp": "2025-08-09T16:38:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "clubs"
+        },
+        {
+          "value": "8",
+          "suit": "hearts"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "hearts"
+            },
+            {
+              "value": "8",
+              "suit": "hearts"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 157,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5157",
+    "tableId": "table_shoe_2",
+    "roundNumber": 158,
+    "timestamp": "2025-08-09T16:39:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "spades"
+        },
+        {
+          "value": "10",
+          "suit": "clubs"
+        }
+      ],
+      "total": 20
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "hearts"
+            },
+            {
+              "value": "6",
+              "suit": "spades"
+            },
+            {
+              "value": "8",
+              "suit": "spades"
+            }
+          ],
+          "total": 24,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 158,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5158",
+    "tableId": "table_shoe_2",
+    "roundNumber": 159,
+    "timestamp": "2025-08-09T16:40:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "diamonds"
+        },
+        {
+          "value": "9",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "spades"
+            },
+            {
+              "value": "8",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 159,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5159",
+    "tableId": "table_shoe_2",
+    "roundNumber": 160,
+    "timestamp": "2025-08-09T16:41:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "diamonds"
+        },
+        {
+          "value": "Q",
+          "suit": "spades"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "clubs"
+            },
+            {
+              "value": "9",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 160,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5160",
+    "tableId": "table_shoe_2",
+    "roundNumber": 161,
+    "timestamp": "2025-08-09T16:42:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "hearts"
+        },
+        {
+          "value": "Q",
+          "suit": "spades"
+        },
+        {
+          "value": "J",
+          "suit": "spades"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "spades"
+            },
+            {
+              "value": "10",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 161,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5161",
+    "tableId": "table_shoe_2",
+    "roundNumber": 162,
+    "timestamp": "2025-08-09T16:43:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "hearts"
+        },
+        {
+          "value": "8",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "diamonds"
+            },
+            {
+              "value": "7",
+              "suit": "clubs"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 162,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5162",
+    "tableId": "table_shoe_2",
+    "roundNumber": 163,
+    "timestamp": "2025-08-09T16:44:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "diamonds"
+        },
+        {
+          "value": "10",
+          "suit": "spades"
+        },
+        {
+          "value": "8",
+          "suit": "spades"
+        }
+      ],
+      "total": 24
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "diamonds"
+            },
+            {
+              "value": "9",
+              "suit": "spades"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 163,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5163",
+    "tableId": "table_shoe_2",
+    "roundNumber": 164,
+    "timestamp": "2025-08-09T16:45:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "diamonds"
+        },
+        {
+          "value": "10",
+          "suit": "clubs"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "diamonds"
+            },
+            {
+              "value": "8",
+              "suit": "clubs"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 164,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5164",
+    "tableId": "table_shoe_2",
+    "roundNumber": 165,
+    "timestamp": "2025-08-09T16:46:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "diamonds"
+        },
+        {
+          "value": "K",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "K",
+              "suit": "diamonds"
+            },
+            {
+              "value": "10",
+              "suit": "hearts"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 165,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5165",
+    "tableId": "table_shoe_2",
+    "roundNumber": 166,
+    "timestamp": "2025-08-09T16:47:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "spades"
+        },
+        {
+          "value": "9",
+          "suit": "spades"
+        }
+      ],
+      "total": 19
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "clubs"
+            },
+            {
+              "value": "6",
+              "suit": "clubs"
+            },
+            {
+              "value": "8",
+              "suit": "spades"
+            }
+          ],
+          "total": 24,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 166,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5166",
+    "tableId": "table_shoe_2",
+    "roundNumber": 167,
+    "timestamp": "2025-08-09T16:48:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "spades"
+        },
+        {
+          "value": "J",
+          "suit": "hearts"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "spades"
+            },
+            {
+              "value": "A",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 167,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5167",
+    "tableId": "table_shoe_2",
+    "roundNumber": 168,
+    "timestamp": "2025-08-09T16:49:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "hearts"
+        },
+        {
+          "value": "8",
+          "suit": "clubs"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "spades"
+            },
+            {
+              "value": "7",
+              "suit": "clubs"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 168,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5168",
+    "tableId": "table_shoe_2",
+    "roundNumber": 169,
+    "timestamp": "2025-08-09T16:50:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "spades"
+        },
+        {
+          "value": "8",
+          "suit": "clubs"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "spades"
+            },
+            {
+              "value": "7",
+              "suit": "clubs"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 169,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5169",
+    "tableId": "table_shoe_2",
+    "roundNumber": 170,
+    "timestamp": "2025-08-09T16:51:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "clubs"
+        },
+        {
+          "value": "10",
+          "suit": "spades"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "clubs"
+            },
+            {
+              "value": "A",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 21,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 170,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5170",
+    "tableId": "table_shoe_2",
+    "roundNumber": 171,
+    "timestamp": "2025-08-09T16:52:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "J",
+          "suit": "diamonds"
+        },
+        {
+          "value": "10",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 20
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "clubs"
+            },
+            {
+              "value": "6",
+              "suit": "spades"
+            },
+            {
+              "value": "9",
+              "suit": "hearts"
+            }
+          ],
+          "total": 25,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 171,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5171",
+    "tableId": "table_shoe_2",
+    "roundNumber": 172,
+    "timestamp": "2025-08-09T16:53:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "clubs"
+        },
+        {
+          "value": "8",
+          "suit": "spades"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "spades"
+            },
+            {
+              "value": "6",
+              "suit": "hearts"
+            },
+            {
+              "value": "10",
+              "suit": "clubs"
+            }
+          ],
+          "total": 26,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 172,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5172",
+    "tableId": "table_shoe_2",
+    "roundNumber": 173,
+    "timestamp": "2025-08-09T16:54:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "spades"
+        },
+        {
+          "value": "8",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "hearts"
+            },
+            {
+              "value": "8",
+              "suit": "hearts"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 173,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5173",
+    "tableId": "table_shoe_2",
+    "roundNumber": 174,
+    "timestamp": "2025-08-09T16:55:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "diamonds"
+        },
+        {
+          "value": "9",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "clubs"
+            },
+            {
+              "value": "8",
+              "suit": "hearts"
+            }
+          ],
+          "total": 18,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 174,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5174",
+    "tableId": "table_shoe_2",
+    "roundNumber": 175,
+    "timestamp": "2025-08-09T16:56:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "diamonds"
+        },
+        {
+          "value": "K",
+          "suit": "spades"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "diamonds"
+            },
+            {
+              "value": "9",
+              "suit": "hearts"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 175,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5175",
+    "tableId": "table_shoe_2",
+    "roundNumber": 176,
+    "timestamp": "2025-08-09T16:57:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "10",
+          "suit": "hearts"
+        },
+        {
+          "value": "10",
+          "suit": "clubs"
+        }
+      ],
+      "total": 20
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "spades"
+            },
+            {
+              "value": "7",
+              "suit": "spades"
+            }
+          ],
+          "total": 17,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 176,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5176",
+    "tableId": "table_shoe_2",
+    "roundNumber": 177,
+    "timestamp": "2025-08-09T16:58:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "6",
+          "suit": "hearts"
+        },
+        {
+          "value": "K",
+          "suit": "clubs"
+        },
+        {
+          "value": "J",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 26
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "Q",
+              "suit": "spades"
+            },
+            {
+              "value": "10",
+              "suit": "hearts"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 177,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5177",
+    "tableId": "table_shoe_2",
+    "roundNumber": 178,
+    "timestamp": "2025-08-09T16:59:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "9",
+          "suit": "clubs"
+        },
+        {
+          "value": "9",
+          "suit": "hearts"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "diamonds"
+            },
+            {
+              "value": "6",
+              "suit": "clubs"
+            },
+            {
+              "value": "8",
+              "suit": "diamonds"
+            }
+          ],
+          "total": 24,
+          "outcome": "Loss",
+          "bet": 100,
+          "payout": -100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 178,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5178",
+    "tableId": "table_shoe_2",
+    "roundNumber": 179,
+    "timestamp": "2025-08-09T17:00:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "7",
+          "suit": "diamonds"
+        },
+        {
+          "value": "10",
+          "suit": "spades"
+        }
+      ],
+      "total": 17
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "J",
+              "suit": "clubs"
+            },
+            {
+              "value": "10",
+              "suit": "clubs"
+            }
+          ],
+          "total": 20,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 179,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  },
+  {
+    "gameId": "game_5179",
+    "tableId": "table_shoe_2",
+    "roundNumber": 180,
+    "timestamp": "2025-08-09T17:01:13.755699",
+    "gameState": "completed",
+    "dealer": {
+      "cards": [
+        {
+          "value": "8",
+          "suit": "hearts"
+        },
+        {
+          "value": "Q",
+          "suit": "diamonds"
+        }
+      ],
+      "total": 18
+    },
+    "seats": {
+      "1": {
+        "first": {
+          "cards": [
+            {
+              "value": "10",
+              "suit": "spades"
+            },
+            {
+              "value": "9",
+              "suit": "spades"
+            }
+          ],
+          "total": 19,
+          "outcome": "Win",
+          "bet": 100,
+          "payout": 100
+        }
+      }
+    },
+    "payloadData": {
+      "round": 180,
+      "shoe": "Shoe 2",
+      "status": "active"
+    }
+  }
+]
