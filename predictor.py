@@ -8,8 +8,10 @@ MIDDLE_CARDS = ['7', '8', '9']
 class SequencePredictor:
     """
     Analyzes a sequence of played cards to predict the category of the next card.
+    Now includes an advanced model using shoe state and self-correction.
     """
-    def __init__(self, history_size=100, trend_size=15):
+    def __init__(self, prediction_validator, history_size=50, trend_size=15):
+        self.prediction_validator = prediction_validator
         self.history_size = history_size
         self.trend_size = trend_size
         self.seen_cards = deque(maxlen=history_size)
@@ -68,6 +70,56 @@ class SequencePredictor:
         prediction = max(scores, key=scores.get)
 
         return f"Prediction: {prediction} Card"
+
+    def get_advanced_prediction(self, undealt_shoe_cards: list) -> dict:
+        """
+        Generates a prediction and a confidence score using multiple factors.
+        """
+        # 1. Base Prediction: Next 5 cards from the shoe
+        if len(undealt_shoe_cards) < 5:
+            return {"prediction": [], "confidence": 0.0}
+
+        base_prediction = [str(card) for card in undealt_shoe_cards[:5]]
+        confidence = 0.5  # Start with a baseline confidence
+
+        # 2. Pattern Matching (Simple Example)
+        # Look for a run of high cards in recent history
+        history = list(self.seen_cards)
+        if len(history) > 5:
+            recent_trend = history[-5:]
+            if all(cat == "High" for cat in recent_trend):
+                # If the next card in the shoe is also high, boost confidence
+                next_card_category = self._get_card_category(base_prediction[0])
+                if next_card_category == "High":
+                    confidence += 0.15
+
+        # 3. Self-Correction from Validator
+        # Check for learned patterns from the validator
+        if self.prediction_validator and self.prediction_validator.pattern_database:
+            for pattern_info in self.prediction_validator.pattern_database.values():
+                if pattern_info['type'] == 'systematic_offset':
+                    offset_data = pattern_info['data']
+                    if offset_data.get('confidence', 0) > 0.6:
+                        offset = offset_data.get('offset', 0)
+                        # Apply the offset to our prediction
+                        if abs(offset) < len(undealt_shoe_cards) - 5:
+                             # This is a simplified application of the offset
+                            corrected_start_index = 5 + offset
+                            base_prediction = [str(c) for c in undealt_shoe_cards[corrected_start_index:corrected_start_index+5]]
+                            confidence += 0.25 # Big boost for learned patterns
+                            break # Apply first found pattern
+
+        # 4. Adjust confidence based on overall accuracy
+        if self.prediction_validator:
+            stats = self.prediction_validator.get_prediction_accuracy_stats(last_n_rounds=20)
+            overall_accuracy = stats.get('accuracy', 0.5)
+            # Scale confidence by historical accuracy
+            confidence = confidence * (0.5 + (overall_accuracy / 2))
+
+        return {
+            "prediction": base_prediction,
+            "confidence": min(confidence, 1.0) # Cap confidence at 1.0
+        }
 
     def reset(self):
         """Resets the card history."""
