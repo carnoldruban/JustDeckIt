@@ -26,7 +26,7 @@ class BlackjackTrackerApp:
         self.data_queue = queue.Queue()
         self.card_counter = CardCounter(num_decks=8)
         self.db_manager = DBManager()
-        self.shoe_manager = ShoeManager(default_regions=8)
+        self.shoe_manager = ShoeManager()
         self.predictor = SequencePredictor()
         self.analytics_engine = AnalyticsEngine(self.db_manager)
         self.prediction_validator = PredictionValidator(self.analytics_engine)
@@ -38,7 +38,7 @@ class BlackjackTrackerApp:
         self.current_dealing_position = 0
         self.current_session_id = None
         self.is_tracking = False
-        self.current_shoe = "None"
+        self.current_shoe = "Shoe 1"
 
         # --- Style configuration ---
         self.style = ttk.Style()
@@ -104,80 +104,7 @@ class BlackjackTrackerApp:
         # Initialize live demo monitoring
         self.live_demo_active = False
         self.live_demo_data = {}
-
-    def reset_ui_for_new_shoe(self):
-        """Resets the UI and state for the start of a new shoe."""
-        print("[UI] Resetting UI for new shoe.")
-
-        # 1. Reset backend counters and predictors
-        self.card_counter.reset()
-        self.predictor.reset()
-        self.prediction_validator.reset()
-
-        # 2. Reset UI state variables
-        self.round_counter = 0
-        self.round_line_map = {}
-        self.last_game_id = None
-
-        # 3. Update count labels to show "0" and hide predictions
-        self.update_count_labels()
-        self.predictions_frame.pack_forget()
-
-        # 4. Clear the main display area
-        self.display_area.configure(state='normal')
-        self.display_area.delete('1.0', tk.END)
-        self.display_area.insert(tk.END, "--- NEW SHOE STARTED ---\n")
-        self.display_area.configure(state='disabled')
         # Removed calls to non-existent methods to prevent AttributeError
-
-    def mark_end_of_shoe(self):
-        """Ends the current shoe, starts the shuffle, and switches to the next shoe."""
-        print("[UI] 'Mark End of Shoe' button pressed.")
-
-        # End current analytics session
-        if self.current_session_id:
-            self.analytics_engine.end_session_tracking()
-            self.current_session_id = None
-
-        # Tell the shoe manager to start shuffling the current shoe and switch active shoes
-        if self.shoe_manager.end_current_shoe():
-            # Get the new active shoe name from the manager
-            new_shoe = self.shoe_manager.active_shoe_name
-
-            # Update the UI dropdown to reflect the change
-            self.shoe_var.set(new_shoe)
-
-            # Reset the UI for the new shoe
-            self.reset_ui_for_new_shoe()
-
-            # Update the display message
-            self.update_game_display(f"--- Switched to {new_shoe} ---\n")
-        else:
-            self.update_game_display("--- Could not end shoe (shuffle may be in progress) ---\n")
-
-    def start_auto_clicker(self):
-        import threading
-        def click_center_chrome():
-            import time
-            try:
-                import pygetwindow as gw
-                import pyautogui
-            except ImportError:
-                print("pygetwindow and pyautogui are required for auto-clicker.")
-                return
-            while True:
-                try:
-                    chrome_windows = [w for w in gw.getWindowsWithTitle('Chrome') if w.isVisible]
-                    if chrome_windows:
-                        win = chrome_windows[0]
-                        center_x = win.left + win.width // 2
-                        center_y = win.top + win.height // 2
-                        pyautogui.click(center_x, center_y)
-                except Exception:
-                    pass
-                time.sleep(10)
-        t = threading.Thread(target=click_center_chrome, daemon=True)
-        t.start()
 
         # --- Live Tracker Tab Content ---
         # Top frame for URL and buttons

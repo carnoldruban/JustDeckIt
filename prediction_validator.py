@@ -36,14 +36,6 @@ class PredictionValidator:
             16: {'seat': -1, 'card_num': 2, 'description': 'Dealer Hole Card'},
         }
 
-    def reset(self):
-        """Resets the validator's state for a new shoe."""
-        self.prediction_history.clear()
-        self.pattern_database.clear()
-        self.current_round_predictions.clear()
-        self.current_round_actuals.clear()
-        print("[Validator] State cleared for new shoe.")
-
     def start_round_prediction(self, predicted_shoe_cards: List):
         """Starts prediction tracking for a new round."""
         self.current_round_predictions = predicted_shoe_cards[:16] if len(predicted_shoe_cards) >= 16 else predicted_shoe_cards

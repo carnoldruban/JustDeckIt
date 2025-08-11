@@ -4,17 +4,16 @@ from shuffling import ShuffleManager
 class ShoeManager:
     def __init__(self):
         self.shoes = {
+            "None": None,
             "Shoe 1": self._create_new_tracked_shoe(),
             "Shoe 2": self._create_new_tracked_shoe()
         }
-        # Per user requirement, explicitly initialize each shoe with 8 tracking zones.
         self.shuffle_managers = {
             "Shoe 1": ShuffleManager(self.shoes["Shoe 1"], 8),
             "Shoe 2": ShuffleManager(self.shoes["Shoe 2"], 8)
         }
         self.active_shoe_name = "Shoe 1"
         self.unshuffled_cards = []
-        self.shuffle_thread = None
 
     def _create_new_tracked_shoe(self) -> Shoe:
         """Creates a fresh, randomly shuffled 8-deck shoe."""
@@ -103,55 +102,53 @@ class ShoeManager:
 
     def process_game_state(self, payload: dict):
         """
-        Processes a game state payload, removing played cards from the undealt
-        deck and adding them to the discard pile in the precise reverse-dealt order.
+        Processes a game state payload, dealing cards from the active shoe
+        and moving them to the discard pile in the correct order.
+        Returns a list of newly dealt Card objects.
         """
         active_shoe = self.get_active_shoe()
         if not active_shoe:
-            return # Not tracking, do nothing
+            return [] # Not tracking, do nothing
 
-        all_played_card_strings = []
+        # 1. Gather all card strings from the payload in the specified discard order.
+        ordered_card_strings = []
+        dealer_hand = payload.get('dealer', {})
+        if dealer_hand.get('cards'):
+            # Per user spec: dealer's first card, then hole card, then rest.
+            dealer_cards_json = dealer_hand['cards']
+            if len(dealer_cards_json) > 0:
+                ordered_card_strings.append(dealer_cards_json[0]['value'])
+            if len(dealer_cards_json) > 1:
+                ordered_card_strings.append(dealer_cards_json[1]['value'])
+            if len(dealer_cards_json) > 2:
+                for card_data in dealer_cards_json[2:]:
+                    ordered_card_strings.append(card_data['value'])
 
-        # Temporary lists to hold card strings for each hand
-        dealer_cards = [c['value'] for c in payload.get('dealer', {}).get('cards', [])]
-        seat_cards = {}
-        for i in range(7):
-            seat_key = str(i)
-            seat_data = payload.get('seats', {}).get(seat_key, {})
-            seat_cards[i] = [c['value'] for c in seat_data.get('first', {}).get('cards', [])]
+        seats = payload.get('seats', {})
+        for i in range(7): # Iterate 0 through 6 to maintain order
+            seat_data = seats.get(str(i))
+            if seat_data and seat_data.get('first', {}).get('cards'):
+                 for card_data in seat_data['first']['cards']:
+                     ordered_card_strings.append(card_data['value'])
+                # Handle split hands in the future if necessary
 
-        # --- Create the discard block in the user-specified order (bottom-up) ---
-        discard_block_strings = []
+        # 2. For each card string, find and "deal" the specific card from the shoe
+        newly_dealt_cards = []
+        for card_str in ordered_card_strings:
+            card_obj = self._card_from_string(card_str)
+            if card_obj:
+                # The shoe's deal_card method handles moving it from undealt to dealt_this_round
+                dealt_card = active_shoe.deal_card(specific_card_to_remove=card_obj)
+                if dealt_card:
+                    # Check if this is the first time we are seeing this card in this round
+                    if dealt_card not in newly_dealt_cards:
+                         newly_dealt_cards.append(dealt_card)
 
-        # Seat 6
-        discard_block_strings.extend(reversed(seat_cards.get(6, [])))
-        # Seats 5 down to 0
-        for i in range(5, -1, -1):
-            discard_block_strings.extend(reversed(seat_cards.get(i, [])))
-        # Dealer
-        discard_block_strings.extend(reversed(dealer_cards))
+        # 3. Finalize the round by moving all dealt cards to the discard pile
+        active_shoe.end_round()
 
-        if not discard_block_strings:
-            return # No cards were played in this round
-
-        # --- Convert strings to Card objects ---
-        discard_block_cards = [self._card_from_string(cs) for cs in discard_block_strings if cs]
-        discard_block_cards = [c for c in discard_block_cards if c is not None]
-
-        # --- Update shoe state ---
-        # 1. Remove the correct number of cards from the undealt deque
-        num_cards_played = len(discard_block_cards)
-        for _ in range(num_cards_played):
-            if active_shoe.undealt_cards:
-                active_shoe.undealt_cards.popleft() # Simulate dealing from the top
-            else:
-                print("Warning: Tried to remove a card from an empty undealt pile.")
-                break
-
-        # 2. Prepend the newly created discard block to the main discard pile
-        active_shoe.discard_pile = discard_block_cards + active_shoe.discard_pile
-
-        print(f"Processed round. Discard pile now has {len(active_shoe.discard_pile)} cards.")
+        print(f"Processed round. Discard pile size: {len(active_shoe.discard_pile)}")
+        return newly_dealt_cards
 
     def perform_shuffle(self, target_shoe_name: str, shuffle_params: dict):
         """Uses the ShuffleManager to shuffle the saved cards and updates a shoe."""

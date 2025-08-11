@@ -290,94 +290,44 @@ class ShuffleManager:
 
     def perform_full_shoe_shuffle(self):
         """
-        Implements the user-defined multi-stage shoe shuffling algorithm.
+        Implements the user-defined full shoe shuffle algorithm.
+        - Discards on top of remaining deck.
+        - Split into 8 chunks.
+        - Riffle chunks together 4 times.
+        - Perform a final shuffle.
         """
-        print("Starting new user-defined full shoe shuffle...")
+        print(f"Starting full shoe shuffle for shoe with {len(self.shoe.undealt_cards)} undealt and {len(self.shoe.discard_pile)} in discard.")
 
-        # 1. Combine unplayed and discarded cards into a single shuffling stack
-        # Per user: "last round first card for dealer will be the top card of the discarded cards which will be the top of shuffling stack"
-        # This means discard pile goes on top of the remaining undealt cards.
-        shuffling_stack = self.shoe.discard_pile + list(self.shoe.undealt_cards)
+        # 1. Combine discard pile on top of the undealt cards
+        full_deck = self.shoe.discard_pile + list(self.shoe.undealt_cards)
         self.shoe.discard_pile.clear()
         self.shoe.undealt_cards.clear()
 
-        if not shuffling_stack:
+        if not full_deck:
             print("Shoe is empty, nothing to shuffle.")
             return
 
-        print(f"Initial shuffling stack size: {len(shuffling_stack)}")
+        # 2. Perform the 4-pass riffle shuffle with 8 chunks
+        current_deck = full_deck
+        for i in range(4): # 4 passes
+            print(f"  - Shuffle Pass {i+1}/4...")
+            chunks = self.split_list_into_k_chunks(current_deck, 8)
 
-        # --- Main Shuffle Loop (3 iterations) ---
-        for i in range(3):
-            print(f"\n--- Starting Iteration {i+1}/4 ---")
+            # Riffle the chunks together sequentially
+            shuffled_deck = chunks.pop(0)
+            while chunks:
+                next_chunk = chunks.pop(0)
+                shuffled_deck = self.riffle_card_lists(shuffled_deck, next_chunk)
+            current_deck = shuffled_deck
+            print(f"  - Pass {i+1} complete. Deck size: {len(current_deck)}")
 
-            # a. Split the stack into Side A and Side B
-            side_a, side_b = self.split_list_into_two_halves(shuffling_stack)
-            print(f"  - Split into Side A ({len(side_a)} cards) and Side B ({len(side_b)} cards)")
+        # 3. Perform a final shuffle (simple random shuffle as placeholder)
+        print("  - Performing final shuffle...")
+        random.shuffle(current_deck)
 
-            # b. Split each side into 8 chunks
-            chunks_a = self.split_list_into_k_chunks(side_a, 8)
-            chunks_b = self.split_list_into_k_chunks(side_b, 8)
-            print(f"  - Split sides into {len(chunks_a)} and {len(chunks_b)} chunks.")
-
-            # c. Riffle corresponding chunks
-            riffled_results = []
-            for j in range(8):
-                chunk_a = chunks_a[j] if j < len(chunks_a) else []
-                chunk_b = chunks_b[j] if j < len(chunks_b) else []
-                riffled_chunk = self.riffle_card_lists(chunk_a, chunk_b)
-                riffled_results.append(riffled_chunk)
-            print(f"  - Riffled 8 pairs of chunks.")
-
-            # d. Reassemble the stack with chunk 8 on top, chunk 1 at the bottom
-            shuffling_stack = []
-            for chunk in reversed(riffled_results):
-                shuffling_stack.extend(chunk)
-            print(f"  - Reassembled stack. New size: {len(shuffling_stack)}")
-
-        # --- Step 3: Implement Special 4th Iteration ---
-        print("\n--- Starting Special Iteration 4/4 ---")
-        # The shuffling_stack from the first 3 iterations is used here
-        side_a, side_b = self.split_list_into_two_halves(shuffling_stack)
-        print(f"  - Split into Side A ({len(side_a)} cards) and Side B ({len(side_b)} cards)")
-
-        chunks_a = self.split_list_into_k_chunks(side_a, 8)
-        chunks_b = self.split_list_into_k_chunks(side_b, 8)
-        print(f"  - Split sides into {len(chunks_a)} and {len(chunks_b)} chunks.")
-
-        fourth_iteration_results = []
-        for j in range(8):
-            print(f"    - Processing chunk pair {j+1}/8...")
-            chunk_a = chunks_a[j] if j < len(chunks_a) else []
-            chunk_b = chunks_b[j] if j < len(chunks_b) else []
-
-            # a. Riffle
-            riffled_chunk = self.riffle_card_lists(chunk_a, chunk_b)
-
-            # b. Hindu Shuffle
-            hindu_shuffled_chunk = self.hindu_shuffle(riffled_chunk)
-
-            # c. Split and Riffle again
-            half1, half2 = self.split_list_into_two_halves(hindu_shuffled_chunk)
-            final_chunk_result = self.riffle_card_lists(half1, half2)
-
-            fourth_iteration_results.append(final_chunk_result)
-
-        # Reassemble the stack in reverse order
-        shuffling_stack = []
-        for chunk in reversed(fourth_iteration_results):
-            shuffling_stack.extend(chunk)
-        print(f"  - Reassembled stack after 4th iteration. New size: {len(shuffling_stack)}")
-
-        # --- Step 4: Implement Final Cut ---
-        print("\n--- Performing Final Cut ---")
-        top_half, bottom_half = self.split_list_into_two_halves(shuffling_stack)
-        shuffling_stack = bottom_half + top_half
-        print(f"  - Final cut complete. The bottom {len(bottom_half)} cards are now on top.")
-
-        # Update the shoe object with the newly shuffled deck
-        self.shoe.undealt_cards = collections.deque(shuffling_stack)
-        print(f"\nShuffle complete. Shoe now has {len(self.shoe.undealt_cards)} cards.")
+        # 4. Update the shoe object with the newly shuffled deck
+        self.shoe.undealt_cards = collections.deque(current_deck)
+        print(f"Shuffle complete. Shoe now has {len(self.shoe.undealt_cards)} cards.")
 
         # Re-initialize zones if they are being used
         if self.zones:
@@ -391,31 +341,23 @@ class ShuffleManager:
             print(zone.get_summary())
 
     @staticmethod
-    def hindu_shuffle(card_list: List['Card'], packet_size_input: Optional[int] = None) -> List['Card']:
-        """
-        Performs a Hindu shuffle (also known as a strip or running cut).
-        Small packets are taken from the top of the deck and placed in reverse order,
-        simulating them being dropped on top of each other on a table.
-        The original top of the deck becomes the new bottom.
-        """
-        if not card_list:
+    def strip_shuffle_pile(pile_to_strip: List['Card'], strip_packet_size_input: Optional[int]) -> List['Card']:
+        if not pile_to_strip:
             return []
-
-        working_pile = list(card_list)
+        working_pile = list(pile_to_strip)
         packet_size: int
-        if packet_size_input and packet_size_input > 0:
-            packet_size = packet_size_input
+        if strip_packet_size_input and strip_packet_size_input > 0:
+            packet_size = strip_packet_size_input
         else:
-            # Use a reasonable default packet size
-            packet_size = max(1, len(working_pile) // 7) if len(working_pile) > 7 else 1
-
+            packet_size = max(1, len(working_pile) // 7)
+            if packet_size == 0 and len(working_pile) > 0:
+                packet_size = 1
         stripped_packets: List[List['Card']] = []
         while working_pile:
             current_packet_size = min(packet_size, len(working_pile))
             packet = working_pile[:current_packet_size]
             stripped_packets.append(packet)
             working_pile = working_pile[current_packet_size:]
-
         final_shuffled_pile: List['Card'] = []
         for p in reversed(stripped_packets):
             final_shuffled_pile.extend(p)
@@ -448,7 +390,6 @@ if __name__ == '__main__':
         class Shoe:
             def __init__(self, num_physical_decks=1):
                 self.undealt_cards = collections.deque()
-                self.discard_pile = []
                 ranks = "A23456789TJQK"
                 suits = "HDSC"
                 for _ in range(num_physical_decks):
@@ -480,23 +421,3 @@ if __name__ == '__main__':
         manager.perform_tracked_shuffle([("riffle", 0, 1, 0)])
         print("\nZone summaries after tracked shuffle:")
         manager.print_zone_summaries()
-
-    print("\n--- Hindu Shuffle Test ---")
-    test_ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J']
-    test_deck_hindu = [Card("Spades", r) for r in test_ranks] # 10 cards
-    print(f"Original deck for Hindu shuffle: {[str(c) for c in test_deck_hindu]}")
-    hindu_shuffled_deck = ShuffleManager.hindu_shuffle(test_deck_hindu, packet_size_input=3)
-    print(f"Hindu shuffled deck (packet size 3): {[str(c) for c in hindu_shuffled_deck]}")
-
-    print("\n--- Full Shoe Shuffle Test ---")
-    # Create a shoe with 8 decks as per user requirements
-    full_shoe = Shoe(num_physical_decks=8)
-    print(f"Created a shoe with {len(full_shoe.undealt_cards)} cards ({len(full_shoe.undealt_cards)/52.0:.1f} decks).")
-    # Move some cards to discard to simulate a used shoe
-    for _ in range(150):
-        if full_shoe.undealt_cards:
-            full_shoe.discard_pile.append(full_shoe.undealt_cards.popleft())
-
-    shuffle_manager_for_full_test = ShuffleManager(full_shoe)
-    shuffle_manager_for_full_test.perform_full_shoe_shuffle()
-    print("--- Full Shoe Shuffle Test Complete ---")

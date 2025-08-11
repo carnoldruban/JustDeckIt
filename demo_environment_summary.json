@@ -2,8 +2,8 @@
   "environment_ready": true,
   "historical_data": {
     "sessions": 3,
-    "total_rounds": 49,
-    "total_cards_dealt": 644,
+    "total_rounds": 50,
+    "total_cards_dealt": 678,
     "duration_hours": 2.0
   },
   "analytics_ready": {
@@ -19,9 +19,9 @@
   "key_insights": {
     "best_shoe": "Lucky Shoe A",
     "best_seats": [
-      3,
-      2,
-      6
+      0,
+      5,
+      1
     ],
     "should_play_now": true,
     "confidence_level": "Low"
