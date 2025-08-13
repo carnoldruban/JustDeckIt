@@ -42,55 +42,36 @@ class Scraper:
             try:
                 click_script = """
                 () => {
-                    // Try to find any visible button with text related to inactivity
-                    const keywords = ['continue', 'resume', 'play', 'ok', 'close', 'start', 'back', 'return'];
-                    const pauseTexts = ['GAME PAUSED', 'INACTIVITY', 'PAUSED DUE TO INACTIVITY'];
-                    let found = false;
-                    let buttonText = '';
                     let clicked = false;
-                    // First, look for visible buttons with matching text
-                    const buttons = Array.from(document.querySelectorAll('button, [role="button"], .clickable'));
-                    for (const btn of buttons) {
-                        const txt = (btn.textContent || btn.getAttribute('aria-label') || '').toLowerCase();
-                        if (btn.offsetParent !== null && keywords.some(k => txt.includes(k))) {
-                            btn.click();
-                            found = true;
-                            buttonText = txt;
+                    let buttonText = 'N/A';
+
+                    // New, more robust method using data-role attributes from user feedback
+                    const inactivityContainer = document.querySelector('[data-role="inactivity-message-container"]');
+                    if (inactivityContainer && inactivityContainer.offsetParent !== null) { // Check if visible
+                        const playButton = inactivityContainer.querySelector('[data-role="play-button"]');
+                        if (playButton) {
+                            playButton.click();
                             clicked = true;
-                            break;
+                            buttonText = 'play-button (via data-role)';
                         }
                     }
-                    // If not found, look for any element with pause text and click nearby button
+
+                    // Keep the old logic as a fallback, just in case the UI changes back
                     if (!clicked) {
-                        const allElements = Array.from(document.querySelectorAll('*'));
-                        for (const el of allElements) {
-                            const txt = (el.textContent || '').toLowerCase();
-                            if (pauseTexts.some(pt => txt.includes(pt.toLowerCase()))) {
-                                const parent = el.parentElement;
-                                if (parent) {
-                                    const btns = parent.querySelectorAll('button, [role="button"], .clickable');
-                                    for (const btn of btns) {
-                                        if (btn.offsetParent !== null) {
-                                            btn.click();
-                                            found = true;
-                                            buttonText = btn.textContent || btn.getAttribute('aria-label') || 'pause popup';
-                                            clicked = true;
-                                            break;
-                                        }
-                                    }
-                                }
+                        const keywords = ['continue', 'resume', 'play', 'ok', 'close', 'start', 'back', 'return'];
+                        const buttons = Array.from(document.querySelectorAll('button, [role="button"], .clickable'));
+                        for (const btn of buttons) {
+                            const txt = (btn.textContent || btn.getAttribute('aria-label') || '').toLowerCase();
+                            if (btn.offsetParent !== null && keywords.some(k => txt.includes(k))) {
+                                btn.click();
+                                clicked = true;
+                                buttonText = txt;
+                                break;
                             }
-                            if (clicked) break;
                         }
                     }
-                    // Log all visible buttons for debugging
-                    let visibleButtons = [];
-                    for (const btn of buttons) {
-                        if (btn.offsetParent !== null) {
-                            visibleButtons.push(btn.textContent || btn.getAttribute('aria-label') || '');
-                        }
-                    }
-                    return { found, buttonText, visibleButtons };
+
+                    return { found: clicked, buttonText: buttonText };
                 }
                 """
                 eval_req_id = request_id_counter

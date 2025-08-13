@@ -145,9 +145,9 @@ class BlackjackTrackerApp:
     def process_queues(self):
         try:
             while not self.data_queue.empty():
-                message = self.data_queue.get_nowait()
+                data = self.data_queue.get_nowait()  # The queue contains a dict directly
+                self.log_to_display(f"Raw data: {str(data)[:200]}...")
                 try:
-                    data = json.loads(message)
                     dealt_cards = data.get('dealtCards', [])
                     self.player_hand = data.get('playerHand', [])
                     self.dealer_hand = data.get('dealerHand', [])
@@ -171,7 +171,7 @@ class BlackjackTrackerApp:
                     # self.zone_analysis_label.config(text=f"Zone: {self.analytics_engine.get_zone_info( ... )}")
 
                 except Exception as e:
-                    self.log_to_display(f"Error: {e}")
+                    self.log_to_display(f"Error processing data: {e}")
         finally:
             self.root.after(100, self.process_queues)
 
