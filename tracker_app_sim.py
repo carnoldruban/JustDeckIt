@@ -119,6 +119,18 @@ class BlackjackTrackerApp:
         self.stop_button = ttk.Button(self.top_frame, text="Stop Tracking", command=self.stop_tracking, state='disabled')
         self.stop_button.pack(side=tk.LEFT, padx=5)
 
+        # Progressive Sim Controls
+        self.sim_button = ttk.Button(self.top_frame, text="Start Progressive Sim", command=self.start_progressive_sim)
+        self.sim_button.pack(side=tk.LEFT, padx=5)
+        self.stop_sim_button = ttk.Button(self.top_frame, text="Stop Sim", command=self.stop_progressive_sim, state='disabled')
+        self.stop_sim_button.pack(side=tk.LEFT, padx=5)
+
+        # Progress Bar
+        self.progress_bar = ttk.Progressbar(self.live_tracker_tab, orient="horizontal", length=300, mode="determinate")
+        self.progress_bar.pack(fill=tk.X, padx=10, pady=5)
+        self.progress_label = ttk.Label(self.live_tracker_tab, text="Simulation Progress: 0/0 (0.00%)")
+        self.progress_label.pack()
+
         # Shoe Controls Frame
         self.shoe_controls_frame = ttk.Frame(self.live_tracker_tab)
         self.shoe_controls_frame.pack(fill=tk.X, pady=5)
@@ -1363,6 +1375,32 @@ class BlackjackTrackerApp:
             self.db_manager.close()
         self.root.destroy()
 
+
+    def start_progressive_sim(self):
+        """Starts the progressive simulation."""
+        self.scraper = Scraper(self.data_queue)
+        self.scraper.start()
+        self.sim_button.config(state='disabled')
+        self.stop_sim_button.config(state='normal')
+        self.update_progress()
+
+    def stop_progressive_sim(self):
+        """Stops the progressive simulation."""
+        if self.scraper:
+            self.scraper.stop()
+        self.sim_button.config(state='normal')
+        self.stop_sim_button.config(state='disabled')
+
+    def update_progress(self):
+        """Updates the progress bar and labels."""
+        if self.scraper and self.scraper.is_running:
+            current, total, percentage = self.scraper.get_progress()
+            self.progress_bar['value'] = percentage
+            self.progress_label.config(text=f"Simulation Progress: {current}/{total} ({percentage:.2f}%)")
+            self.root.after(1000, self.update_progress)
+        else:
+            self.progress_bar['value'] = 0
+            self.progress_label.config(text="Simulation Progress: 0/0 (0.00%)")
 
 if __name__ == "__main__":
     root = tk.Tk()
