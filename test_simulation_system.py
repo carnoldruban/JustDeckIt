@@ -29,7 +29,7 @@ def test_simulation_system():
     print("\n2. Testing simulation scraper...")
     try:
         test_queue = queue.Queue()
-        scraper = Scraper(test_queue)
+        scraper = Scraper(test_queue, test_file="blackjack_test_data_300rounds.json")
         
         # Start scraper for a few seconds
         scraper.start()

@@ -1,0 +1,17 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Databases
+*.db
+*.db-journal
+
+# Test reports
+*.json
+!test_data.json
+!blackjack_progressive_test_data.json
+!blackjack_test_data_300rounds.json
+
+# Other
+.DS_Store
