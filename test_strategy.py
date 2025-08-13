@@ -43,6 +43,7 @@ class TestStrategyModule(unittest.TestCase):
         self.assertEqual(get_strategy_action(['7', '4'], '9'), 'D', "11 vs 9 should be Double")
         # Soft totals
         self.assertEqual(get_strategy_action(['A', '7'], '3'), 'D', "Soft 18 vs 3 should be Double")
+        self.assertEqual(get_strategy_action(['A', '8'], '6'), 'D', "Soft 19 vs 6 should be Double in H17")
         self.assertEqual(get_strategy_action(['A', '6'], '7'), 'H', "Soft 17 vs 7 should be Hit")
         # Pairs
         self.assertEqual(get_strategy_action(['8', '8'], 'A'), 'P', "8,8 vs A should be Split")
