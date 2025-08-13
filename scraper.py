@@ -44,31 +44,50 @@ class Scraper:
                 () => {
                     let clicked = false;
                     let buttonText = 'N/A';
+                    let status = 'No action taken';
 
-                    // New, more robust method using data-role attributes from user feedback
-                    const inactivityContainer = document.querySelector('[data-role="inactivity-message-container"]');
-                    if (inactivityContainer && inactivityContainer.offsetParent !== null) { // Check if visible
-                        const playButton = inactivityContainer.querySelector('[data-role="play-button"]');
-                        if (playButton) {
-                            playButton.click();
-                            clicked = true;
-                            buttonText = 'play-button (via data-role)';
-                        }
+                    // 1. Primary Method: Targeted data-role selector
+                    const playButton = document.querySelector('button[data-role="play-button"]');
+                    if (playButton && playButton.offsetParent !== null) {
+                        playButton.click();
+                        clicked = true;
+                        status = 'Clicked play-button via primary selector.';
                     }
 
-                    // Keep the old logic as a fallback, just in case the UI changes back
+                    // 2. Fallback Method: Raw HTML search for the data-role
                     if (!clicked) {
-                        const keywords = ['continue', 'resume', 'play', 'ok', 'close', 'start', 'back', 'return'];
-                        const buttons = Array.from(document.querySelectorAll('button, [role="button"], .clickable'));
-                        for (const btn of buttons) {
-                            const txt = (btn.textContent || btn.getAttribute('aria-label') || '').toLowerCase();
-                            if (btn.offsetParent !== null && keywords.some(k => txt.includes(k))) {
+                        const allButtons = document.querySelectorAll('button');
+                        for (const btn of allButtons) {
+                            if (btn.outerHTML.includes('data-role="play-button"')) {
                                 btn.click();
                                 clicked = true;
-                                buttonText = txt;
+                                status = 'Clicked button via raw HTML search.';
                                 break;
                             }
                         }
+                    }
+
+                    // 3. Final Fallback: Fingerprinting the SVG icon path
+                    if (!clicked) {
+                        const svgPathFingerprint = "M8 17.872V6.117";
+                        const allPaths = document.querySelectorAll('path');
+                        for (const path of allPaths) {
+                            if (path.getAttribute('d') && path.getAttribute('d').startsWith(svgPathFingerprint)) {
+                                let clickableParent = path.closest('button');
+                                if (clickableParent) {
+                                    clickableParent.click();
+                                    clicked = true;
+                                    status = 'Clicked button via SVG fingerprint.';
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if (clicked) {
+                        buttonText = status;
+                    } else {
+                        buttonText = 'Inactivity popup not found by any method.';
                     }
 
                     return { found: clicked, buttonText: buttonText };
