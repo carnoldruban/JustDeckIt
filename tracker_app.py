@@ -116,13 +116,16 @@ class BlackjackTrackerApp:
 
     def open_browser(self):
         url = self.url_var.get()
-        chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe"
-        if not os.path.exists(chrome_path):
-            chrome_path = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"
-        if os.path.exists(chrome_path):
-            subprocess.Popen([chrome_path, url, "--remote-debugging-port=9222"])
-        else:
-            self.log_to_display("Chrome not found. Please open manually with --remote-debugging-port=9222")
+        self.log_to_display("Executing restart_chrome.bat to launch browser...")
+        try:
+            # Use Popen to run the batch file without blocking the GUI
+            # It's important that restart_chrome.bat is in the same directory as the script
+            subprocess.Popen(['cmd', '/c', 'restart_chrome.bat', url], creationflags=subprocess.CREATE_NO_WINDOW)
+            self.log_to_display("Batch file executed. Please wait for Chrome to start.")
+        except FileNotFoundError:
+            self.log_to_display("Error: restart_chrome.bat not found. Please ensure it is in the application directory.")
+        except Exception as e:
+            self.log_to_display(f"An error occurred while running the batch file: {e}")
 
     def start_tracking(self):
         self.scraper = Scraper(self.data_queue)
