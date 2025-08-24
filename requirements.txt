@@ -1,0 +1,25 @@
+# Core dependencies
+websockets>=10.0
+requests>=2.25.0
+
+# Optional dependencies for browser automation
+selenium>=4.0.0
+webdriver-manager>=3.8.0
+
+# Performance monitoring
+psutil>=5.8.0
+
+# Database
+sqlite3  # Built-in with Python
+
+# GUI (built-in with Python)
+# tkinter
+
+# Additional utilities
+asyncio  # Built-in with Python 3.7+
+threading  # Built-in
+json  # Built-in
+datetime  # Built-in
+collections  # Built-in
+random  # Built-in
+typing  # Built-in with Python 3.5+

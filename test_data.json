@@ -1,0 +1,4535 @@
+[
+  {
+    "timestamp": 1754709047.650169,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c\ud83d\udcc1 Application switch from empty to multi",
+      "font-size: 120%;"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6511676,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.652168,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c\ud83d\udcc1 Application switch from empty to tableId=svgesa7lcjjqhhqx,
+ vtId=null",
+      "font-size: 120%;"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.652168,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.652168,
+    "event_type": "error",
+    "log_args": [
+      "Translations section 'classicbetstackerbj' is missing."
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.652168,
+    "event_type": "log",
+    "log_args": [
+      "%c[Evo] verification_token\n%ceyJraWQiOiIxNzM5NDQ4NDAxOTYwIiwidHlwIjoiSld
+UIiwiYWxnIjoiRVMyNTYifQ.eyJjdXIiOiJDQUQiLCJndHAiOiJjbGFzc2ljYmV0c3RhY2tlcmJqIiwi
+anVyIjoiQ0EtT04iLCJoaWVyYXJjaHkiOiJbZHJhZnRraW5nc2NhMDAwMV0iLCJlcGlkIjoiNmE1ZWJl
+ZGUtMmUzYi00MGNhLWFjODMtYzlmN2MxZDViYjNjIiwicGlkIjoic3RtaDRwdzNycDNhaTZneSIsImV4
+cCI6MTc1NDk2ODAwMiwidGlkIjoic3ZnZXNhN2xjampxaGhxeCIsImNpZCI6ImRyYWZ0a2luZ3NjYTAw
+MDEiLCJzaWQiOiJzdG1oNHB3M3JwM2FpNmd5dGNnbXd2aXhhY2o0YmsyNWVlZmVmZWY0In0.CokG_L7g
+WK1UjpFBgTL9BojdkfttA0ufExpGyhKbpYOpUiDbSlTvav7TXqGMreIwC2FHfV9yhOk2BW0ckO4cKA",
+      "font-size: 16px; font-weight: bold;",
+      "font-family: monospace; background: #f4f4f4; margin: 5px 0; padding: 5px;
+ border-radius: 5px;"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.652168,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] subscribe",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6531677,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6531677,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] balanceUpdated",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6541667,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6541667,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.seats",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6541667,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6551654,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6561656,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6561656,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.playerChips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6571643,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6571643,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6581645,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6581645,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6581645,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6581645,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.phase",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6591635,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6591635,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.tableSettings",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6601622,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6601622,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.bonusElements",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.661162,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6621609,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.betBehindPlayerSettings",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6621609,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6621609,
+    "event_type": "log",
+    "log_args": [
+      "%c",
+      "display:none;"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6621609,
+    "event_type": "warning",
+    "log_args": [
+      "Mismatch between expected resource count (17) and actual.",
+      null
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6631613,
+    "event_type": "log",
+    "log_args": [
+      "%c",
+      "display:none;"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6631613,
+    "event_type": "log",
+    "log_args": [
+      "%c",
+      "display:none;"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6631613,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6651595,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.666159,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6671584,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.668157,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.phase",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6691573,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6691573,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6711555,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6711555,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6731548,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6731548,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.phase",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6741538,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6751535,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.seats",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6751535,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6751535,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6761525,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6761525,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.playerChips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.677152,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.677152,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6791513,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6791513,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6801512,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6801512,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6801512,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.681151,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.681151,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.681151,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] balanceUpdated",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6821504,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6821504,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.seats",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6821504,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6831493,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.phase",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.6831493,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7031379,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.seats",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7041373,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7051363,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.phase",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7061365,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7061365,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.seats",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7071354,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7071354,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.seats",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7071354,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7071354,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7081354,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7081354,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7091346,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7101338,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7111342,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7111342,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7111342,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.712133,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.712133,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.712133,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7131317,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7131317,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7131317,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7141325,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7141325,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7141325,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.phase",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7151306,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7151306,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.bonusElements",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7151306,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7161305,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.seats",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7161305,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7161305,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.playerChips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.71713,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7201283,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.phase",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7201283,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7201283,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.721128,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.721128,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.playerChips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7221272,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7221272,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.phase",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7221272,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7221272,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.723126,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.723126,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7241254,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7241254,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7251246,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7251246,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7251246,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7261245,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7261245,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7261245,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.727124,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.727124,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7281232,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7281232,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7281232,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.729124,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.729124,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.729124,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7301233,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7301233,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.731122,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.731122,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.732122,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.732122,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.732122,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.732122,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7331204,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7331204,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7341201,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7341201,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7341201,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.735119,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.735119,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.735119,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7361205,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7361205,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7371192,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7375183,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7375183,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7375183,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7386625,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7386625,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7396624,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7396624,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7406616,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7406616,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7406616,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7416604,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7416604,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7416604,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7556527,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7566524,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.757651,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.757651,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7586515,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7586515,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7586515,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7596507,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7596507,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7606502,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.763648,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.763648,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7646496,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7646496,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.playerChips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.765648,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.765648,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.766647,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.766647,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7676456,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7676456,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.phase",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7686453,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7686453,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7696452,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7696452,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7706447,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7706447,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7716436,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7716436,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.772643,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.772643,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7736425,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7736425,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.774642,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.774642,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.774642,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7756414,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7756414,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7766411,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7766411,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7766411,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.777641,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.777641,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7786393,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7786393,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.playerChips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7796388,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7796388,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7806387,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7806387,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7816386,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7816386,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7826378,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7846363,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.playerChips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7856352,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7856352,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7866347,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7866347,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7876346,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7876346,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.phase",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.788633,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.788633,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.788633,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7896328,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7896328,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7896328,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.790633,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.790633,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7916322,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7916322,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7926314,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7926314,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7926314,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.793631,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.793631,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.793631,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.79463,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.79463,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7956288,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7956288,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7956288,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7966282,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7966282,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7966282,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7976284,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7976284,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7986283,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7986283,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.7996275,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8006265,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8006265,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8006265,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8016267,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8016267,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8026261,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8026261,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8026261,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.803625,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.803625,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.803625,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8076222,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8076222,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8086214,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8086214,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8096213,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8096213,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8230236,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8235269,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8240669,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8250544,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8250544,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8250544,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.826054,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.826054,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8270533,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8270533,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.828053,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.828053,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.828053,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.828053,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8290524,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8300524,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8305306,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8325303,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.837528,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.837528,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8385282,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8385282,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8395257,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8395257,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.seats",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8395257,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8405256,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.seats",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8415256,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8415256,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8425245,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8425245,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8435233,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8435233,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8445258,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8445258,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8455222,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8455222,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8465228,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8465228,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8495202,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8495202,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.seats",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.850877,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.850877,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.seats",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8511648,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8511648,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8521645,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8521645,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8981447,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.8981447,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.899138,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9001372,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9001372,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9011378,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.902137,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.902137,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9031355,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9031355,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.seats",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.904137,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.904137,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.905136,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9061368,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9071336,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9071336,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.phase",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9081352,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9081352,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9091325,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9091325,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.910132,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9111314,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9121306,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9121306,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.91313,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.91313,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9151294,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9151294,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9161284,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9161284,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.phase",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9171278,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9181273,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.seats",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9181273,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9191267,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9201262,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9201262,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.playerChips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9211257,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9211257,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9211257,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9221249,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9231243,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9231243,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] balanceUpdated",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9241233,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9241233,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.seats",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9251227,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9251227,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.phase",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9251227,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9261222,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.seats",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.927122,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.927122,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.phase",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9281216,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9281216,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.93012,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.93012,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9321194,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9321194,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9331193,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9331193,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9341185,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9341185,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9351177,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9361172,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.phase",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.937116,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.937116,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] subscribe",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9381166,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9381166,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] balanceUpdated",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9391153,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9401147,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.seats",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9401147,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9401147,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9411147,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9411147,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.playerChips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.942113,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.942113,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9431133,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9431133,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9441123,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9441123,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.phase",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.945111,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.945111,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.tableSettings",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.947111,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9481096,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.bonusElements",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9481096,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9491096,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.betBehindPlayerSettings",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9501097,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9501097,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9511087,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9511087,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9521077,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9521077,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9531066,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9531066,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9541068,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9551065,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9561052,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9561052,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9571054,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9571054,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.958104,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.958104,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9591038,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9591038,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9601028,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9601028,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9611025,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9621036,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9641013,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9651003,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9660997,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.967099,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.967099,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9680986,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9680986,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.969098,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.969098,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9700973,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.970439,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.970439,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.972439,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.972439,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9734378,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9734378,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9744372,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9754367,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9764361,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9774358,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9774358,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9784355,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9794354,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9794354,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9814339,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9814339,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9824328,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9824328,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9834328,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9844315,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9854305,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9854305,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9864316,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9864316,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9874303,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9874303,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9884298,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9884298,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9894285,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9904299,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.991428,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.991428,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.playerChips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9924264,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9924264,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9934278,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9934278,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9944255,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9944255,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.phase",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9954247,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9954247,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9964247,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9964247,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9974241,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9974241,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9984233,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9984233,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9994235,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709047.9994235,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.000423,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.000423,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.001422,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.001422,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.002422,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.002422,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0034215,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0034215,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.00442,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.00442,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0054193,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0054193,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0064192,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0064192,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0084186,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0084186,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0094178,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0094178,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.010417,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.010417,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0114164,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0124166,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0134153,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0134153,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.014414,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.014414,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.015305,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.015305,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0162554,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0162554,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0172544,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0172544,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0182538,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0192533,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0202532,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0202532,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0212526,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0212526,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0222518,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0222518,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0232518,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0232518,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0242505,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0242505,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0252502,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0252502,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0262492,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0262492,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0272503,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0272503,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0282493,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0282493,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.029248,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.029248,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.030635,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.030635,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0316353,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0316353,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0326347,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0326347,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.game",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.033634,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.033634,
+    "event_type": "startGroupCollapsed",
+    "log_args": [
+      "%c[WS Message] blackjack.v3.chips",
+      "color: #7c7c7c"
+    ],
+    "serialized_object": null
+  },
+  {
+    "timestamp": 1754709048.0346339,
+    "event_type": "endGroup",
+    "log_args": [
+      "console.groupEnd"
+    ],
+    "serialized_object": null
+  }
+]

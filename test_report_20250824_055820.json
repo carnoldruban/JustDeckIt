@@ -1,0 +1,73 @@
+{
+  "test_summary": {
+    "test_date": "2025-08-24T05:58:20.511747",
+    "total_rounds": 1000,
+    "successful_rounds": 1000,
+    "success_rate": "100.00%"
+  },
+  "performance_metrics": {
+    "total_time_seconds": 18.06579852104187,
+    "rounds_per_second": 55.35321335701076,
+    "successful_rounds": 1000,
+    "success_rate": 100.0,
+    "final_memory_mb": 45.4375
+  },
+  "system_usage": {
+    "shoes_used": 0,
+    "shuffles_performed": 0,
+    "cards_processed": 0,
+    "memory_usage": [
+      {
+        "round": 0,
+        "memory_mb": 45.42578125
+      },
+      {
+        "round": 100,
+        "memory_mb": 45.43359375
+      },
+      {
+        "round": 200,
+        "memory_mb": 45.4375
+      },
+      {
+        "round": 300,
+        "memory_mb": 45.4375
+      },
+      {
+        "round": 400,
+        "memory_mb": 45.4375
+      },
+      {
+        "round": 500,
+        "memory_mb": 45.4375
+      },
+      {
+        "round": 600,
+        "memory_mb": 45.4375
+      },
+      {
+        "round": 700,
+        "memory_mb": 45.4375
+      },
+      {
+        "round": 800,
+        "memory_mb": 45.4375
+      },
+      {
+        "round": 900,
+        "memory_mb": 45.4375
+      },
+      {
+        "round": 1000,
+        "memory_mb": 45.4375
+      }
+    ]
+  },
+  "errors": [],
+  "final_counts": {
+    "hilo_running_count": 0.0,
+    "hilo_true_count": 0.0,
+    "wong_halves_running_count": 0.0,
+    "wong_halves_true_count": 0.0
+  }
+}
