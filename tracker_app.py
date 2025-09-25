@@ -31,6 +31,11 @@ class BlackjackTrackerApp:
         self.shoe_manager = ShoeManager(self.db_manager)
         self.analytics_engine = AnalyticsEngine(self.db_manager)
         
+        # Explicitly initialize both shoes on startup
+        self.shoe_manager.set_active_shoe("Shoe 1")
+        self.shoe_manager.set_active_shoe("Shoe 2")
+        self.shoe_manager.set_active_shoe("Shoe 1") # Set Shoe 1 as the default active
+
         self.hilo_counter = HiLoCounter()
         self.wong_halves_counter = WongHalvesCounter()
         # Inactivity handling moved to a watchdog that runs in background
@@ -62,7 +67,6 @@ class BlackjackTrackerApp:
         self.ms_shuffled_chunks = []
 
         self.create_widgets()
-        self.shoe_manager.set_active_shoe("Shoe 1")
         self.active_shoe_var.set("Shoe 1")
         
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
@@ -1429,7 +1433,7 @@ class BlackjackTrackerApp:
             self.ms_bottom_panel.configure(state='disabled')
         else:
             self.ms_initial_stack = []
-            self.ms_current_stack = ["No shoe data available to inspect."]
+            self.ms_current_stack = ["No shoe data available to inspect. Initialize shoes first."]
             self.ms_split_button.configure(state='disabled')
             self._ms_update_displays()
 
