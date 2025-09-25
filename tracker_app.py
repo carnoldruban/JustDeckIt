@@ -533,15 +533,16 @@ class BlackjackTrackerApp:
                             self.status_var.set(f"Connected: {site} | Last update: {time.strftime('%H:%M:%S')} ")
                         except Exception:
                             pass
-                        shoe_state = self.db_manager.get_shoe_state(active_shoe.name)
+                        shoe_state = self.db_manager.get_shoe_state(self.shoe_manager.active_shoe_name)
                         all_visible_cards = (shoe_state.get("dealt", []) or []) + (shoe_state.get("current", []) or [])
 
                         self.hilo_counter.reset()
                         self.wong_halves_counter.reset()
 
                         all_visible_ranks = [str(c)[0] for c in all_visible_cards]
-                        self.hilo_counter.process_cards(all_visible_ranks)
-                        self.wong_halves_counter.process_cards(all_visible_ranks)
+                        if all_visible_ranks:
+                            self.hilo_counter.process_cards(all_visible_ranks)
+                            self.wong_halves_counter.process_cards(all_visible_ranks)
 
                         self.update_counts_display()
                         recent_rounds = self.db_manager.get_round_history(self.shoe_manager.active_shoe_name, limit=1)
