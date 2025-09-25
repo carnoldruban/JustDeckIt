@@ -4,57 +4,20 @@ from itertools import chain
 
 def _riffle(chunk1, chunk2):
     """
-    Human-like riffle shuffle of two chunks of cards (lower-variance bursts).
-
-    Instead of a perfect interleave, we take small random bursts from each side, with
-    a bias to avoid starving a side. Bursts are now lower-variance to reduce long
-    runs (e.g., mostly 1–2 cards; 3-card bursts are rare on large piles).
+    Performs a standard, perfect riffle shuffle of two chunks of cards.
+    Interleaves one card from each chunk until one is exhausted, then appends the rest.
     """
     result = []
     deck1 = deque(chunk1)
     deck2 = deque(chunk2)
 
-    while deck1 or deck2:
-        # Decide which side to pull from next, biased by remaining sizes
-        len1, len2 = len(deck1), len(deck2)
-        if len1 == 0 and len2 == 0:
-            break
-        if len1 == 0:
-            take_from_a = False
-        elif len2 == 0:
-            take_from_a = True
-        else:
-            # Bias toward the side with more remaining cards
-            bias = len1 / (len1 + len2)
-            take_from_a = random.random() < bias
+    while deck1 and deck2:
+        result.append(deck1.popleft())
+        result.append(deck2.popleft())
 
-        # Lower-variance random burst size
-        total = len1 + len2
-        if total > 30:
-            r = random.random()
-            if r < 0.70:
-                burst = 1
-            elif r < 0.98:
-                burst = 2
-            else:
-                burst = 3
-        elif total > 10:
-            burst = 1 if random.random() < 0.75 else 2
-        else:
-            burst = 1 if random.random() < 0.85 else 2
-
-        if take_from_a:
-            for _ in range(burst):
-                if deck1:
-                    result.append(deck1.popleft())
-                else:
-                    break
-        else:
-            for _ in range(burst):
-                if deck2:
-                    result.append(deck2.popleft())
-                else:
-                    break
+    # Append any remaining cards
+    result.extend(deck1)
+    result.extend(deck2)
 
     return result
 
@@ -73,12 +36,11 @@ def _hindu_shuffle(deck, num_cuts=5):
     return deck
 
 
-def _strip_cut_shuffle(deck, min_strip=3, max_strip=7):
+def _strip_cut_shuffle(deck, strip_size=7):
     """
-    Strip cut shuffle (O(N)):
-    - Partition the deck into variable-size strips from the top (sizes in [min_strip, max_strip], clamped),
+    Standard strip cut shuffle (O(N)):
+    - Partition the deck into fixed-size strips from the top.
     - Return the concatenation of strips in reverse order, preserving intra-strip order.
-    - Always returns a permutation of the input (no loss or duplication).
     """
     deck = list(deck)
     n = len(deck)
@@ -87,13 +49,8 @@ def _strip_cut_shuffle(deck, min_strip=3, max_strip=7):
     strips = []
     i = 0
     while i < n:
-        remaining = n - i
-        # Respect min_strip only when enough cards remain
-        low = 1 if remaining < min_strip else min_strip
-        high = max(low, min(max_strip, remaining))
-        k = random.randint(low, high)
-        strips.append(deck[i:i+k])
-        i += k
+        strips.append(deck[i:i+strip_size])
+        i += strip_size
     # Reverse strip order and flatten
     return list(chain.from_iterable(reversed(strips)))
 

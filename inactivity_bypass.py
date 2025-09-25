@@ -258,14 +258,31 @@ def _refresh_iframe_via_cdp(driver: webdriver.Chrome, evo_url_hint_substr: Optio
 
 def _try_dismiss_inactivity_buttons(driver: webdriver.Chrome, iframe_el, timeout_sec: int = 3) -> bool:
     """
-    Switch into the evo iframe and attempt to click common inactivity overlay buttons.
+    Switch into the provided iframe context and attempt to click common inactivity overlay buttons.
+    For DraftKings, it will also look for a nested iframe.
     Returns True if a click was performed.
     """
     try:
         driver.switch_to.frame(iframe_el)
+        _log("Switched to outer iframe.")
     except Exception:
+        _log("Could not switch to outer iframe.")
         return False
 
+    # DraftKings has a nested iframe, switch into it
+    if "draftkings.com" in driver.current_url.lower():
+        try:
+            inner_iframe = WebDriverWait(driver, 2).until(
+                EC.presence_of_element_located((By.TAG_NAME, "iframe"))
+            )
+            driver.switch_to.frame(inner_iframe)
+            _log("Switched to inner iframe on DraftKings.")
+        except TimeoutException:
+            _log("Could not find inner iframe on DraftKings, proceeding in outer frame.")
+        except Exception as e:
+            _log(f"Error switching to inner iframe: {e}")
+
+    clicked = False
     # CSS selectors typical for overlay
     try:
         css_selectors = [
@@ -279,20 +296,20 @@ def _try_dismiss_inactivity_buttons(driver: webdriver.Chrome, iframe_el, timeout
                 el = WebDriverWait(driver, max(1, timeout_sec // 2)).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, sel))
                 )
-                # Try normal click, then JS click
                 try:
                     WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.CSS_SELECTOR, sel)))
                     el.click()
                     _log(f"Clicked inactivity overlay via CSS selector: {sel}")
-                    driver.switch_to.default_content()
-                    return True
+                    clicked = True
+                    break
                 except Exception:
                     driver.execute_script("arguments[0].click();", el)
                     _log(f"Clicked inactivity overlay via JS using CSS selector: {sel}")
-                    driver.switch_to.default_content()
-                    return True
+                    clicked = True
+                    break
             except TimeoutException:
                 continue
+        if clicked: return True
     except Exception:
         pass
 
@@ -315,25 +332,29 @@ def _try_dismiss_inactivity_buttons(driver: webdriver.Chrome, iframe_el, timeout
                 )
                 el.click()
                 _log(f"Clicked inactivity element via XPath: {xp}")
-                driver.switch_to.default_content()
-                return True
+                clicked = True
+                break
             except TimeoutException:
                 continue
             except Exception:
                 continue
+        if clicked: return True
 
         # If no button found, try a center click on the iframe area (often resumes)
-        driver.switch_to.default_content()
+        # This needs to be done from the parent frame of the current context
+        driver.switch_to.parent_frame()
         actions = ActionChains(driver)
         try:
-            driver.execute_script("arguments[0].scrollIntoView({block:'center'});", iframe_el)
+            # Re-find the iframe element to click on it from the parent context
+            current_iframe = driver.find_elements(By.TAG_NAME, "iframe")[-1] # Assume it's the last one if nested
+            driver.execute_script("arguments[0].scrollIntoView({block:'center'});", current_iframe)
         except Exception:
             pass
-        size = iframe_el.size
+        size = current_iframe.size
         offset_x = size.get("width", 0) / 2
         offset_y = size.get("height", 0) / 2
-        actions.move_to_element_with_offset(iframe_el, offset_x, offset_y).click().perform()
-        _log("Performed center click on evo iframe area (move_to_element_with_offset).")
+        actions.move_to_element_with_offset(current_iframe, offset_x, offset_y).click().perform()
+        _log("Performed center click on iframe area (move_to_element_with_offset).")
         return True
 
     except Exception as e:
