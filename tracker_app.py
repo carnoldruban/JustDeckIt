@@ -18,6 +18,8 @@ from shoe_manager import ShoeManager
 from card_counter import HiLoCounter, WongHalvesCounter
 from strategy import get_strategy_action, get_bet_recommendation
 from analytics_engine import AnalyticsEngine
+from shuffling import _riffle, _strip_cut_shuffle
+from shoe import Shoe
 
 class BlackjackTrackerApp:
     def __init__(self, root):
@@ -48,6 +50,15 @@ class BlackjackTrackerApp:
         # Next-shoe shuffle UI state
         self.next_shoe_shuffling = False
         self._shuffling_shoe_name = None
+
+        # Manual shuffle state
+        self.ms_initial_stack = []
+        self.ms_current_stack = []
+        self.ms_side_a = []
+        self.ms_side_b = []
+        self.ms_chunks_a = []
+        self.ms_chunks_b = []
+        self.ms_shuffled_chunks = []
 
         self.create_widgets()
         self.shoe_manager.set_active_shoe("Shoe 1")
@@ -169,10 +180,66 @@ class BlackjackTrackerApp:
         tabview.add("Live Tracker")
         tabview.add("Shoe & Shuffle")
         tabview.add("Analytics")
+        manual_shuffle_tab = tabview.add("Manual Shuffle")
+
+        self.tab_view = tabview
+        self.tab_view.bind("<<NotebookTabChanged>>", self._on_tab_changed)
 
         live_tracker_tab = tabview.tab("Live Tracker")
         shuffle_tracking_tab = tabview.tab("Shoe & Shuffle")
         analytics_tab = tabview.tab("Analytics")
+
+        # --- Manual Shuffle Tab ---
+        manual_shuffle_main_frame = ctk.CTkFrame(manual_shuffle_tab, fg_color="transparent")
+        manual_shuffle_main_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+
+        # Top frame for controls
+        ms_controls_frame = ctk.CTkFrame(manual_shuffle_main_frame)
+        ms_controls_frame.pack(fill=tk.X, pady=5)
+
+        self.ms_split_button = ctk.CTkButton(ms_controls_frame, text="Split Stack")
+        self.ms_split_button.pack(side=tk.LEFT, padx=5)
+
+        ctk.CTkLabel(ms_controls_frame, text="Chunks:").pack(side=tk.LEFT, padx=(10, 2))
+        self.ms_chunks_var = tk.StringVar(value="8")
+        ctk.CTkEntry(ms_controls_frame, textvariable=self.ms_chunks_var, width=40).pack(side=tk.LEFT)
+        self.ms_chunks_ok_button = ctk.CTkButton(ms_controls_frame, text="OK", width=40)
+        self.ms_chunks_ok_button.pack(side=tk.LEFT, padx=2)
+
+        self.ms_riffle_button = ctk.CTkButton(ms_controls_frame, text="Riffle Once", state='disabled')
+        self.ms_riffle_button.pack(side=tk.LEFT, padx=5)
+        self.ms_riffle_strip_button = ctk.CTkButton(ms_controls_frame, text="Riffle & Strip Once", state='disabled')
+        self.ms_riffle_strip_button.pack(side=tk.LEFT, padx=5)
+
+        self.ms_riffle_all_button = ctk.CTkButton(ms_controls_frame, text="Riffle All", state='disabled')
+        self.ms_riffle_all_button.pack(side=tk.LEFT, padx=5)
+        self.ms_riffle_strip_all_button = ctk.CTkButton(ms_controls_frame, text="Riffle & Strip All", state='disabled')
+        self.ms_riffle_strip_all_button.pack(side=tk.LEFT, padx=5)
+
+        self.ms_split_button.configure(command=self.ms_split_stack)
+        self.ms_chunks_ok_button.configure(command=self.ms_split_chunks)
+        self.ms_riffle_button.configure(command=self._riffle_one_chunk)
+        self.ms_riffle_all_button.configure(command=self.ms_riffle_all)
+        self.ms_riffle_strip_button.configure(command=self._riffle_and_strip_one_chunk)
+        self.ms_riffle_strip_all_button.configure(command=self.ms_riffle_and_strip_all)
+
+        # Panels frame
+        ms_panels_frame = ctk.CTkFrame(manual_shuffle_main_frame, fg_color="transparent")
+        ms_panels_frame.pack(fill=tk.BOTH, expand=True, pady=5)
+
+        # Left and Right panels
+        ms_top_panels_frame = ctk.CTkFrame(ms_panels_frame, fg_color="transparent")
+        ms_top_panels_frame.pack(fill=tk.BOTH, expand=True)
+
+        self.ms_left_panel = scrolledtext.ScrolledText(ms_top_panels_frame, wrap=tk.WORD, state='disabled', font=("Consolas", 10))
+        self.ms_left_panel.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 2))
+
+        self.ms_right_panel = scrolledtext.ScrolledText(ms_top_panels_frame, wrap=tk.WORD, state='disabled', font=("Consolas", 10))
+        self.ms_right_panel.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(2, 0))
+
+        # Bottom panel
+        self.ms_bottom_panel = scrolledtext.ScrolledText(manual_shuffle_main_frame, wrap=tk.WORD, state='disabled', height=10, font=("Consolas", 10))
+        self.ms_bottom_panel.pack(fill=tk.X, pady=5)
 
         # Helper for section cards
         def section(parent, title):
@@ -533,17 +600,14 @@ class BlackjackTrackerApp:
                             self.status_var.set(f"Connected: {site} | Last update: {time.strftime('%H:%M:%S')} ")
                         except Exception:
                             pass
-                        shoe_state = self.db_manager.get_shoe_state(self.shoe_manager.active_shoe_name)
-                        all_visible_cards = (shoe_state.get("dealt", []) or []) + (shoe_state.get("current", []) or [])
-
-                        self.hilo_counter.reset()
-                        self.wong_halves_counter.reset()
-
-                        all_visible_ranks = [str(c)[0] for c in all_visible_cards]
-                        if all_visible_ranks:
-                            self.hilo_counter.process_cards(all_visible_ranks)
-                            self.wong_halves_counter.process_cards(all_visible_ranks)
-
+                        dealt_cards_list = list(active_shoe.dealt_cards)
+                        new_cards = [c for c in dealt_cards_list if c not in self.processed_cards]
+                        if new_cards:
+                            print(f"[UI] Processing new cards: {new_cards}")
+                            new_ranks = [str(c)[0] for c in new_cards]
+                            self.hilo_counter.process_cards(new_ranks)
+                            self.wong_halves_counter.process_cards(new_ranks)
+                            self.processed_cards.update(new_cards)
                         self.update_counts_display()
                         recent_rounds = self.db_manager.get_round_history(self.shoe_manager.active_shoe_name, limit=1)
                         if recent_rounds:
@@ -1291,6 +1355,199 @@ class BlackjackTrackerApp:
                 self.zone_order_text.tag_configure("next_card", background=self.colors["highlight"], foreground="#0b1220")
         except Exception:
             pass
+
+    # --- Manual Shuffle Methods ---
+
+    def _ms_update_displays(self):
+        """Update all three panels in the Manual Shuffle tab based on the current state."""
+        # Left panel (Side A)
+        self.ms_left_panel.configure(state='normal')
+        self.ms_left_panel.delete('1.0', tk.END)
+        if self.ms_chunks_a:
+            for i, chunk in enumerate(self.ms_chunks_a):
+                self.ms_left_panel.insert(tk.END, f"--- Chunk {i+1} ---\n")
+                self.ms_left_panel.insert(tk.END, ", ".join(chunk) + "\n")
+        elif self.ms_side_a:
+            self.ms_left_panel.insert(tk.END, ", ".join(self.ms_side_a))
+        self.ms_left_panel.configure(state='disabled')
+
+        # Right panel (Side B)
+        self.ms_right_panel.configure(state='normal')
+        self.ms_right_panel.delete('1.0', tk.END)
+        if self.ms_chunks_b:
+            for i, chunk in enumerate(self.ms_chunks_b):
+                self.ms_right_panel.insert(tk.END, f"--- Chunk {i+1} ---\n")
+                self.ms_right_panel.insert(tk.END, ", ".join(chunk) + "\n")
+        elif self.ms_side_b:
+            self.ms_right_panel.insert(tk.END, ", ".join(self.ms_side_b))
+        self.ms_right_panel.configure(state='disabled')
+
+        # Bottom panel (Current/Result Stack)
+        self.ms_bottom_panel.configure(state='normal')
+        self.ms_bottom_panel.delete('1.0', tk.END)
+        if self.ms_shuffled_chunks:
+            self.ms_bottom_panel.insert(tk.END, "--- Shuffled Chunks ---\n")
+            for i, chunk in enumerate(self.ms_shuffled_chunks):
+                self.ms_bottom_panel.insert(tk.END, f"--- Chunk {i+1} Result ---\n")
+                self.ms_bottom_panel.insert(tk.END, ", ".join(chunk) + "\n")
+        elif self.ms_current_stack:
+            self.ms_bottom_panel.insert(tk.END, ", ".join(self.ms_current_stack))
+        self.ms_bottom_panel.configure(state='disabled')
+
+
+    def ms_reset(self):
+        """
+        Resets the manual shuffle tab, loading the 'next_shuffling_stack' from the inactive shoe.
+        """
+        active_shoe = self.shoe_manager.active_shoe_name
+        inactive_shoe = "Shoe 2" if active_shoe == "Shoe 1" else "Shoe 1"
+
+        state = self.db_manager.get_shoe_state(inactive_shoe)
+        next_stack = state.get('next_shuffling_stack', [])
+
+        self.ms_current_stack = []
+        self.ms_side_a = []
+        self.ms_side_b = []
+        self.ms_chunks_a = []
+        self.ms_chunks_b = []
+        self.ms_shuffled_chunks = []
+
+        if next_stack:
+            self.ms_initial_stack = list(next_stack)
+            self.ms_current_stack = list(next_stack)
+            self.ms_split_button.configure(state='normal')
+        else:
+            self.ms_initial_stack = []
+            self.ms_current_stack = [f"No 'next_shuffling_stack' found for inactive shoe ({inactive_shoe}). End a shoe to generate it."]
+            self.ms_split_button.configure(state='disabled')
+
+        self.ms_riffle_button.configure(state='disabled')
+        self.ms_riffle_all_button.configure(state='disabled')
+        self.ms_riffle_strip_button.configure(state='disabled')
+        self.ms_riffle_strip_all_button.configure(state='disabled')
+
+        self._ms_update_displays()
+
+    def ms_split_stack(self):
+        """Splits the current stack into Side A and Side B."""
+        if not self.ms_current_stack:
+            return
+        half = len(self.ms_current_stack) // 2
+        self.ms_side_a = self.ms_current_stack[:half]
+        self.ms_side_b = self.ms_current_stack[half:]
+        self.ms_current_stack = []
+        self._ms_update_displays()
+        self.ms_split_button.configure(state='disabled')
+
+    def ms_split_chunks(self):
+        """Splits Side A and Side B into the specified number of chunks."""
+        if not self.ms_side_a or not self.ms_side_b:
+            return
+        try:
+            num_chunks = int(self.ms_chunks_var.get())
+            if num_chunks <= 0:
+                return
+        except ValueError:
+            return
+
+        chunk_size_a = (len(self.ms_side_a) + num_chunks - 1) // num_chunks
+        self.ms_chunks_a = [self.ms_side_a[i:i + chunk_size_a] for i in range(0, len(self.ms_side_a), chunk_size_a)]
+
+        chunk_size_b = (len(self.ms_side_b) + num_chunks - 1) // num_chunks
+        self.ms_chunks_b = [self.ms_side_b[i:i + chunk_size_b] for i in range(0, len(self.ms_side_b), chunk_size_b)]
+
+        self.ms_side_a = []
+        self.ms_side_b = []
+        self.ms_shuffled_chunks = []
+
+        self._ms_update_displays()
+        self.ms_riffle_button.configure(state='normal')
+        self.ms_riffle_all_button.configure(state='normal')
+        self.ms_riffle_strip_button.configure(state='normal')
+        self.ms_riffle_strip_all_button.configure(state='normal')
+
+    def _riffle_one_chunk(self):
+        """Riffles the first available pair of chunks from A and B."""
+        if not self.ms_chunks_a or not self.ms_chunks_b:
+            return
+
+        chunk_a = self.ms_chunks_a.pop(0)
+        chunk_b = self.ms_chunks_b.pop(0)
+
+        riffled = _riffle(chunk_a, chunk_b)
+        self.ms_shuffled_chunks.append(riffled)
+
+        self._ms_update_displays()
+
+        if not self.ms_chunks_a or not self.ms_chunks_b:
+            self.ms_riffle_button.configure(state='disabled')
+            self.ms_riffle_strip_button.configure(state='disabled')
+
+    def ms_riffle_all(self):
+        """Riffles all remaining chunks and reassembles the main stack."""
+        while self.ms_chunks_a and self.ms_chunks_b:
+            self._riffle_one_chunk()
+
+        # Reassemble the stack from the shuffled chunks
+        new_stack = []
+        for chunk in self.ms_shuffled_chunks:
+            new_stack.extend(chunk)
+
+        self.ms_shuffled_chunks = []
+        self.ms_current_stack = new_stack
+
+        self._ms_update_displays()
+        self.ms_riffle_all_button.configure(state='disabled')
+        self.ms_riffle_strip_all_button.configure(state='disabled')
+        self.ms_split_button.configure(state='normal')
+
+    def _riffle_and_strip_one_chunk(self):
+        """Performs the complex Riffle -> Strip -> Riffle on one chunk."""
+        if not self.ms_chunks_a or not self.ms_chunks_b:
+            return
+
+        chunk_a = self.ms_chunks_a.pop(0)
+        chunk_b = self.ms_chunks_b.pop(0)
+
+        # 1. Initial Riffle
+        riffled_chunk = _riffle(chunk_a, chunk_b)
+
+        # 2. Strip Cut
+        strip_shuffled = _strip_cut_shuffle(riffled_chunk)
+
+        # 3. Final Riffle
+        strip_half = len(strip_shuffled) // 2
+        final_chunk = _riffle(strip_shuffled[:strip_half], strip_shuffled[strip_half:])
+
+        self.ms_shuffled_chunks.append(final_chunk)
+        self._ms_update_displays()
+
+        if not self.ms_chunks_a or not self.ms_chunks_b:
+            self.ms_riffle_button.configure(state='disabled')
+            self.ms_riffle_strip_button.configure(state='disabled')
+
+    def ms_riffle_and_strip_all(self):
+        """Performs the 'Riffle & Strip' on all chunks and reassembles."""
+        while self.ms_chunks_a and self.ms_chunks_b:
+            self._riffle_and_strip_one_chunk()
+
+        # Reassemble the stack
+        new_stack = []
+        for chunk in self.ms_shuffled_chunks:
+            new_stack.extend(chunk)
+
+        self.ms_shuffled_chunks = []
+        self.ms_current_stack = new_stack
+
+        self._ms_update_displays()
+        self.ms_riffle_all_button.configure(state='disabled')
+        self.ms_riffle_strip_all_button.configure(state='disabled')
+        self.ms_split_button.configure(state='normal')
+
+    def _on_tab_changed(self, event):
+        """Handle tab change events to auto-load manual shuffle data."""
+        if hasattr(self, 'tab_view') and self.tab_view.get() == "Manual Shuffle":
+            self.ms_reset()
 
     def on_closing(self):
         self.stop_tracking()
