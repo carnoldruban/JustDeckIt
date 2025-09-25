@@ -495,14 +495,16 @@ class BlackjackTrackerApp:
 
         # Start inactivity/session-expired watchdog in background (every 3s)
         try:
-            self._inactivity_watchdog = threading.Thread(
-                target=lambda: run_watchdog(debug_port=9222, host_hint="(olg|draftkings)", interval_sec=3),
-                daemon=True
+            # Run inactivity_bypass.py as a separate process
+            self.inactivity_process = subprocess.Popen(
+                [sys.executable, 'inactivity_bypass.py', '--loop', '3'],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
             )
-            self._inactivity_watchdog.start()
-            print("[UI] Inactivity watchdog started (3s interval).")
+            print(f"[UI] Inactivity watchdog started (PID: {self.inactivity_process.pid}).")
         except Exception as e:
             print(f"[UI] Failed to start inactivity watchdog: {e}")
+            self.inactivity_process = None
         
         # Update casino site display
         self.casino_site_var.set("Connecting...")
@@ -514,6 +516,17 @@ class BlackjackTrackerApp:
         if self.scraper:
             self.scraper.stop()
             self.scraper = None
+
+        # Stop the inactivity watchdog process
+        if hasattr(self, 'inactivity_process') and self.inactivity_process:
+            try:
+                self.inactivity_process.terminate()
+                self.inactivity_process.wait(timeout=2)
+                print(f"[UI] Inactivity watchdog process (PID: {self.inactivity_process.pid}) terminated.")
+            except Exception as e:
+                print(f"[UI] Error stopping inactivity watchdog: {e}")
+            finally:
+                self.inactivity_process = None
         
         # End analytics session
         self.analytics_engine.end_session_tracking()

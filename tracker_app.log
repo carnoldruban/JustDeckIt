@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/app/tracker_app.py", line 12, in <module>
+    from scraper import Scraper
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/scraper.py", line 20, in <module>
+    from database_manager import DatabaseManager
+  File "/app/database_manager.py", line 11, in <module>
+    class DatabaseManager:
+  File "/app/database_manager.py", line 180, in DatabaseManager
+    @log_oog_performance
+     ^^^^^^^^^^^^^^^^^^^
+NameError: name 'log_oog_performance' is not defined. Did you mean: 'log_performance'?

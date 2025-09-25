@@ -1,3 +1,29 @@
+#!/usr/bin/env python3
+"""
+Inactivity Bypass & Watchdog (Chrome CDP attach via remote debugging)
+
+Features:
+- Attaches to already-open Chrome (started with --remote-debugging-port=9222)
+- Finds the OLG/DraftKings tab and the Evolution iframe (evo-games.com)
+- Dismisses inactivity overlay inside iframe (clicks play button/clickable area)
+- Detects top-level "SESSION EXPIRED" popup and refreshes the page
+- Falls back to full page refresh when needed
+- Provides refresh_once() and a fast watchdog loop (every 3s) run_watchdog()
+
+Example Chrome launch:
+"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" --remote-debugging-port=9222 "https://casino.draftkings.com"
+
+CLI:
+- Single pass:           python inactivity_bypass.py [port] [host_hint]
+- Continuous watchdog:   python inactivity_bypass.py [port] [host_hint] --loop [interval_sec]
+  Defaults: port=9222, interval=3 seconds
+
+Importable API:
+- from inactivity_bypass import refresh_once, run_watchdog
+- ok = refresh_once(debug_port=9222, host_hint="(olg|draftkings)")
+- run_watchdog(debug_port=9222, host_hint="(olg|draftkings)", interval_sec=3)
+"""
+
 import re
 import sys
 import time
@@ -35,26 +61,13 @@ def _log(msg: str):
     print(f"[inactivity_bypass] {msg}", flush=True)
 
 
-def _connect_driver(debug_port: int, retries=5, delay=2) -> Optional[webdriver.Chrome]:
-    """Attach to an existing Chrome via remote debugging port with retries."""
+def _connect_driver(debug_port: int) -> webdriver.Chrome:
+    """Attach to an existing Chrome via remote debugging port."""
     chrome_options = Options()
     chrome_options.add_experimental_option("debuggerAddress", f"127.0.0.1:{debug_port}")
-
-    for i in range(retries):
-        try:
-            _log(f"Attempting to connect to Chrome ({i+1}/{retries})...")
-            service = Service(ChromeDriverManager().install())
-            driver = webdriver.Chrome(service=service, options=chrome_options)
-            _log("Successfully connected to Chrome.")
-            return driver
-        except Exception as e:
-            if i < retries - 1:
-                _log(f"Connection failed: {e}. Retrying in {delay}s...")
-                time.sleep(delay)
-            else:
-                _log(f"Fatal error connecting to Chrome after {retries} attempts: {e}")
-                return None
-    return None
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    return driver
 
 
 def _switch_to_target_tab(driver: webdriver.Chrome, host_hint_regex: Optional[str]) -> bool:
@@ -104,34 +117,14 @@ def _switch_to_target_tab(driver: webdriver.Chrome, host_hint_regex: Optional[st
 
 def _find_evo_iframe_webelement(driver: webdriver.Chrome) -> Optional[object]:
     """
-    Try to locate the Evolution game iframe.
-    For DraftKings, it prioritizes the iframe with class 'game-container-iFrame'.
-    Otherwise, it scans top-level iframe src attributes.
+    Try to locate the Evolution game iframe by scanning top-level iframe src attributes.
     Returns a WebElement or None.
     """
     try:
         iframes = driver.find_elements(By.TAG_NAME, "iframe")
-        current_url = driver.current_url.lower()
     except Exception:
         return None
 
-    # Priority check for DraftKings: look for the specific game container iframe
-    if "draftkings.com" in current_url:
-        _log("DraftKings site detected. Prioritizing 'game-container-iFrame'.")
-        for iframe in iframes:
-            try:
-                # Check for class name
-                if "game-container-iFrame" in (iframe.get_attribute("class") or ""):
-                    src = iframe.get_attribute("src") or ""
-                    # Also check for evo hint in src to be sure
-                    if (IFRAME_URL_PART and IFRAME_URL_PART in src.lower()) or any(h in src.lower() for h in EVO_HOST_HINTS):
-                        _log(f"Identified DK game iframe by class and src: {src}")
-                        return iframe
-            except Exception:
-                continue
-
-    # Fallback/default logic for OLG and other sites
-    _log("Using fallback/default iframe search logic.")
     for iframe in iframes:
         try:
             src = iframe.get_attribute("src") or ""
@@ -141,7 +134,6 @@ def _find_evo_iframe_webelement(driver: webdriver.Chrome) -> Optional[object]:
                 return iframe
         except Exception:
             continue
-
     return None
 
 
@@ -258,35 +250,18 @@ def _refresh_iframe_via_cdp(driver: webdriver.Chrome, evo_url_hint_substr: Optio
 
 def _try_dismiss_inactivity_buttons(driver: webdriver.Chrome, iframe_el, timeout_sec: int = 3) -> bool:
     """
-    Switch into the provided iframe context and attempt to click common inactivity overlay buttons.
-    For DraftKings, it will also look for a nested iframe.
+    Switch into the evo iframe and attempt to click common inactivity overlay buttons.
     Returns True if a click was performed.
     """
     try:
         driver.switch_to.frame(iframe_el)
-        _log("Switched to outer iframe.")
     except Exception:
-        _log("Could not switch to outer iframe.")
         return False
 
-    # DraftKings has a nested iframe, switch into it
-    if "draftkings.com" in driver.current_url.lower():
-        try:
-            inner_iframe = WebDriverWait(driver, 2).until(
-                EC.presence_of_element_located((By.TAG_NAME, "iframe"))
-            )
-            driver.switch_to.frame(inner_iframe)
-            _log("Switched to inner iframe on DraftKings.")
-        except TimeoutException:
-            _log("Could not find inner iframe on DraftKings, proceeding in outer frame.")
-        except Exception as e:
-            _log(f"Error switching to inner iframe: {e}")
-
-    clicked = False
     # CSS selectors typical for overlay
     try:
         css_selectors = [
-            "[data-role='inactivity-message-wrapper'] [data-role='play-button']",
+            "[data-role='inactivity-message-container'] [data-role='play-button']",
             "[data-role='inactivity-message-clickable']",
             "button[data-role='play-button']",
             "[data-role='inactivity-message-wrapper'] button",
@@ -296,20 +271,20 @@ def _try_dismiss_inactivity_buttons(driver: webdriver.Chrome, iframe_el, timeout
                 el = WebDriverWait(driver, max(1, timeout_sec // 2)).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, sel))
                 )
+                # Try normal click, then JS click
                 try:
                     WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.CSS_SELECTOR, sel)))
                     el.click()
                     _log(f"Clicked inactivity overlay via CSS selector: {sel}")
-                    clicked = True
-                    break
+                    driver.switch_to.default_content()
+                    return True
                 except Exception:
                     driver.execute_script("arguments[0].click();", el)
                     _log(f"Clicked inactivity overlay via JS using CSS selector: {sel}")
-                    clicked = True
-                    break
+                    driver.switch_to.default_content()
+                    return True
             except TimeoutException:
                 continue
-        if clicked: return True
     except Exception:
         pass
 
@@ -332,29 +307,25 @@ def _try_dismiss_inactivity_buttons(driver: webdriver.Chrome, iframe_el, timeout
                 )
                 el.click()
                 _log(f"Clicked inactivity element via XPath: {xp}")
-                clicked = True
-                break
+                driver.switch_to.default_content()
+                return True
             except TimeoutException:
                 continue
             except Exception:
                 continue
-        if clicked: return True
 
         # If no button found, try a center click on the iframe area (often resumes)
-        # This needs to be done from the parent frame of the current context
-        driver.switch_to.parent_frame()
+        driver.switch_to.default_content()
         actions = ActionChains(driver)
         try:
-            # Re-find the iframe element to click on it from the parent context
-            current_iframe = driver.find_elements(By.TAG_NAME, "iframe")[-1] # Assume it's the last one if nested
-            driver.execute_script("arguments[0].scrollIntoView({block:'center'});", current_iframe)
+            driver.execute_script("arguments[0].scrollIntoView({block:'center'});", iframe_el)
         except Exception:
             pass
-        size = current_iframe.size
+        size = iframe_el.size
         offset_x = size.get("width", 0) / 2
         offset_y = size.get("height", 0) / 2
-        actions.move_to_element_with_offset(current_iframe, offset_x, offset_y).click().perform()
-        _log("Performed center click on iframe area (move_to_element_with_offset).")
+        actions.move_to_element_with_offset(iframe_el, offset_x, offset_y).click().perform()
+        _log("Performed center click on evo iframe area (move_to_element_with_offset).")
         return True
 
     except Exception as e:
@@ -386,9 +357,6 @@ def refresh_casino(
     driver = None
     try:
         driver = _connect_driver(debug_port)
-        if not driver:
-            _log("Failed to connect to Chrome after multiple retries.")
-            return False
         _log(f"Attached to Chrome on 127.0.0.1:{debug_port}")
 
         # Focus target tab
@@ -424,32 +392,52 @@ def refresh_casino(
             try:
                 time.sleep(0.25)
                 if _try_dismiss_inactivity_buttons(driver, evo_iframe, timeout_sec=timeout_sec):
-                    _log("Inactivity overlay dismissed successfully.")
+                    _log("Inactivity overlay dismissed successfully in outer iframe.")
                     return True
-            except Exception:
+
+                # If we are on DK, now try the inner one.
+                is_dk = "draftkings.com" in driver.current_url.lower()
+                if is_dk:
+                    _log("DraftKings detected, now checking for nested iframe.")
+                    try:
+                        # We are in default content here. Switch to outer frame to find inner.
+                        driver.switch_to.frame(evo_iframe)
+                        nested_iframe = driver.find_element(By.TAG_NAME, "iframe")
+                        driver.switch_to.default_content() # Go back before calling helper
+
+                        # Now call helper on the nested iframe.
+                        if _try_dismiss_inactivity_buttons(driver, nested_iframe, timeout_sec=timeout_sec):
+                             _log("Inactivity overlay dismissed successfully in inner iframe.")
+                             return True
+                    except Exception as e:
+                        _log(f"Could not find or dismiss in nested iframe: {e}")
+                        driver.switch_to.default_content()
+
+            except Exception as e:
+                _log(f"Error during inactivity dismissal: {e}")
                 pass
 
-        # If nothing worked, full page refresh
-        if fallback_full_reload:
-            _log("Falling back to full page reload...")
-            driver.refresh()
-            time.sleep(0.75)
+        # # If nothing worked, full page refresh
+        # if fallback_full_reload:
+        #     _log("Falling back to full page reload...")
+        #     driver.refresh()
+        #     time.sleep(0.75)
 
-            # Re-check session expired after refresh
-            if _refresh_if_expired(driver):
-                _log("Post-refresh: session expired handled.")
-                return True
+        #     # Re-check session expired after refresh
+        #     if _refresh_if_expired(driver):
+        #         _log("Post-refresh: session expired handled.")
+        #         return True
 
-            evo_iframe = _find_evo_iframe_webelement(driver)
-            if evo_iframe:
-                try:
-                    if _try_dismiss_inactivity_buttons(driver, evo_iframe, timeout_sec=timeout_sec):
-                        _log("Inactivity overlay dismissed after full reload.")
-                        return True
-                except Exception:
-                    pass
+        #     evo_iframe = _find_evo_iframe_webelement(driver)
+        #     if evo_iframe:
+        #         try:
+        #             if _try_dismiss_inactivity_buttons(driver, evo_iframe, timeout_sec=timeout_sec):
+        #                 _log("Inactivity overlay dismissed after full reload.")
+        #                 return True
+        #         except Exception:
+        #             pass
 
-            return True  # At least did a full page reload
+        #     return True  # At least did a full page reload
 
         return did_something
 
