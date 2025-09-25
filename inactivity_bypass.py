@@ -1,29 +1,3 @@
-#!/usr/bin/env python3
-"""
-Inactivity Bypass & Watchdog (Chrome CDP attach via remote debugging)
-
-Features:
-- Attaches to already-open Chrome (started with --remote-debugging-port=9222)
-- Finds the OLG/DraftKings tab and the Evolution iframe (evo-games.com)
-- Dismisses inactivity overlay inside iframe (clicks play button/clickable area)
-- Detects top-level "SESSION EXPIRED" popup and refreshes the page
-- Falls back to full page refresh when needed
-- Provides refresh_once() and a fast watchdog loop (every 3s) run_watchdog()
-
-Example Chrome launch:
-"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" --remote-debugging-port=9222 "https://casino.draftkings.com"
-
-CLI:
-- Single pass:           python inactivity_bypass.py [port] [host_hint]
-- Continuous watchdog:   python inactivity_bypass.py [port] [host_hint] --loop [interval_sec]
-  Defaults: port=9222, interval=3 seconds
-
-Importable API:
-- from inactivity_bypass import refresh_once, run_watchdog
-- ok = refresh_once(debug_port=9222, host_hint="(olg|draftkings)")
-- run_watchdog(debug_port=9222, host_hint="(olg|draftkings)", interval_sec=3)
-"""
-
 import re
 import sys
 import time
@@ -61,13 +35,26 @@ def _log(msg: str):
     print(f"[inactivity_bypass] {msg}", flush=True)
 
 
-def _connect_driver(debug_port: int) -> webdriver.Chrome:
-    """Attach to an existing Chrome via remote debugging port."""
+def _connect_driver(debug_port: int, retries=5, delay=2) -> Optional[webdriver.Chrome]:
+    """Attach to an existing Chrome via remote debugging port with retries."""
     chrome_options = Options()
     chrome_options.add_experimental_option("debuggerAddress", f"127.0.0.1:{debug_port}")
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-    return driver
+
+    for i in range(retries):
+        try:
+            _log(f"Attempting to connect to Chrome ({i+1}/{retries})...")
+            service = Service(ChromeDriverManager().install())
+            driver = webdriver.Chrome(service=service, options=chrome_options)
+            _log("Successfully connected to Chrome.")
+            return driver
+        except Exception as e:
+            if i < retries - 1:
+                _log(f"Connection failed: {e}. Retrying in {delay}s...")
+                time.sleep(delay)
+            else:
+                _log(f"Fatal error connecting to Chrome after {retries} attempts: {e}")
+                return None
+    return None
 
 
 def _switch_to_target_tab(driver: webdriver.Chrome, host_hint_regex: Optional[str]) -> bool:
@@ -117,14 +104,34 @@ def _switch_to_target_tab(driver: webdriver.Chrome, host_hint_regex: Optional[st
 
 def _find_evo_iframe_webelement(driver: webdriver.Chrome) -> Optional[object]:
     """
-    Try to locate the Evolution game iframe by scanning top-level iframe src attributes.
+    Try to locate the Evolution game iframe.
+    For DraftKings, it prioritizes the iframe with class 'game-container-iFrame'.
+    Otherwise, it scans top-level iframe src attributes.
     Returns a WebElement or None.
     """
     try:
         iframes = driver.find_elements(By.TAG_NAME, "iframe")
+        current_url = driver.current_url.lower()
     except Exception:
         return None
 
+    # Priority check for DraftKings: look for the specific game container iframe
+    if "draftkings.com" in current_url:
+        _log("DraftKings site detected. Prioritizing 'game-container-iFrame'.")
+        for iframe in iframes:
+            try:
+                # Check for class name
+                if "game-container-iFrame" in (iframe.get_attribute("class") or ""):
+                    src = iframe.get_attribute("src") or ""
+                    # Also check for evo hint in src to be sure
+                    if (IFRAME_URL_PART and IFRAME_URL_PART in src.lower()) or any(h in src.lower() for h in EVO_HOST_HINTS):
+                        _log(f"Identified DK game iframe by class and src: {src}")
+                        return iframe
+            except Exception:
+                continue
+
+    # Fallback/default logic for OLG and other sites
+    _log("Using fallback/default iframe search logic.")
     for iframe in iframes:
         try:
             src = iframe.get_attribute("src") or ""
@@ -134,6 +141,7 @@ def _find_evo_iframe_webelement(driver: webdriver.Chrome) -> Optional[object]:
                 return iframe
         except Exception:
             continue
+
     return None
 
 
@@ -357,6 +365,9 @@ def refresh_casino(
     driver = None
     try:
         driver = _connect_driver(debug_port)
+        if not driver:
+            _log("Failed to connect to Chrome after multiple retries.")
+            return False
         _log(f"Attached to Chrome on 127.0.0.1:{debug_port}")
 
         # Focus target tab

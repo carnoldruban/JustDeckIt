@@ -50,6 +50,7 @@ class BlackjackTrackerApp:
         # Next-shoe shuffle UI state
         self.next_shoe_shuffling = False
         self._shuffling_shoe_name = None
+        self.shoe_to_inspect = None # The shoe whose shuffling stack we want to see
 
         # Manual shuffle state
         self.ms_initial_stack = []
@@ -588,17 +589,14 @@ class BlackjackTrackerApp:
                             self.status_var.set(f"Connected: {site} | Last update: {time.strftime('%H:%M:%S')} ")
                         except Exception:
                             pass
-                        shoe_state = self.db_manager.get_shoe_state(self.shoe_manager.active_shoe_name)
-                        all_visible_cards = (shoe_state.get("dealt", []) or []) + (shoe_state.get("current", []) or [])
-
-                        self.hilo_counter.reset()
-                        self.wong_halves_counter.reset()
-
-                        all_visible_ranks = [str(c)[0] for c in all_visible_cards]
-                        if all_visible_ranks:
-                            self.hilo_counter.process_cards(all_visible_ranks)
-                            self.wong_halves_counter.process_cards(all_visible_ranks)
-
+                        dealt_cards_list = list(active_shoe.dealt_cards)
+                        new_cards = [c for c in dealt_cards_list if c not in self.processed_cards]
+                        if new_cards:
+                            print(f"[UI] Processing new cards: {new_cards}")
+                            new_ranks = [str(c)[0] for c in new_cards]
+                            self.hilo_counter.process_cards(new_ranks)
+                            self.wong_halves_counter.process_cards(new_ranks)
+                            self.processed_cards.update(new_cards)
                         self.update_counts_display()
                         recent_rounds = self.db_manager.get_round_history(self.shoe_manager.active_shoe_name, limit=1)
                         if recent_rounds:
@@ -717,6 +715,7 @@ class BlackjackTrackerApp:
 
         # Remember which shoe is being shuffled in the background
         prev_shoe = self.shoe_manager.active_shoe_name
+        self.shoe_to_inspect = prev_shoe
 
         if self.shoe_manager.end_current_shoe_and_shuffle(shuffle_params):
             next_shoe = "Shoe 2" if self.shoe_manager.active_shoe_name == "Shoe 1" else "Shoe 1"
@@ -1388,13 +1387,30 @@ class BlackjackTrackerApp:
 
     def ms_reset(self):
         """
-        Resets the manual shuffle tab, loading the 'next_shuffling_stack' from the inactive shoe.
+        Resets the manual shuffle tab.
+        - If a shoe was just ended, it loads that shoe's shuffling stack.
+        - Otherwise, it loads the inactive shoe's initial state.
         """
-        active_shoe = self.shoe_manager.active_shoe_name
-        inactive_shoe = "Shoe 2" if active_shoe == "Shoe 1" else "Shoe 1"
+        shoe_to_load = None
+        is_shuffling_stack = False
 
-        state = self.db_manager.get_shoe_state(inactive_shoe)
-        next_stack = state.get('next_shuffling_stack', [])
+        if self.shoe_to_inspect:
+            shoe_to_load = self.shoe_to_inspect
+            is_shuffling_stack = True
+        else:
+            active_shoe = self.shoe_manager.active_shoe_name
+            shoe_to_load = "Shoe 2" if active_shoe == "Shoe 1" else "Shoe 1"
+
+        if shoe_to_load:
+            state = self.db_manager.get_shoe_state(shoe_to_load)
+            if is_shuffling_stack:
+                next_stack = state.get('next_shuffling_stack', [])
+                message = f"Inspecting shuffling stack for {shoe_to_load} ({len(next_stack)} cards)."
+            else:
+                next_stack = state.get('undealt', [])
+                message = f"Inspecting initial state of inactive shoe: {shoe_to_load} ({len(next_stack)} cards)."
+        else:
+            next_stack = []
 
         self.ms_current_stack = []
         self.ms_side_a = []
@@ -1407,17 +1423,21 @@ class BlackjackTrackerApp:
             self.ms_initial_stack = list(next_stack)
             self.ms_current_stack = list(next_stack)
             self.ms_split_button.configure(state='normal')
+            self.ms_bottom_panel.configure(state='normal')
+            self.ms_bottom_panel.delete('1.0', tk.END)
+            self.ms_bottom_panel.insert(tk.END, message + "\n\n" + ", ".join(self.ms_current_stack))
+            self.ms_bottom_panel.configure(state='disabled')
         else:
             self.ms_initial_stack = []
-            self.ms_current_stack = [f"No 'next_shuffling_stack' found for inactive shoe ({inactive_shoe}). End a shoe to generate it."]
+            self.ms_current_stack = ["No shoe data available to inspect."]
             self.ms_split_button.configure(state='disabled')
+            self._ms_update_displays()
 
         self.ms_riffle_button.configure(state='disabled')
         self.ms_riffle_all_button.configure(state='disabled')
         self.ms_riffle_strip_button.configure(state='disabled')
         self.ms_riffle_strip_all_button.configure(state='disabled')
 
-        self._ms_update_displays()
 
     def ms_split_stack(self):
         """Splits the current stack into Side A and Side B."""
@@ -1479,7 +1499,6 @@ class BlackjackTrackerApp:
         while self.ms_chunks_a and self.ms_chunks_b:
             self._riffle_one_chunk()
 
-        # Reassemble the stack from the shuffled chunks
         new_stack = []
         for chunk in self.ms_shuffled_chunks:
             new_stack.extend(chunk)
@@ -1500,13 +1519,8 @@ class BlackjackTrackerApp:
         chunk_a = self.ms_chunks_a.pop(0)
         chunk_b = self.ms_chunks_b.pop(0)
 
-        # 1. Initial Riffle
         riffled_chunk = _riffle(chunk_a, chunk_b)
-
-        # 2. Strip Cut
         strip_shuffled = _strip_cut_shuffle(riffled_chunk)
-
-        # 3. Final Riffle
         strip_half = len(strip_shuffled) // 2
         final_chunk = _riffle(strip_shuffled[:strip_half], strip_shuffled[strip_half:])
 
@@ -1522,7 +1536,6 @@ class BlackjackTrackerApp:
         while self.ms_chunks_a and self.ms_chunks_b:
             self._riffle_and_strip_one_chunk()
 
-        # Reassemble the stack
         new_stack = []
         for chunk in self.ms_shuffled_chunks:
             new_stack.extend(chunk)
@@ -1535,7 +1548,7 @@ class BlackjackTrackerApp:
         self.ms_riffle_strip_all_button.configure(state='disabled')
         self.ms_split_button.configure(state='normal')
 
-    def _on_tab_changed(self, event=None):
+    def _on_tab_changed(self):
         """Handle tab change events to auto-load manual shuffle data."""
         if hasattr(self, 'tab_view') and self.tab_view.get() == "Manual Shuffle":
             self.ms_reset()
