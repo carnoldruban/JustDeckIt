@@ -175,19 +175,19 @@ class BlackjackTrackerApp:
         self.end_shoe_button.pack(side=tk.LEFT, padx=8)
 
         # Tabs with bigger tab buttons
-        tabview = ctk.CTkTabview(main_frame, height=40)
+        tabview = ctk.CTkTabview(main_frame, height=40, command=self._on_tab_changed)
         tabview.pack(fill=tk.BOTH, expand=True, pady=5)
         tabview.add("Live Tracker")
         tabview.add("Shoe & Shuffle")
         tabview.add("Analytics")
-        manual_shuffle_tab = tabview.add("Manual Shuffle")
-
-        self.tab_view = tabview
-        self.tab_view.bind("<<NotebookTabChanged>>", self._on_tab_changed)
+        tabview.add("Manual Shuffle")
 
         live_tracker_tab = tabview.tab("Live Tracker")
         shuffle_tracking_tab = tabview.tab("Shoe & Shuffle")
         analytics_tab = tabview.tab("Analytics")
+        manual_shuffle_tab = tabview.tab("Manual Shuffle")
+
+        self.tab_view = tabview
 
         # --- Manual Shuffle Tab ---
         manual_shuffle_main_frame = ctk.CTkFrame(manual_shuffle_tab, fg_color="transparent")
@@ -197,31 +197,24 @@ class BlackjackTrackerApp:
         ms_controls_frame = ctk.CTkFrame(manual_shuffle_main_frame)
         ms_controls_frame.pack(fill=tk.X, pady=5)
 
-        self.ms_split_button = ctk.CTkButton(ms_controls_frame, text="Split Stack")
+        self.ms_split_button = ctk.CTkButton(ms_controls_frame, text="Split Stack", command=self.ms_split_stack)
         self.ms_split_button.pack(side=tk.LEFT, padx=5)
 
         ctk.CTkLabel(ms_controls_frame, text="Chunks:").pack(side=tk.LEFT, padx=(10, 2))
         self.ms_chunks_var = tk.StringVar(value="8")
         ctk.CTkEntry(ms_controls_frame, textvariable=self.ms_chunks_var, width=40).pack(side=tk.LEFT)
-        self.ms_chunks_ok_button = ctk.CTkButton(ms_controls_frame, text="OK", width=40)
+        self.ms_chunks_ok_button = ctk.CTkButton(ms_controls_frame, text="OK", width=40, command=self.ms_split_chunks)
         self.ms_chunks_ok_button.pack(side=tk.LEFT, padx=2)
 
-        self.ms_riffle_button = ctk.CTkButton(ms_controls_frame, text="Riffle Once", state='disabled')
+        self.ms_riffle_button = ctk.CTkButton(ms_controls_frame, text="Riffle Once", state='disabled', command=self._riffle_one_chunk)
         self.ms_riffle_button.pack(side=tk.LEFT, padx=5)
-        self.ms_riffle_strip_button = ctk.CTkButton(ms_controls_frame, text="Riffle & Strip Once", state='disabled')
+        self.ms_riffle_strip_button = ctk.CTkButton(ms_controls_frame, text="Riffle & Strip Once", state='disabled', command=self._riffle_and_strip_one_chunk)
         self.ms_riffle_strip_button.pack(side=tk.LEFT, padx=5)
 
-        self.ms_riffle_all_button = ctk.CTkButton(ms_controls_frame, text="Riffle All", state='disabled')
+        self.ms_riffle_all_button = ctk.CTkButton(ms_controls_frame, text="Riffle All", state='disabled', command=self.ms_riffle_all)
         self.ms_riffle_all_button.pack(side=tk.LEFT, padx=5)
-        self.ms_riffle_strip_all_button = ctk.CTkButton(ms_controls_frame, text="Riffle & Strip All", state='disabled')
+        self.ms_riffle_strip_all_button = ctk.CTkButton(ms_controls_frame, text="Riffle & Strip All", state='disabled', command=self.ms_riffle_and_strip_all)
         self.ms_riffle_strip_all_button.pack(side=tk.LEFT, padx=5)
-
-        self.ms_split_button.configure(command=self.ms_split_stack)
-        self.ms_chunks_ok_button.configure(command=self.ms_split_chunks)
-        self.ms_riffle_button.configure(command=self._riffle_one_chunk)
-        self.ms_riffle_all_button.configure(command=self.ms_riffle_all)
-        self.ms_riffle_strip_button.configure(command=self._riffle_and_strip_one_chunk)
-        self.ms_riffle_strip_all_button.configure(command=self.ms_riffle_and_strip_all)
 
         # Panels frame
         ms_panels_frame = ctk.CTkFrame(manual_shuffle_main_frame, fg_color="transparent")
@@ -517,9 +510,6 @@ class BlackjackTrackerApp:
             self.scraper.stop()
             self.scraper = None
         
-
-
-        
         # End analytics session
         self.analytics_engine.end_session_tracking()
         
@@ -572,8 +562,6 @@ class BlackjackTrackerApp:
                                     self.round_counter += 1
                                     self.round_line_map[game_id] = f"{self.round_counter}.0"
 
-
-
                                     self.last_game_id = game_id
                                     self.display_area.configure(state='normal')
                                     self.display_area.insert(tk.END, formatted_state + "\n")
@@ -600,14 +588,17 @@ class BlackjackTrackerApp:
                             self.status_var.set(f"Connected: {site} | Last update: {time.strftime('%H:%M:%S')} ")
                         except Exception:
                             pass
-                        dealt_cards_list = list(active_shoe.dealt_cards)
-                        new_cards = [c for c in dealt_cards_list if c not in self.processed_cards]
-                        if new_cards:
-                            print(f"[UI] Processing new cards: {new_cards}")
-                            new_ranks = [str(c)[0] for c in new_cards]
-                            self.hilo_counter.process_cards(new_ranks)
-                            self.wong_halves_counter.process_cards(new_ranks)
-                            self.processed_cards.update(new_cards)
+                        shoe_state = self.db_manager.get_shoe_state(self.shoe_manager.active_shoe_name)
+                        all_visible_cards = (shoe_state.get("dealt", []) or []) + (shoe_state.get("current", []) or [])
+
+                        self.hilo_counter.reset()
+                        self.wong_halves_counter.reset()
+
+                        all_visible_ranks = [str(c)[0] for c in all_visible_cards]
+                        if all_visible_ranks:
+                            self.hilo_counter.process_cards(all_visible_ranks)
+                            self.wong_halves_counter.process_cards(all_visible_ranks)
+
                         self.update_counts_display()
                         recent_rounds = self.db_manager.get_round_history(self.shoe_manager.active_shoe_name, limit=1)
                         if recent_rounds:
@@ -1544,7 +1535,7 @@ class BlackjackTrackerApp:
         self.ms_riffle_strip_all_button.configure(state='disabled')
         self.ms_split_button.configure(state='normal')
 
-    def _on_tab_changed(self, event):
+    def _on_tab_changed(self, event=None):
         """Handle tab change events to auto-load manual shuffle data."""
         if hasattr(self, 'tab_view') and self.tab_view.get() == "Manual Shuffle":
             self.ms_reset()
