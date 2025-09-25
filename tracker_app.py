@@ -1027,22 +1027,29 @@ class BlackjackTrackerApp:
         finally:
             self._refreshing = False
 
-    def update_counts_display(self, shoe_state):
-        """Recalculate and display counts based on a consistent shoe_state snapshot."""
-        # Combine dealt and current cards for a complete, real-time view
-        all_visible_cards = (shoe_state.get("dealt", []) or []) + (shoe_state.get("current", []) or [])
-        all_visible_ranks = [str(c)[0] for c in all_visible_cards]
-
-        # Recalculate from scratch to ensure accuracy
+    def update_counts_display(self, shoe_state=None):
+        """
+        Recalculate and display counts. Handles both initial setup and live updates.
+        If shoe_state is None (on init), it resets counters to zero.
+        If shoe_state is provided, it performs a full real-time recalculation.
+        """
         self.hilo_counter.reset()
-        self.hilo_counter.process_cards(all_visible_ranks)
         self.wong_halves_counter.reset()
-        self.wong_halves_counter.process_cards(all_visible_ranks)
 
+        if shoe_state:
+            # Live update: process all visible cards for real-time count
+            all_visible_cards = (shoe_state.get("dealt", []) or []) + (shoe_state.get("current", []) or [])
+            all_visible_ranks = [str(c)[0] for c in all_visible_cards]
+
+            self.hilo_counter.process_cards(all_visible_ranks)
+            self.wong_halves_counter.process_cards(all_visible_ranks)
+
+        # Get values from counters (will be zero on init, or real-time otherwise)
         hilo_rc = self.hilo_counter.get_running_count()
         hilo_tc = self.hilo_counter.get_true_count()
         wh_rc = self.wong_halves_counter.get_running_count()
         wh_tc = self.wong_halves_counter.get_true_count()
+
         self.hilo_rc_var.set(f"Hi-Lo RC: {hilo_rc}")
         self.hilo_tc_var.set(f"Hi-Lo TC: {hilo_tc:.2f}")
         self.wh_rc_var.set(f"Wong Halves RC: {wh_rc:.1f}")
