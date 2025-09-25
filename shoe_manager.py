@@ -256,46 +256,53 @@ class ShoeManager:
                 return sorted(extras, key=lambda x: x[1] if x[1] is not None else 0, reverse=True)
 
             if row:
-                # Seats 6..1: extras (t desc), then second, then first
-                for seat in range(6, 0, -1):
-                    hand_idx = 5 + seat * 3
-                    seat_pairs = parse_pairs(row[hand_idx] if len(row) > hand_idx else None, allow_hidden=False)
-                    for v, _ in extras_desc(seat_pairs):
+                try:
+                    # Seats 6..1: extras (t desc), then second, then first
+                    for seat in range(6, 0, -1):
+                        hand_idx = 5 + seat * 3
+                        seat_pairs = parse_pairs(row[hand_idx] if len(row) > hand_idx else None, allow_hidden=False)
+                        for v, _ in extras_desc(seat_pairs):
+                            if v and v != "**":
+                                discard_block.append(v)
+                        if len(seat_pairs) >= 2 and seat_pairs[1][0] and seat_pairs[1][0] != "**":
+                            discard_block.append(seat_pairs[1][0])
+                        if len(seat_pairs) >= 1 and seat_pairs[0][0] and seat_pairs[0][0] != "**":
+                            discard_block.append(seat_pairs[0][0])
+
+                    # Seat 0: extras (t desc), then second, then first
+                    seat_pairs_0 = parse_pairs(row[5] if len(row) > 5 else None, allow_hidden=False)
+                    for v, _ in extras_desc(seat_pairs_0):
                         if v and v != "**":
                             discard_block.append(v)
-                    if len(seat_pairs) >= 2 and seat_pairs[1][0] and seat_pairs[1][0] != "**":
-                        discard_block.append(seat_pairs[1][0])
-                    if len(seat_pairs) >= 1 and seat_pairs[0][0] and seat_pairs[0][0] != "**":
-                        discard_block.append(seat_pairs[0][0])
+                    if len(seat_pairs_0) >= 2 and seat_pairs_0[1][0] and seat_pairs_0[1][0] != "**":
+                        discard_block.append(seat_pairs_0[1][0])
+                    if len(seat_pairs_0) >= 1 and seat_pairs_0[0][0] and seat_pairs_0[0][0] != "**":
+                        discard_block.append(seat_pairs_0[0][0])
 
-                # Seat 0: extras (t desc), then second, then first
-                seat_pairs_0 = parse_pairs(row[5] if len(row) > 5 else None, allow_hidden=False)
-                for v, _ in extras_desc(seat_pairs_0):
-                    if v and v != "**":
-                        discard_block.append(v)
-                if len(seat_pairs_0) >= 2 and seat_pairs_0[1][0] and seat_pairs_0[1][0] != "**":
-                    discard_block.append(seat_pairs_0[1][0])
-                if len(seat_pairs_0) >= 1 and seat_pairs_0[0][0] and seat_pairs_0[0][0] != "**":
-                    discard_block.append(seat_pairs_0[0][0])
+                    # Dealer: extras (t desc), then second (include '**' if hidden), then first
+                    dealer_pairs_raw = parse_pairs(row[3] if len(row) > 3 else None, allow_hidden=True)
+                    for v, _ in extras_desc(dealer_pairs_raw):
+                        if v and v != "**":
+                            discard_block.append(v)
+                    if len(dealer_pairs_raw) >= 2:
+                        v2 = dealer_pairs_raw[1][0]
+                        if v2:
+                            discard_block.append(v2)  # include hidden downcard if '**'
+                    if len(dealer_pairs_raw) >= 1:
+                        v1 = dealer_pairs_raw[0][0]
+                        if v1 and v1 != "**":
+                            discard_block.append(v1)
 
-                # Dealer: extras (t desc), then second (include '**' if hidden), then first
-                dealer_pairs_raw = parse_pairs(row[3] if len(row) > 3 else None, allow_hidden=True)
-                for v, _ in extras_desc(dealer_pairs_raw):
-                    if v and v != "**":
-                        discard_block.append(v)
-                if len(dealer_pairs_raw) >= 2:
-                    v2 = dealer_pairs_raw[1][0]
-                    if v2:
-                        discard_block.append(v2)  # include hidden downcard if '**'
-                if len(dealer_pairs_raw) >= 1:
-                    v1 = dealer_pairs_raw[0][0]
-                    if v1 and v1 != "**":
-                        discard_block.append(v1)
+                    self.logger.info("Successfully built discard block for round %s. Total cards: %d", prev_gid, len(discard_block))
+
+                except Exception as e:
+                    self.logger.error("Could not build discard block for round %s due to an error. "
+                                     "The discard block may be empty or incomplete. Error: %s", prev_gid, e, exc_info=True)
 
                 try:
                     self.logger.info("Discard order (pre-reverse) for round %s: first10=%s total=%d", prev_gid, discard_block[:10], len(discard_block))
                 except Exception:
-                    pass
+                    pass # Logging only, failure is not critical
 
             # Persist new state
             self.db_manager.replace_undealt_cards(shoe_name, undealt)

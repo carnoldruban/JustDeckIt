@@ -471,22 +471,30 @@ class BlackjackTrackerApp:
 
     def update_ui_from_db(self):
         try:
-            latest_timestamp = self.db_manager.get_latest_timestamp(self.shoe_manager.active_shoe_name)
-            
+            active_shoe_name = self.shoe_manager.active_shoe_name
+            if active_shoe_name == "None":
+                if hasattr(self, 'scraper') and self.scraper is not None:
+                    self.root.after(1000, self.update_ui_from_db)
+                return
+
+            # Atomically fetch all required data for a consistent UI update
+            shoe_state = self.db_manager.get_shoe_state(active_shoe_name)
+            latest_timestamp = shoe_state.get("timestamp")
+
             if latest_timestamp and latest_timestamp != self.last_db_timestamp:
                 print(f"[UI] New data detected. Timestamp: {latest_timestamp}")
                 
                 try:
-                    # Only get new entries since last update
+                    # Fetch new round entries for the live feed display
                     if self.last_db_timestamp:
                         new_entries = self.db_manager.get_rounds_since_timestamp(
-                            self.shoe_manager.active_shoe_name, 
+                            active_shoe_name,
                             self.last_db_timestamp
                         )
                     else:
-                        # Do not backfill past rounds on startup; anchor to latest only
                         new_entries = []
                     
+                    # Update the live round feed
                     if new_entries:
                         for row in new_entries:
                             try:
@@ -495,18 +503,12 @@ class BlackjackTrackerApp:
                                 
                                 if game_id in self.round_line_map:
                                     line_index = self.round_line_map[game_id]
-                                    print(f"[UI] Updating round {game_id} at line {line_index}")
                                     self.display_area.configure(state='normal')
                                     self.display_area.delete(line_index, f"{line_index} lineend")
                                     self.display_area.insert(line_index, formatted_state)
                                     self.display_area.configure(state='disabled')
                                 else:
-                                    self.refresh_page()
                                     self.round_counter += 1
-                                    self.round_line_map[game_id] = f"{self.round_counter}.0"
-                                    
-                                    
-                                    
                                     self.last_game_id = game_id
                                     self.display_area.configure(state='normal')
                                     self.display_area.insert(tk.END, formatted_state + "\n")
@@ -514,48 +516,37 @@ class BlackjackTrackerApp:
                                     content_lines = self.display_area.get('1.0', tk.END).strip().split('\n')
                                     line_number = len([line for line in content_lines if line.strip()])
                                     self.round_line_map[game_id] = f"{line_number}.0"
-                                    print(f"[UI] Added new round {game_id} at line {line_number}")
                                     self.display_area.see(tk.END)
                             except Exception as e:
                                 print(f"[UI] Error processing round {row[0] if row else 'unknown'}: {e}")
                                 continue
                     
                     self.last_db_timestamp = latest_timestamp
-                    # Record activity for inactivity watchdog
                     self.last_activity_wallclock = time.time()
                     
-                    # Update card counts and status
-                    active_shoe = self.shoe_manager.get_active_shoe()
-                    if active_shoe:
-                        # Update status bar (last update time)
-                        try:
-                            site = getattr(self, 'casino_site_var', None).get() if hasattr(self, 'casino_site_var') else 'N/A'
-                            self.status_var.set(f"Connected: {site} | Last update: {time.strftime('%H:%M:%S')} ")
-                        except Exception:
-                            pass
-                        dealt_cards_list = list(active_shoe.dealt_cards)
-                        new_cards = [c for c in dealt_cards_list if c not in self.processed_cards]
-                        if new_cards:
-                            print(f"[UI] Processing new cards: {new_cards}")
-                            new_ranks = [str(c)[0] for c in new_cards]
-                            self.hilo_counter.process_cards(new_ranks)
-                            self.wong_halves_counter.process_cards(new_ranks)
-                            self.processed_cards.update(new_cards)
-                        self.update_counts_display()
-                        recent_rounds = self.db_manager.get_round_history(self.shoe_manager.active_shoe_name, limit=1)
-                        if recent_rounds:
-                            try:
-                                self.update_strategy_display(recent_rounds[0])
-                            except Exception as e:
-                                print(f"[UI] Error updating strategy: {e}")
-                    # Update other displays
-                    self.update_zone_display()
-                    self.update_shuffle_tracking_displays()
-                    self.update_analytics_display()
+                    # --- Start of Atomic UI Updates ---
+                    # All subsequent UI updates will use the consistent `shoe_state` object
+
+                    # 1. Update card counts using all visible cards for real-time accuracy
+                    self.update_counts_display(shoe_state)
+
+                    # 2. Update strategy display
+                    recent_rounds = self.db_manager.get_round_history(active_shoe_name, limit=1)
+                    if recent_rounds:
+                        self.update_strategy_display(recent_rounds[0])
+
+                    # 3. Update all other displays
+                    self.update_zone_display(shoe_state)
+                    self.update_shuffle_tracking_displays(shoe_state)
+                    self.update_analytics_display(shoe_state)
                     self.update_casino_site_display()
-                
+
+                    # 4. Update status bar
+                    site = self.casino_site_var.get() or 'N/A'
+                    self.status_var.set(f"Connected: {site} | Last update: {time.strftime('%H:%M:%S')}")
+
                 except Exception as e:
-                    print(f"[UI] Error in update_ui_from_db: {e}")
+                    print(f"[UI] Error during UI update cycle: {e}")
                     self.last_db_timestamp = None
         except Exception as e:
             print(f"[UI] Critical error in update_ui_from_db: {e}")
@@ -710,263 +701,192 @@ class BlackjackTrackerApp:
         self.display_area.configure(state='disabled')
         self.display_area.see(tk.END)
 
-    def update_zone_display(self):
-        active_shoe = self.shoe_manager.get_active_shoe()
-        if not active_shoe:
-            return
-        num_zones = int(self.zones_var.get())
-        zone_info = active_shoe.get_zone_info(num_zones)
-        cards_played = len(active_shoe.dealt_cards)
-        self.cards_played_var.set(f"Cards Played: {cards_played}")
-
-        # Calculate current zone purely by number of cards dealt (robust for tests/sim)
-        if cards_played > 0:
-            cards_per_zone = max(1, 416 // max(1, num_zones))
-            current_zone = min((cards_played - 1) // cards_per_zone + 1, num_zones)
+    def update_zone_display(self, shoe_state=None):
+        if shoe_state is None:
+            active_shoe = self.shoe_manager.get_active_shoe()
+            if not active_shoe:
+                return
+            # Fallback for startup before the main loop runs
+            num_zones = int(self.zones_var.get())
+            zone_info = active_shoe.get_zone_info(num_zones)
+            cards_played = len(active_shoe.dealt_cards)
         else:
-            current_zone = None
-        last_dealt_card = self.shoe_manager.get_last_dealt_card()
-        print(f"[Zones] CardsPlayed={cards_played} LastDealt={last_dealt_card} CurrentZone={current_zone} Zones={num_zones}")
+            # Use the consistent state from the main UI loop
+            dealt_cards = (shoe_state.get("dealt", []) or []) + (shoe_state.get("current", []) or [])
+            cards_played = len(dealt_cards)
+            num_zones = int(self.zones_var.get())
+            # This requires get_zone_info to be adapted for a state object, or we build it here
+            # For now, we assume get_zone_info still hits the live object, which is acceptable for this display
+            zone_info = self.shoe_manager.get_active_shoe().get_zone_info(num_zones)
 
-        highlight_color = self.colors.get("highlight", "#facc15") if hasattr(self, 'colors') else "#facc15"
+        self.cards_played_var.set(f"Cards Played: {cards_played}")
+        cards_per_zone = max(1, 416 // max(1, num_zones))
+        current_zone = min((cards_played - 1) // cards_per_zone + 1, num_zones) if cards_played > 0 else None
+
+        highlight_color = self.colors.get("highlight", "#facc15")
         for i, row_labels in enumerate(self.zone_labels):
             zone_name = f"Zone {i+1}"
             info = zone_info.get(zone_name)
             is_current = bool(current_zone and current_zone == i + 1)
-            # Highlight current zone with rounded chip background
-            try:
-                row_labels['name'].configure(fg_color=highlight_color if is_current else "transparent")
-            except Exception:
-                pass
-            row_labels['name'].configure(text=zone_name)
+            row_labels['name'].configure(fg_color=highlight_color if is_current else "transparent")
             if info:
                 row_labels['total'].configure(text=str(info['total']))
                 row_labels['low_pct'].configure(text=f"{info['low_pct']:.1f}%")
                 row_labels['mid_pct'].configure(text=f"{info['mid_pct']:.1f}%")
                 row_labels['high_pct'].configure(text=f"{info['high_pct']:.1f}%")
             else:
-                for key in ('total','low_pct','mid_pct','high_pct'):
+                for key in ('total', 'low_pct', 'mid_pct', 'high_pct'):
                     row_labels[key].configure(text="--")
-    
+
     def _fmt_card(self, c):
-        try:
-            s = str(c)
-        except Exception:
-            s = f"{c}"
+        s = str(c)
         if s == '**':
             return '**'
         return s.replace('S', '♠').replace('D', '♦').replace('C', '♣').replace('H', '♥')
 
-    def update_shuffle_tracking_displays(self):
-        """Populate the three displays in the 'Shoe & Shuffle Tracking' tab."""
+    def update_shuffle_tracking_displays(self, shoe_state=None):
+        """Populate shuffle tracking displays using a consistent shoe_state snapshot."""
         try:
-            # A) Get dealt cards directly from database in stored order
-            if self.shoe_manager.active_shoe_name != "None":
-                # Display A: Dealt cards = dealt + current (from DB state)
-                state = self.db_manager.get_shoe_state(self.shoe_manager.active_shoe_name)
-                dealt_cards = (state.get("dealt", []) or []) + (state.get("current", []) or [])
-                dealt_txt = ", ".join(self._fmt_card(c) for c in dealt_cards) if dealt_cards else "(none yet)"
-                self.dealt_current_text.configure(state='normal')
-                self.dealt_current_text.delete('1.0', tk.END)
-                self.dealt_current_text.insert(tk.END, dealt_txt)
-                self.dealt_current_text.configure(state='disabled')
-                
-                # Display B: Shoe tracking with next card highlighted
-                self._update_shoe_tracking_display()
+            if shoe_state is None:
+                if self.shoe_manager.active_shoe_name == "None":
+                    for widget in [self.dealt_current_text, self.zone_order_text, self.shuffle_discard_text, self.discard_text, self.next_shoe_text]:
+                        widget.configure(state='normal')
+                        widget.delete('1.0', tk.END)
+                        widget.insert(tk.END, "(no active shoe)")
+                        widget.configure(state='disabled')
+                    return
+                # Fallback for initialization
+                shoe_state = self.db_manager.get_shoe_state(self.shoe_manager.active_shoe_name)
 
-                # Display C: Update new discarded cards from shoe table
-                self._update_shuffle_discarded_display()
-                
-                # Display D: Discarded cards (round-order)
-                self._update_discarded_cards_display()
-                
-                # Display E: Next shoe shuffled cards
-                self._update_next_shoe_display()
-                
-            else:
-                # Clear all displays if no active shoe
-                for widget in [self.dealt_current_text, self.zone_order_text, self.shuffle_discard_text, self.discard_text, self.next_shoe_text]:
-                    widget.configure(state='normal')
-                    widget.delete('1.0', tk.END)
-                    widget.insert(tk.END, "(no active shoe)")
-                    widget.configure(state='disabled')
+            # A) Dealt cards = dealt + current
+            dealt_cards = (shoe_state.get("dealt", []) or []) + (shoe_state.get("current", []) or [])
+            dealt_txt = ", ".join(self._fmt_card(c) for c in dealt_cards) if dealt_cards else "(none yet)"
+            self.dealt_current_text.configure(state='normal')
+            self.dealt_current_text.delete('1.0', tk.END)
+            self.dealt_current_text.insert(tk.END, dealt_txt)
+            self.dealt_current_text.configure(state='disabled')
+
+            # B) Shoe tracking (undealt)
+            self._update_shoe_tracking_display(shoe_state)
+            # C) Discarded from shoe table
+            self._update_shuffle_discarded_display(shoe_state)
+            # D) Discarded (round-order)
+            self._update_discarded_cards_display(shoe_state)
+            # E) Next shoe preview
+            self._update_next_shoe_display()
                     
         except Exception as e:
             print(f"[UI] Error updating shuffle tracking displays: {e}")
             
-    def _update_shoe_tracking_display(self):
-        """Update the shoe tracking display (Display B): show undealt zones, highlight next card."""
+    def _update_shoe_tracking_display(self, shoe_state):
+        """Update display B using a consistent shoe_state snapshot."""
         try:
-            state = self.db_manager.get_shoe_state(self.shoe_manager.active_shoe_name)
-            undealt = list(state.get("undealt", []) or [])
-            dealt = list(state.get("dealt", []) or [])
-            current = list(state.get("current", []) or [])
-            # If no rounds dealt yet for this shoe, keep the UI minimal/blank
+            undealt = list(shoe_state.get("undealt", []) or [])
+            dealt = list(shoe_state.get("dealt", []) or [])
+            current = list(shoe_state.get("current", []) or [])
             if not dealt and not current:
                 self.zone_order_text.configure(state='normal')
                 self.zone_order_text.delete('1.0', tk.END)
                 self.zone_order_text.insert(tk.END, "(awaiting first round...)")
                 self.zone_order_text.configure(state='disabled')
                 return
-            try:
-                num_zones = int(self.zones_var.get())
-            except Exception:
-                num_zones = 8
+
+            num_zones = int(self.zones_var.get())
             cards_per_zone = 416 // max(1, num_zones)
-
             zone_lines = []
-            target_line = None
-            target_col_start = None
-            target_col_end = None
+            target_line, target_col_start, target_col_end = None, None, None
 
-            full_next = undealt
             for i in range(num_zones):
                 start = i * cards_per_zone
-                end = (i + 1) * cards_per_zone if i < (num_zones - 1) else min(len(full_next), 416)
-                zc = full_next[start:end]
+                end = (i + 1) * cards_per_zone if i < (num_zones - 1) else len(undealt)
+                zc = undealt[start:end]
                 formatted = [self._fmt_card(c) for c in zc]
-
-                # Highlight very next card (first of Zone 1) if present
-                if i == 0 and len(formatted) > 0:
+                if i == 0 and formatted:
                     prefix = f"Zone {i+1}: "
                     target_line = i
                     target_col_start = len(prefix)
                     target_col_end = target_col_start + len(formatted[0])
-
                 zone_lines.append(f"Zone {i+1}: " + (", ".join(formatted) if formatted else "(empty)"))
 
             self.zone_order_text.configure(state='normal')
             self.zone_order_text.delete('1.0', tk.END)
             self.zone_order_text.insert(tk.END, "\n".join(zone_lines))
-            try:
-                self.zone_order_text.tag_remove("next_card", "1.0", tk.END)
-                if target_line is not None:
-                    line_no = target_line + 1
-                    start_idx = f"{line_no}.0+{target_col_start}c"
-                    end_idx = f"{line_no}.0+{target_col_end}c"
-                    self.zone_order_text.tag_add("next_card", start_idx, end_idx)
-            except Exception:
-                pass
+            self.zone_order_text.tag_remove("next_card", "1.0", tk.END)
+            if target_line is not None:
+                start_idx = f"{target_line + 1}.{target_col_start}"
+                end_idx = f"{target_line + 1}.{target_col_end}"
+                self.zone_order_text.tag_add("next_card", start_idx, end_idx)
             self.zone_order_text.configure(state='disabled')
         except Exception as e:
             print(f"[UI] Error updating shoe tracking display: {e}")
             
-    def _update_ace_sequencing_display(self):
-        """Compute and display ace sequencing insights based on current undealt cards."""
+    def _update_ace_sequencing_display(self, shoe_state):
+        """Compute and display ace sequencing insights based on a consistent shoe_state."""
         try:
-            state = self.db_manager.get_shoe_state(self.shoe_manager.active_shoe_name)
-            undealt = list(state.get("undealt", []) or [])
-            dealt = list(state.get("dealt", []) or [])
-            current = list(state.get("current", []) or [])
-            # If no rounds dealt yet, keep the panel minimal
+            undealt = list(shoe_state.get("undealt", []) or [])
+            dealt = list(shoe_state.get("dealt", []) or [])
+            current = list(shoe_state.get("current", []) or [])
             if not dealt and not current:
                 self.ace_summary_var.set("Aces Remaining: -")
                 self.ace_next_var.set("Next Ace: -")
                 self.ace_next3_var.set("Next 3 Aces: -")
-                for i, lbl in enumerate(getattr(self, 'ace_zone_labels', [])):
+                for i, lbl in enumerate(self.ace_zone_labels):
                     lbl.configure(text=f"Z{i+1}: -")
                 return
-            try:
-                num_zones = int(self.zones_var.get())
-            except Exception:
-                num_zones = 8
-            # Fixed 416-size segmentation across the whole shoe
+
+            num_zones = int(self.zones_var.get())
             cards_per_zone = 416 // max(1, num_zones)
-            # Absolute offset of the top of undealt stack within the 416-card shoe
             dealt_so_far = len(dealt) + len(current)
-            # Find ace positions (relative and absolute)
-            rel_positions = []  # index within undealt
-            abs_positions = []  # index within full shoe [0..415]
-            for idx, c in enumerate(undealt):
-                s = str(c)
-                if s and s[0] == 'A':
-                    rel_positions.append(idx)
-                    abs_positions.append(dealt_so_far + idx)
-            aces_remaining = len(rel_positions)
-            self.ace_summary_var.set(f"Aces Remaining: {aces_remaining}")
-            if aces_remaining > 0:
-                next_rel = rel_positions[0]
-                next_abs = abs_positions[0]
+
+            rel_positions = [idx for idx, c in enumerate(undealt) if str(c)[0] == 'A']
+            abs_positions = [dealt_so_far + idx for idx in rel_positions]
+
+            self.ace_summary_var.set(f"Aces Remaining: {len(rel_positions)}")
+            if rel_positions:
+                next_rel, next_abs = rel_positions[0], abs_positions[0]
                 zone = min((next_abs // cards_per_zone) + 1, num_zones) if cards_per_zone > 0 else 1
                 self.ace_next_var.set(f"Next Ace: in {next_rel} cards (Zone {zone})")
-                next3 = ", ".join(str(p) for p in rel_positions[:3])
-                self.ace_next3_var.set(f"Next 3 Aces: {next3}")
+                self.ace_next3_var.set(f"Next 3 Aces: {', '.join(map(str, rel_positions[:3]))}")
             else:
                 self.ace_next_var.set("Next Ace: -")
                 self.ace_next3_var.set("Next 3 Aces: -")
-            # Per-zone counts using absolute positions
+
             counts = [0] * num_zones
             if cards_per_zone > 0:
                 for p_abs in abs_positions:
-                    z = min((p_abs // cards_per_zone) + 1, num_zones)
-                    counts[z-1] += 1
-            for i, lbl in enumerate(getattr(self, 'ace_zone_labels', [])):
-                if i < len(counts):
-                    lbl.configure(text=f"Z{i+1}: {counts[i]}")
+                    z_idx = min(p_abs // cards_per_zone, num_zones - 1)
+                    counts[z_idx] += 1
+            for i, lbl in enumerate(self.ace_zone_labels):
+                lbl.configure(text=f"Z{i+1}: {counts[i]}")
         except Exception as e:
             # Keep UI resilient
-            try:
-                self.ace_summary_var.set("Aces Remaining: -")
-                self.ace_next_var.set("Next Ace: -")
-                self.ace_next3_var.set("Next 3 Aces: -")
-                for i, lbl in enumerate(getattr(self, 'ace_zone_labels', [])):
-                    lbl.configure(text=f"Z{i+1}: -")
-            except Exception:
-                pass
+            self.ace_summary_var.set("Aces Remaining: Error")
 
-    def _update_shuffle_discarded_display(self):
-        """Update the new shuffle discarded cards display (Display C) from shoe cards table."""
+    def _update_shuffle_discarded_display(self, shoe_state):
+        """Update display C using a consistent shoe_state snapshot."""
         try:
-            # Get discarded cards directly from the shoe cards table in the database
-            if hasattr(self.db_manager, 'get_discarded_cards'):
-                discarded_from_table = self.db_manager.get_discarded_cards(self.shoe_manager.active_shoe_name)
-            else:
-                # Fallback: use the same logic as the round-order display but show as "from table"
-                state = self.db_manager.get_shoe_state(self.shoe_manager.active_shoe_name)
-                discarded_from_table = list(state.get("discarded", []) or [])
-            
-            # Format and display
+            discarded_from_table = shoe_state.get("discarded", []) or []
             self.shuffle_discard_text.configure(state='normal')
             self.shuffle_discard_text.delete('1.0', tk.END)
-            
             if not discarded_from_table:
                 self.shuffle_discard_text.insert(tk.END, "(no discarded cards yet)")
             else:
-                formatted_cards = [self._fmt_card(card) for card in discarded_from_table]
-                self.shuffle_discard_text.insert(tk.END, ", ".join(formatted_cards))
-            
+                self.shuffle_discard_text.insert(tk.END, ", ".join(self._fmt_card(c) for c in discarded_from_table))
             self.shuffle_discard_text.configure(state='disabled')
         except Exception as e:
             print(f"[UI] Error updating shuffle discarded cards display: {e}")
-            self.shuffle_discard_text.configure(state='normal')
-            self.shuffle_discard_text.delete('1.0', tk.END)
-            self.shuffle_discard_text.insert(tk.END, f"Error: {str(e)}")
-            self.shuffle_discard_text.configure(state='disabled')
             
-    def _update_discarded_cards_display(self):
-        """Update the discarded cards display (Display D) from DB state, with legacy fallback from rounds if empty."""
+    def _update_discarded_cards_display(self, shoe_state):
+        """Update display D using a consistent shoe_state snapshot."""
         try:
-            state = self.db_manager.get_shoe_state(self.shoe_manager.active_shoe_name)
-            discarded_cards = list(state.get("discarded", []) or [])
-
-
-            # Render display as plain comma-separated cards (test-friendly)
+            discarded_cards = shoe_state.get("discarded", []) or []
             self.discard_text.configure(state='normal')
             self.discard_text.delete('1.0', tk.END)
-
-            if not discarded_cards:
-                self.discard_text.insert(tk.END, "")
-            else:
-                formatted_all = [self._fmt_card(card) for card in discarded_cards]
-                self.discard_text.insert(tk.END, ", ".join(formatted_all))
-
+            if discarded_cards:
+                self.discard_text.insert(tk.END, ", ".join(self._fmt_card(c) for c in discarded_cards))
             self.discard_text.configure(state='disabled')
         except Exception as e:
             print(f"[UI] Error updating discarded cards display: {e}")
-            self.discard_text.configure(state='normal')
-            self.discard_text.delete('1.0', tk.END)
-            self.discard_text.insert(tk.END, f"Error: {str(e)}")
-            self.discard_text.configure(state='disabled')
             
     def _update_next_shoe_display(self):
         """Update the next shoe display (Display D) with compatibility for both legacy tests and new DB state."""
@@ -1107,7 +1027,18 @@ class BlackjackTrackerApp:
         finally:
             self._refreshing = False
 
-    def update_counts_display(self):
+    def update_counts_display(self, shoe_state):
+        """Recalculate and display counts based on a consistent shoe_state snapshot."""
+        # Combine dealt and current cards for a complete, real-time view
+        all_visible_cards = (shoe_state.get("dealt", []) or []) + (shoe_state.get("current", []) or [])
+        all_visible_ranks = [str(c)[0] for c in all_visible_cards]
+
+        # Recalculate from scratch to ensure accuracy
+        self.hilo_counter.reset()
+        self.hilo_counter.process_cards(all_visible_ranks)
+        self.wong_halves_counter.reset()
+        self.wong_halves_counter.process_cards(all_visible_ranks)
+
         hilo_rc = self.hilo_counter.get_running_count()
         hilo_tc = self.hilo_counter.get_true_count()
         wh_rc = self.wong_halves_counter.get_running_count()
@@ -1116,7 +1047,6 @@ class BlackjackTrackerApp:
         self.hilo_tc_var.set(f"Hi-Lo TC: {hilo_tc:.2f}")
         self.wh_rc_var.set(f"Wong Halves RC: {wh_rc:.1f}")
         self.wh_tc_var.set(f"Wong Halves TC: {wh_tc:.2f}")
-        print(f"[Counts] HILO_RC={hilo_rc} HILO_TC={hilo_tc:.2f} WH_RC={wh_rc:.1f} WH_TC={wh_tc:.2f}")
 
     def update_strategy_display(self, db_row):
         try:
@@ -1176,20 +1106,20 @@ class BlackjackTrackerApp:
         else:
             self.action_rec_var.set("Action: N/A")
 
-    def update_analytics_display(self):
-        """Updates the analytics display with current data."""
+    def update_analytics_display(self, shoe_state=None):
+        """Updates the analytics display with current data from a consistent shoe_state."""
         try:
-            active_shoe = self.shoe_manager.get_active_shoe()
-            if not active_shoe:
-                return
-            
-            # Get shoe cards for predictions
-            undealt_cards, dealt_cards = self.db_manager.get_shoe_cards(self.shoe_manager.active_shoe_name)
+            if shoe_state is None:
+                if self.shoe_manager.active_shoe_name == "None": return
+                # Fallback for initialization
+                shoe_state = self.db_manager.get_shoe_state(self.shoe_manager.active_shoe_name)
+
+            undealt_cards = shoe_state.get("undealt", []) or []
+            dealt_cards = (shoe_state.get("dealt", []) or []) + (shoe_state.get("current", []) or [])
             
             # Update predictions
             predictions = self.analytics_engine.get_real_time_predictions(undealt_cards, dealt_cards)
-            prediction_text = " ".join([f"[{p}]" for p in predictions])
-            self.predictions_var.set(f"Next 5: {prediction_text}")
+            self.predictions_var.set(f"Next 5: {' '.join(f'[{p}]' for p in predictions)}")
             
             # Update performance summary (placeholder data)
             self.shoe_performance_var.set("Shoe Performance: Active tracking...")
