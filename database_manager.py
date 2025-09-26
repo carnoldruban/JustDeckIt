@@ -1,421 +1,548 @@
 import sqlite3
 import json
+import threading
+import os
 from datetime import datetime
+from typing import Dict, Optional
+from logging_config import get_logger, log_performance
 
-class DBManager:
-    def __init__(self, db_path="blackjack_data.db"):
-        """Initializes the database connection and creates tables if they don't exist."""
-        self.db_path = db_path
-        self.conn = None
+class DatabaseManager:
+    def __init__(self, db_name="blackjack_data.db"):
+        self.logger = get_logger("DatabaseManager")
+        # Store database files in the data directory
+        data_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
+        os.makedirs(data_dir, exist_ok=True)
+        self.db_name = os.path.join(data_dir, db_name)
+        self.lock = threading.Lock()
+        self.round_counters = {}  # Track round numbers per shoe
+        self.logger.info("Initializing DB: %s", db_name)
+        self.create_tables()
+        # Clear shoe_cards on startup per request to avoid stale state
         try:
-            self.conn = sqlite3.connect(self.db_path, check_same_thread=False)
-            print(f"Successfully connected to database at {self.db_path}")
-            self.create_tables()
-        except sqlite3.Error as e:
-            print(f"Error connecting to database: {e}")
+            with self.lock:
+                with self.get_connection() as conn:
+                    conn.execute("DELETE FROM shoe_cards")
+                    conn.commit()
+            self.logger.info("Cleared shoe_cards table on initialization")
+        except Exception as e:
+            self.logger.error("Failed to clear shoe_cards on init: %s", e)
 
+    def get_connection(self):
+        return sqlite3.connect(self.db_name, check_same_thread=False)
+
+    @log_performance
     def create_tables(self):
-        """Creates the normalized database schema."""
-        if not self.conn:
-            print("Cannot create tables, no database connection.")
-            return
+        self.logger.info("Creating database tables")
+        with self.lock:
+            self.logger.info("Acquired lock for table creation")
+            with self.get_connection() as conn:
+                
+                cursor = conn.cursor()
+                # Create rounds table
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS rounds (
+                        game_id TEXT,
+                        shoe_name TEXT,
+                        round_number INTEGER,
+                        dealer_hand TEXT,
+                        dealer_score TEXT,
+                        seat0_hand TEXT DEFAULT '[]', seat0_score TEXT DEFAULT 'N/A', seat0_state TEXT DEFAULT 'Empty',
+                        seat1_hand TEXT DEFAULT '[]', seat1_score TEXT DEFAULT 'N/A', seat1_state TEXT DEFAULT 'Empty',
+                        seat2_hand TEXT DEFAULT '[]', seat2_score TEXT DEFAULT 'N/A', seat2_state TEXT DEFAULT 'Empty',
+                        seat3_hand TEXT DEFAULT '[]', seat3_score TEXT DEFAULT 'N/A', seat3_state TEXT DEFAULT 'Empty',
+                        seat4_hand TEXT DEFAULT '[]', seat4_score TEXT DEFAULT 'N/A', seat4_state TEXT DEFAULT 'Empty',
+                        seat5_hand TEXT DEFAULT '[]', seat5_score TEXT DEFAULT 'N/A', seat5_state TEXT DEFAULT 'Empty',
+                        seat6_hand TEXT DEFAULT '[]', seat6_score TEXT DEFAULT 'N/A', seat6_state TEXT DEFAULT 'Empty',
+                        last_updated TIMESTAMP,
+                        PRIMARY KEY (game_id, shoe_name)
+                    )
+                """)
+                # Create shoe_cards table
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS shoe_cards (
+                        shoe_name TEXT PRIMARY KEY,
+                        undealt_cards TEXT NOT NULL,
+                        dealt_cards TEXT NOT NULL
+                    )
+                """)
+                
+                # Create analytics tables
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS shoe_sessions (
+                        session_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        shoe_name TEXT NOT NULL,
+                        start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        end_time TIMESTAMP,
+                        final_stats TEXT
+                    )
+                """)
+                
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS prediction_validation (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        session_id INTEGER,
+                        round_id INTEGER,
+                        card_position INTEGER,
+                        predicted_card TEXT,
+                        actual_card TEXT,
+                        position_offset INTEGER,
+                        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )
+                """)
+                
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS card_tracking (
+                        tracking_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        round_number INTEGER,
+                        card_value TEXT,
+                        position INTEGER,
+                        seat_number INTEGER,
+                        card_type TEXT,
+                        sequence_number INTEGER,
+                        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )
+                """)
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS seat_performance (
+                        performance_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        seat_number INTEGER,
+                        total_hands INTEGER,
+                        wins INTEGER,
+                        losses INTEGER,
+                        pushes INTEGER,
+                        win_rate REAL,
+                        last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )
+                """)
+                self.ensure_shoe_cards_columns()
+                conn.commit()
+                self.logger.info("Database tables created successfully")
 
-        cursor = self.conn.cursor()
-
-        # Table for game rounds
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS game_rounds (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            game_id_str TEXT UNIQUE NOT NULL,
-            timestamp TEXT NOT NULL
-        );
-        """)
-
-        # Table for hands within a round
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS hands (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            round_id INTEGER NOT NULL,
-            seat_num INTEGER NOT NULL, -- -1 for dealer
-            final_score INTEGER,
-            result TEXT,
-            FOREIGN KEY (round_id) REFERENCES game_rounds (id)
-        );
-        """)
-
-        # Table for individual cards in each hand
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS hand_cards (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            hand_id INTEGER NOT NULL,
-            card_value TEXT NOT NULL,
-            FOREIGN KEY (hand_id) REFERENCES hands (id)
-        );
-        """)
-
-        # Table for shoe sessions and tracking
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS shoe_sessions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            shoe_name TEXT NOT NULL,
-            start_time TEXT NOT NULL,
-            end_time TEXT,
-            total_rounds INTEGER DEFAULT 0,
-            total_cards_dealt INTEGER DEFAULT 0,
-            win_rate REAL DEFAULT 0.0,
-            dealer_wins INTEGER DEFAULT 0,
-            player_wins INTEGER DEFAULT 0,
-            pushes INTEGER DEFAULT 0,
-            status TEXT DEFAULT 'active'
-        );
-        """)
-
-        # Table for seat performance statistics
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS seat_performance (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            shoe_session_id INTEGER NOT NULL,
-            seat_number INTEGER NOT NULL,
-            rounds_played INTEGER DEFAULT 0,
-            wins INTEGER DEFAULT 0,
-            losses INTEGER DEFAULT 0,
-            pushes INTEGER DEFAULT 0,
-            win_rate REAL DEFAULT 0.0,
-            total_cards_received INTEGER DEFAULT 0,
-            FOREIGN KEY (shoe_session_id) REFERENCES shoe_sessions (id)
-        );
-        """)
-
-        # Table for prediction validation
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS prediction_validation (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            shoe_session_id INTEGER NOT NULL,
-            round_id INTEGER NOT NULL,
-            card_position INTEGER NOT NULL,
-            predicted_card TEXT,
-            actual_card TEXT NOT NULL,
-            prediction_correct BOOLEAN DEFAULT FALSE,
-            position_offset INTEGER DEFAULT 0,
-            timestamp TEXT NOT NULL,
-            FOREIGN KEY (shoe_session_id) REFERENCES shoe_sessions (id),
-            FOREIGN KEY (round_id) REFERENCES game_rounds (id)
-        );
-        """)
-
-        # Table for pattern learning
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS shuffle_patterns (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            shoe_session_id INTEGER NOT NULL,
-            pattern_type TEXT NOT NULL,
-            pattern_data TEXT NOT NULL,
-            accuracy_score REAL DEFAULT 0.0,
-            usage_count INTEGER DEFAULT 0,
-            last_updated TEXT NOT NULL,
-            FOREIGN KEY (shoe_session_id) REFERENCES shoe_sessions (id)
-        );
-        """)
-
-        # Table for detailed card tracking
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS card_tracking (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            shoe_session_id INTEGER NOT NULL,
-            round_id INTEGER NOT NULL,
-            card_value TEXT NOT NULL,
-            dealt_position INTEGER NOT NULL,
-            seat_number INTEGER,
-            card_type TEXT,
-            dealing_order INTEGER NOT NULL,
-            timestamp TEXT NOT NULL,
-            FOREIGN KEY (shoe_session_id) REFERENCES shoe_sessions (id),
-            FOREIGN KEY (round_id) REFERENCES game_rounds (id)
-        );
-        """)
-
-        # Table for analytics summary
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS analytics_summary (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            session_date TEXT NOT NULL,
-            total_shoes_tracked INTEGER DEFAULT 0,
-            best_performing_shoe TEXT,
-            worst_performing_shoe TEXT,
-            overall_win_rate REAL DEFAULT 0.0,
-            best_seat_number INTEGER,
-            total_hours_tracked REAL DEFAULT 0.0,
-            prediction_accuracy REAL DEFAULT 0.0,
-            created_at TEXT NOT NULL
-        );
-        """)
-
-        self.conn.commit()
-        print("Enhanced database schema created successfully with analytics tables.")
-
-    def save_game_state(self, payload):
-        """Saves a complete game state from a JSON payload into the normalized tables."""
-        if not self.conn:
-            return
-
-        game_id_str = payload.get('gameId')
-        if not game_id_str:
-            return
-
-        cursor = self.conn.cursor()
-
-        # --- 1. Upsert Game Round ---
-        timestamp = datetime.now().isoformat()
-        cursor.execute("INSERT OR IGNORE INTO game_rounds (game_id_str, timestamp) VALUES (?, ?)", (game_id_str, timestamp))
-
-        # Get the round's primary key
-        cursor.execute("SELECT id FROM game_rounds WHERE game_id_str = ?", (game_id_str,))
-        round_row = cursor.fetchone()
-        if not round_row: return
-        round_id = round_row[0]
-
-        # --- 2. Clear old data for this round to prevent duplicates on updates ---
-        # Get all hand_ids associated with this round_id
-        cursor.execute("SELECT id FROM hands WHERE round_id = ?", (round_id,))
-        old_hand_ids = cursor.fetchall()
-        if old_hand_ids:
-            # Flatten the list of tuples
-            ids_to_delete = [h[0] for h in old_hand_ids]
-            # Delete cards associated with those hands
-            cursor.execute(f"DELETE FROM hand_cards WHERE hand_id IN ({','.join('?' for _ in ids_to_delete)})", ids_to_delete)
-        # Delete the hands themselves
-        cursor.execute("DELETE FROM hands WHERE round_id = ?", (round_id,))
-
-
-        # --- 3. Insert Dealer Hand ---
-        dealer_hand = payload.get('dealer')
-        if dealer_hand:
-            cursor.execute("INSERT INTO hands (round_id, seat_num, final_score, result) VALUES (?, ?, ?, ?)",
-                           (round_id, -1, dealer_hand.get('score'), dealer_hand.get('result')))
-            dealer_hand_id = cursor.lastrowid
-            for card in dealer_hand.get('cards', []):
-                cursor.execute("INSERT INTO hand_cards (hand_id, card_value) VALUES (?, ?)",
-                               (dealer_hand_id, card.get('value')))
-
-        # --- 4. Insert Player Hands ---
-        seats = payload.get('seats', {})
-        for seat_num, seat_data in seats.items():
-            hand_data = seat_data.get('first')
-            if hand_data:
-                cursor.execute("INSERT INTO hands (round_id, seat_num, final_score, result) VALUES (?, ?, ?, ?)",
-                               (round_id, int(seat_num), hand_data.get('score'), hand_data.get('result')))
-                player_hand_id = cursor.lastrowid
-                for card in hand_data.get('cards', []):
-                    cursor.execute("INSERT INTO hand_cards (hand_id, card_value) VALUES (?, ?)",
-                                   (player_hand_id, card.get('value')))
-
-        self.conn.commit()
-        print(f"Successfully saved game state for round {game_id_str}")
-
-    def start_shoe_session(self, shoe_name):
-        """Starts a new shoe tracking session."""
-        if not self.conn:
-            return None
-        
-        cursor = self.conn.cursor()
-        timestamp = datetime.now().isoformat()
-        
-        cursor.execute("""
-            INSERT INTO shoe_sessions (shoe_name, start_time, status) 
-            VALUES (?, ?, 'active')
-        """, (shoe_name, timestamp))
-        
-        session_id = cursor.lastrowid
-        self.conn.commit()
-        print(f"Started new shoe session for {shoe_name} with ID {session_id}")
-        return session_id
-
-    def end_shoe_session(self, session_id, final_stats=None):
-        """Ends a shoe tracking session and updates final statistics."""
-        if not self.conn:
+    @log_performance
+    def log_round_update(self, shoe_name, round_data):
+        game_id = round_data.get('gameId')
+        if not game_id:
+            self.logger.warning("No game ID in round data")
             return
         
-        cursor = self.conn.cursor()
-        timestamp = datetime.now().isoformat()
-        
-        if final_stats:
-            cursor.execute("""
-                UPDATE shoe_sessions 
-                SET end_time = ?, total_rounds = ?, total_cards_dealt = ?, 
-                    win_rate = ?, dealer_wins = ?, player_wins = ?, pushes = ?, status = 'completed'
-                WHERE id = ?
-            """, (timestamp, final_stats.get('total_rounds', 0), 
-                  final_stats.get('total_cards_dealt', 0), final_stats.get('win_rate', 0.0),
-                  final_stats.get('dealer_wins', 0), final_stats.get('player_wins', 0),
-                  final_stats.get('pushes', 0), session_id))
-        else:
-            cursor.execute("""
-                UPDATE shoe_sessions SET end_time = ?, status = 'completed' WHERE id = ?
-            """, (timestamp, session_id))
-        
-        self.conn.commit()
-        print(f"Ended shoe session {session_id}")
+        try:
+            with self.lock:
+                # Keep round number stable per (shoe_name, game_id)
+                if shoe_name not in self.round_counters:
+                    self.round_counters[shoe_name] = {}
+                if game_id not in self.round_counters[shoe_name]:
+                    # First time we see this game_id for this shoe, assign next round index
+                    next_round = max(self.round_counters[shoe_name].values(), default=0) + 1
+                    self.round_counters[shoe_name][game_id] = next_round
+                
+                with self.get_connection() as conn:
+                    cursor = conn.cursor()
+                    data_to_log = {
+                        "game_id": game_id,
+                        "shoe_name": shoe_name,
+                        "round_number": self.round_counters[shoe_name][game_id],
+                        "last_updated": datetime.now()
+                    }
+                    
+                    # Extract dealer data
+                    if 'dealer' in round_data:
+                        dealer = round_data['dealer']
+                        # Filter hidden downcard "**" from printout while keeping raw data in DB
+                        dealer_cards_raw = dealer.get('cards', [])
+                        data_to_log["dealer_hand"] = json.dumps(dealer_cards_raw)
+                        data_to_log["dealer_score"] = str(dealer.get('score', 0))
+                        dealer_print_vals = [c.get('value') for c in dealer_cards_raw if isinstance(c, dict) and c.get('value') and c.get('value') != '**']
+                        print(f"[DB] Dealer: score={data_to_log['dealer_score']} cards={dealer_print_vals}")
+                    
+                    # Initialize all seats to empty first
+                    for i in range(7):
+                        data_to_log[f"seat{i}_hand"] = '[]'
+                        data_to_log[f"seat{i}_score"] = 'N/A'
+                        data_to_log[f"seat{i}_state"] = 'Empty'
+                    
+                    # Extract seat data (this will overwrite the empty defaults for occupied seats)
+                    if 'seats' in round_data:
+                        for seat_num in range(7):
+                            seat_key = str(seat_num)
+                            if seat_key in round_data['seats']:
+                                seat = round_data['seats'][seat_key]
+                                if 'first' in seat:
+                                    first = seat['first']
+                                    # Keep raw cards in DB, but filter "**" in printouts
+                                    raw_cards = first.get('cards', [])
+                                    data_to_log[f"seat{seat_num}_hand"] = json.dumps(raw_cards)
+                                    data_to_log[f"seat{seat_num}_score"] = str(first.get('score', 0))
+                                    data_to_log[f"seat{seat_num}_state"] = first.get('state', 'unknown')
+                                    seat_print_vals = [c.get('value') for c in raw_cards if isinstance(c, dict) and c.get('value') and c.get('value') != '**']
+                                    print(f"[DB] Seat{seat_num}: score={data_to_log[f'seat{seat_num}_score']} state={data_to_log[f'seat{seat_num}_state']} cards={seat_print_vals}")
+                                        
+                    # Insert into database
+                    cursor.execute("""
+                        INSERT OR REPLACE INTO rounds (
+                            game_id, shoe_name, round_number,
+                            dealer_hand, dealer_score,
+                            seat0_hand, seat0_score, seat0_state,
+                            seat1_hand, seat1_score, seat1_state,
+                            seat2_hand, seat2_score, seat2_state,
+                            seat3_hand, seat3_score, seat3_state,
+                            seat4_hand, seat4_score, seat4_state,
+                            seat5_hand, seat5_score, seat5_state,
+                            seat6_hand, seat6_score, seat6_state,
+                            last_updated
+                        ) VALUES (
+                            :game_id, :shoe_name, :round_number,
+                            :dealer_hand, :dealer_score,
+                            :seat0_hand, :seat0_score, :seat0_state,
+                            :seat1_hand, :seat1_score, :seat1_state,
+                            :seat2_hand, :seat2_score, :seat2_state,
+                            :seat3_hand, :seat3_score, :seat3_state,
+                            :seat4_hand, :seat4_score, :seat4_state,
+                            :seat5_hand, :seat5_score, :seat5_state,
+                            :seat6_hand, :seat6_score, :seat6_state,
+                            :last_updated
+                        )
+                    """, data_to_log)
+                    
+                    conn.commit()
+                    self.logger.debug("Logged round update for game %s, round %d", game_id, self.round_counters[shoe_name][game_id])
+                    
+        except Exception as e:
+            self.logger.error("Error logging round update: %s", e)
+            print(f"--- DEBUG: FAILING DATA ---")
+            try:
+                print(json.dumps(data_to_log, indent=4, default=str))
+            except Exception as json_error:
+                print(f"Could not serialize data_to_log: {json_error}")
+                print(f"Raw data_to_log: {data_to_log}")
+            print(f"--- END DEBUG ---")
 
-    def save_prediction_validation(self, session_id, round_id, card_position, predicted_card, actual_card, position_offset=0):
-        """Saves prediction validation data for pattern learning."""
-        if not self.conn:
-            return
-        
-        cursor = self.conn.cursor()
-        timestamp = datetime.now().isoformat()
-        prediction_correct = predicted_card == actual_card
-        
-        cursor.execute("""
-            INSERT INTO prediction_validation 
-            (shoe_session_id, round_id, card_position, predicted_card, actual_card, 
-             prediction_correct, position_offset, timestamp)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """, (session_id, round_id, card_position, predicted_card, actual_card, 
-              prediction_correct, position_offset, timestamp))
-        
-        self.conn.commit()
+    def get_round_history(self, shoe_name, limit=50):
+        with self.lock:
+            with self.get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    SELECT * FROM rounds 
+                    WHERE shoe_name = ? 
+                    ORDER BY last_updated DESC 
+                    LIMIT ?
+                """, (shoe_name, limit))
+                return cursor.fetchall()
 
-    def save_card_tracking(self, session_id, round_id, card_value, dealt_position, seat_number, card_type, dealing_order):
-        """Saves detailed card tracking information."""
-        if not self.conn:
-            return
-        
-        cursor = self.conn.cursor()
-        timestamp = datetime.now().isoformat()
-        
-        cursor.execute("""
-            INSERT INTO card_tracking 
-            (shoe_session_id, round_id, card_value, dealt_position, seat_number, card_type, dealing_order, timestamp)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """, (session_id, round_id, card_value, dealt_position, seat_number, card_type, dealing_order, timestamp))
-        
-        self.conn.commit()
+    def get_latest_timestamp(self, shoe_name):
+        with self.lock:
+            with self.get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("SELECT MAX(last_updated) FROM rounds WHERE shoe_name = ?", (shoe_name,))
+                return cursor.fetchone()[0]
 
-    def update_seat_performance(self, session_id, seat_number, result):
+    def initialize_shoe_in_db(self, shoe_name, cards):
+        with self.lock:
+            with self.get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    INSERT OR REPLACE INTO shoe_cards (shoe_name, undealt_cards, dealt_cards)
+                    VALUES (?, ?, ?)
+                """, (shoe_name, json.dumps(cards), json.dumps([])))
+                conn.commit()
+
+    def update_shoe_cards(self, shoe_name, undealt_cards, dealt_cards):
+        with self.lock:
+            with self.get_connection() as conn:
+                cursor = conn.cursor()
+                try:
+                    cursor.execute("""
+                        INSERT INTO shoe_cards (shoe_name, undealt_cards, dealt_cards)
+                        VALUES (?, ?, ?)
+                        ON CONFLICT(shoe_name) DO UPDATE SET
+                            undealt_cards=excluded.undealt_cards,
+                            dealt_cards=excluded.dealt_cards
+                    """, (shoe_name, json.dumps(undealt_cards), json.dumps(dealt_cards)))
+                except Exception:
+                    # Fallback for older SQLite without UPSERT
+                    cursor.execute(
+                        "UPDATE shoe_cards SET undealt_cards = ?, dealt_cards = ? WHERE shoe_name = ?",
+                        (json.dumps(undealt_cards), json.dumps(dealt_cards), shoe_name),
+                    )
+                    if cursor.rowcount == 0:
+                        cursor.execute(
+                            "INSERT OR REPLACE INTO shoe_cards (shoe_name, undealt_cards, dealt_cards) VALUES (?, ?, ?)",
+                            (shoe_name, json.dumps(undealt_cards), json.dumps(dealt_cards)),
+                        )
+                conn.commit()
+
+    def get_shoe_cards(self, shoe_name):
+        with self.lock:
+            with self.get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("SELECT undealt_cards, dealt_cards FROM shoe_cards WHERE shoe_name = ?", (shoe_name,))
+                result = cursor.fetchone()
+                if result:
+                    return json.loads(result[0]), json.loads(result[1])
+                return [], []
+
+    def ensure_shoe_cards_columns(self):
+        """Ensure extra tracking columns exist on shoe_cards."""
+        with self.get_connection() as conn:
+            c = conn.cursor()
+            try:
+                c.execute("PRAGMA table_info('shoe_cards')")
+                self.logger.info("Database tables created pragma")
+                cols = {row[1] for row in c.fetchall()}
+                for col in ["current_dealt_cards", "discarded_cards", "next_shuffling_stack"]:
+                    if col not in cols:
+                        c.execute(f"ALTER TABLE shoe_cards ADD COLUMN {col} TEXT DEFAULT '[]'")
+                conn.commit()
+            except Exception as e:
+                self.logger.error("ensure_shoe_cards_columns error: %s", e)
+
+    def ensure_shoe_row(self, shoe_name: str):
+        """Ensure a row exists in shoe_cards for the given shoe_name."""
+        try:
+            with self.get_connection() as conn:
+                c = conn.cursor()
+                c.execute("SELECT 1 FROM shoe_cards WHERE shoe_name = ?", (shoe_name,))
+                if not c.fetchone():
+                    c.execute(
+                        "INSERT INTO shoe_cards (shoe_name, undealt_cards, dealt_cards, current_dealt_cards, discarded_cards, next_shuffling_stack) "
+                        "VALUES (?, '[]', '[]', '[]', '[]', '[]')",
+                        (shoe_name,),
+                    )
+                    conn.commit()
+        except Exception as e:
+            self.logger.error("ensure_shoe_row error: %s", e)
+
+    def get_last_round_game_id(self, shoe_name: str):
+        """Returns the latest game_id by last_updated for a shoe, or None."""
+        with self.lock:
+            with self.get_connection() as conn:
+                c = conn.cursor()
+                c.execute(
+                    "SELECT game_id FROM rounds WHERE shoe_name = ? ORDER BY last_updated DESC LIMIT 1",
+                    (shoe_name,),
+                )
+                row = c.fetchone()
+                return row[0] if row else None
+
+    def get_round_by_game_id(self, shoe_name: str, game_id: str):
+        """Fetch a single round row by game_id and shoe_name."""
+        with self.lock:
+            with self.get_connection() as conn:
+                c = conn.cursor()
+                c.execute(
+                    "SELECT * FROM rounds WHERE shoe_name = ? AND game_id = ? LIMIT 1",
+                    (shoe_name, game_id),
+                )
+                return c.fetchone()
+
+    def get_shoe_state(self, shoe_name: str):
+        """Returns full shoe state arrays from shoe_cards as dict of lists."""
+        with self.lock:
+            with self.get_connection() as conn:
+                c = conn.cursor()
+                c.execute(
+                    """SELECT undealt_cards, dealt_cards, 
+                              COALESCE(current_dealt_cards,'[]'), 
+                              COALESCE(discarded_cards,'[]'),
+                              COALESCE(next_shuffling_stack,'[]')
+                       FROM shoe_cards WHERE shoe_name = ?""",
+                    (shoe_name,),
+                )
+                row = c.fetchone()
+                if not row:
+                    return {"undealt": [], "dealt": [], "current": [], "discarded": [], "next_stack": []}
+                j = lambda s: json.loads(s) if s else []
+                return {
+                    "undealt": j(row[0]),
+                    "dealt": j(row[1]),
+                    "current": j(row[2]),
+                    "discarded": j(row[3]),
+                    "next_stack": j(row[4]),
+                }
+
+    def update_current_dealt_cards(self, shoe_name: str, cards):
+        """Replace current round dealt cards list."""
+        self.ensure_shoe_row(shoe_name)
+        with self.lock:
+            with self.get_connection() as conn:
+                conn.execute(
+                    "UPDATE shoe_cards SET current_dealt_cards = ? WHERE shoe_name = ?",
+                    (json.dumps(cards), shoe_name),
+                )
+                conn.commit()
+
+    def append_dealt_cards(self, shoe_name: str, new_cards):
+        """Append new_cards to dealt_cards for a shoe."""
+        self.ensure_shoe_row(shoe_name)
+        with self.lock:
+            with self.get_connection() as conn:
+                c = conn.cursor()
+                c.execute("SELECT dealt_cards FROM shoe_cards WHERE shoe_name = ?", (shoe_name,))
+                row = c.fetchone()
+                prev = json.loads(row[0]) if row and row[0] else []
+                prev.extend(new_cards or [])
+                c.execute(
+                    "UPDATE shoe_cards SET dealt_cards = ? WHERE shoe_name = ?",
+                    (json.dumps(prev), shoe_name),
+                )
+                conn.commit()
+
+    def replace_undealt_cards(self, shoe_name: str, new_undealt):
+        """Overwrite undealt_cards for a shoe."""
+        self.ensure_shoe_row(shoe_name)
+        with self.lock:
+            with self.get_connection() as conn:
+                conn.execute(
+                    "UPDATE shoe_cards SET undealt_cards = ? WHERE shoe_name = ?",
+                    (json.dumps(new_undealt or []), shoe_name),
+                )
+                conn.commit()
+
+    def append_discarded_cards_left(self, shoe_name: str, cards):
+        """Prepend cards to discarded_cards (cards + existing)."""
+        with self.lock:
+            with self.get_connection() as conn:
+                c = conn.cursor()
+                c.execute("SELECT discarded_cards FROM shoe_cards WHERE shoe_name = ?", (shoe_name,))
+                row = c.fetchone()
+                prev = json.loads(row[0]) if row and row[0] else []
+                newv = list(cards or []) + prev
+                c.execute(
+                    "UPDATE shoe_cards SET discarded_cards = ? WHERE shoe_name = ?",
+                    (json.dumps(newv), shoe_name),
+                )
+                conn.commit()
+
+    def set_discarded_cards(self, shoe_name: str, cards):
+        """Overwrite discarded_cards."""
+        with self.lock:
+            with self.get_connection() as conn:
+                conn.execute(
+                    "UPDATE shoe_cards SET discarded_cards = ? WHERE shoe_name = ?",
+                    (json.dumps(cards or []), shoe_name),
+                )
+                conn.commit()
+
+    def set_next_shuffling_stack(self, shoe_name: str, cards):
+        """Set next_shuffling_stack for a shoe."""
+        with self.lock:
+            with self.get_connection() as conn:
+                conn.execute(
+                    "UPDATE shoe_cards SET next_shuffling_stack = ? WHERE shoe_name = ?",
+                    (json.dumps(cards or []), shoe_name),
+                )
+                conn.commit()
+
+    def start_shoe_session(self, shoe_name: str) -> int:
+        """Starts a new shoe session and returns the session ID."""
+        with self.lock:
+            with self.get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS shoe_sessions (
+                        session_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        shoe_name TEXT NOT NULL,
+                        start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        end_time TIMESTAMP,
+                        final_stats TEXT
+                    )
+                """)
+                cursor.execute("INSERT INTO shoe_sessions (shoe_name,start_time) VALUES (?,?)", (shoe_name, datetime.now()))
+                conn.commit()
+                return cursor.lastrowid
+
+    def end_shoe_session(self, session_id: int, final_stats: Dict = None):
+        """Ends a shoe session with optional final statistics."""
+        with self.lock:
+            with self.get_connection() as conn:
+                cursor = conn.cursor()
+                stats_json = json.dumps(final_stats) if final_stats else None
+                cursor.execute("""
+                    UPDATE shoe_sessions 
+                    SET end_time = CURRENT_TIMESTAMP, final_stats = ? 
+                    WHERE session_id = ?
+                """, (stats_json, session_id))
+                conn.commit()
+
+    def save_prediction_validation(self, session_id: int, round_id: int, card_position: int, 
+                                 predicted_card: str, actual_card: str, position_offset: int):
+        """Saves prediction validation data."""
+        with self.lock:
+            with self.get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS prediction_validation (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        session_id INTEGER,
+                        round_id INTEGER,
+                        card_position INTEGER,
+                        predicted_card TEXT,
+                        actual_card TEXT,
+                        position_offset INTEGER,
+                        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )
+                """)
+                cursor.execute("""
+                    INSERT INTO prediction_validation 
+                    (session_id, round_id, card_position, predicted_card, actual_card, position_offset)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                """, (session_id, round_id, card_position, predicted_card, actual_card, position_offset))
+                conn.commit()
+
+    def save_card_tracking(self, session_id: int, round_id: int, card_value: str, 
+                          dealt_position: int, seat_number: Optional[int], card_type: str, dealing_order: int):
+        """Saves individual card tracking data."""
+        with self.lock:
+            with self.get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS card_tracking (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        session_id INTEGER,
+                        round_id INTEGER,
+                        card_value TEXT,
+                        dealt_position INTEGER,
+                        seat_number INTEGER,
+                        card_type TEXT,
+                        dealing_order INTEGER,
+                        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )
+                """)
+                cursor.execute("""
+                    INSERT INTO card_tracking 
+                    (session_id, round_id, card_value, dealt_position, seat_number, card_type, dealing_order)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                """, (session_id, round_id, card_value, dealt_position, seat_number, card_type, dealing_order))
+                conn.commit()
+
+    def update_seat_performance(self, session_id: int, seat_number: int, result: str):
         """Updates seat performance statistics."""
-        if not self.conn:
-            return
-        
-        cursor = self.conn.cursor()
-        
-        # Check if seat performance record exists
-        cursor.execute("""
-            SELECT id, rounds_played, wins, losses, pushes, total_cards_received 
-            FROM seat_performance 
-            WHERE shoe_session_id = ? AND seat_number = ?
-        """, (session_id, seat_number))
-        
-        existing = cursor.fetchone()
-        
-        if existing:
-            # Update existing record
-            seat_id, rounds, wins, losses, pushes, cards = existing
-            rounds += 1
-            cards += 2  # Assuming 2 cards per hand initially
-            
-            if result == 'win':
-                wins += 1
-            elif result == 'loss':
-                losses += 1
-            elif result == 'push':
-                pushes += 1
-            
-            win_rate = wins / rounds if rounds > 0 else 0.0
-            
-            cursor.execute("""
-                UPDATE seat_performance 
-                SET rounds_played = ?, wins = ?, losses = ?, pushes = ?, 
-                    win_rate = ?, total_cards_received = ?
-                WHERE id = ?
-            """, (rounds, wins, losses, pushes, win_rate, cards, seat_id))
-        else:
-            # Create new record
-            rounds = 1
-            wins = 1 if result == 'win' else 0
-            losses = 1 if result == 'loss' else 0
-            pushes = 1 if result == 'push' else 0
-            win_rate = wins / rounds if rounds > 0 else 0.0
-            cards = 2
-            
-            cursor.execute("""
-                INSERT INTO seat_performance 
-                (shoe_session_id, seat_number, rounds_played, wins, losses, pushes, win_rate, total_cards_received)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """, (session_id, seat_number, rounds, wins, losses, pushes, win_rate, cards))
-        
-        self.conn.commit()
+        with self.lock:
+            with self.get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS seat_performance (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        session_id INTEGER,
+                        seat_number INTEGER,
+                        result TEXT,
+                        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )
+                """)
+                cursor.execute("""
+                    INSERT INTO seat_performance (session_id, seat_number, result)
+                    VALUES (?, ?, ?)
+                """, (session_id, seat_number, result))
+                conn.commit()
 
-    def get_shoe_performance_stats(self, session_id):
-        """Gets comprehensive shoe performance statistics."""
-        if not self.conn:
-            return None
-        
-        cursor = self.conn.cursor()
-        
-        # Get shoe session info
-        cursor.execute("SELECT * FROM shoe_sessions WHERE id = ?", (session_id,))
-        shoe_info = cursor.fetchone()
-        
-        # Get seat performance
-        cursor.execute("SELECT * FROM seat_performance WHERE shoe_session_id = ?", (session_id,))
-        seat_stats = cursor.fetchall()
-        
-        # Get prediction accuracy
-        cursor.execute("""
-            SELECT 
-                COUNT(*) as total_predictions,
-                SUM(CASE WHEN prediction_correct = 1 THEN 1 ELSE 0 END) as correct_predictions
-            FROM prediction_validation WHERE shoe_session_id = ?
-        """, (session_id,))
-        prediction_stats = cursor.fetchone()
-        
-        return {
-            'shoe_info': shoe_info,
-            'seat_stats': seat_stats,
-            'prediction_stats': prediction_stats
-        }
-
-    def get_analytics_summary(self, date_filter=None):
-        """Gets comprehensive analytics summary for decision making."""
-        if not self.conn:
-            return None
-        
-        cursor = self.conn.cursor()
-        
-        # Base query for analytics
-        base_query = """
-            SELECT 
-                ss.shoe_name,
-                ss.win_rate,
-                ss.total_rounds,
-                ss.dealer_wins,
-                ss.player_wins,
-                AVG(sp.win_rate) as avg_seat_win_rate,
-                COUNT(DISTINCT sp.seat_number) as active_seats
-            FROM shoe_sessions ss
-            LEFT JOIN seat_performance sp ON ss.id = sp.shoe_session_id
-        """
-        
-        if date_filter:
-            base_query += " WHERE ss.start_time >= ?"
-            cursor.execute(base_query + " GROUP BY ss.id", (date_filter,))
-        else:
-            cursor.execute(base_query + " GROUP BY ss.id")
-        
-        results = cursor.fetchall()
-        
-        return {
-            'shoe_performances': results,
-            'generated_at': datetime.now().isoformat()
-        }
-
-
-    def close(self):
-        if self.conn:
-            self.conn.close()
-            print("Database connection closed.")
-
-if __name__ == '__main__':
-    db = DBManager()
-    # The tables are created on initialization now.
-    db.close()
+    def get_rounds_since_timestamp(self, shoe_name, timestamp, limit=50):
+        """Get rounds that occurred after the specified timestamp."""
+        with self.lock:
+            with self.get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    SELECT * FROM rounds 
+                    WHERE shoe_name = ? AND last_updated > ? 
+                    ORDER BY last_updated ASC 
+                    LIMIT ?
+                """, (shoe_name, timestamp, limit))
+                return cursor.fetchall()

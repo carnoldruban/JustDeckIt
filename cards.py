@@ -1,167 +1,42 @@
-import random
 import collections
-from typing import Optional, List
 
-SUITS = ["Hearts", "Diamonds", "Clubs", "Spades"]
-SUIT_SYMBOLS = {"Hearts": "♥", "Diamonds": "♦", "Clubs": "♣", "Spades": "♠"}
-
-RANKS = {
-    "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9,
-    "10": 10, "J": 10, "Q": 10, "K": 10, "A": 11
-}
+# Card Category Definitions
+HIGH_CARDS = ['T', 'J', 'Q', 'K', 'A']
+LOW_CARDS = ['2', '3', '4', '5', '6']
+MIDDLE_CARDS = ['7', '8', '9']
 
 class Card:
-    """Represents a single playing card with a suit, rank string, and Blackjack value."""
-    def __init__(self, suit: str, rank_str: str):
-        if suit not in SUITS:
-            raise ValueError(f"Invalid suit: {suit}. Must be one of {SUITS}")
-        if rank_str not in RANKS:
-            raise ValueError(f"Invalid rank string: {rank_str}. Must be one of {list(RANKS.keys())}")
-
+    """Represents a single playing card."""
+    def __init__(self, rank, suit):
+        self.rank = rank
         self.suit = suit
-        self.rank_str = rank_str
-        self.value = RANKS[rank_str]
+        self.value = self._get_value()
+
+    def _get_value(self):
+        if self.rank.isdigit():
+            return int(self.rank)
+        elif self.rank in ['T', 'J', 'Q', 'K']:
+            return 10
+        else: # Ace
+            return 11
 
     def __str__(self):
-        return f"{self.rank_str}{SUIT_SYMBOLS.get(self.suit, '?')}"
+        """The string representation is just its rank."""
+        return self.rank
 
     def __repr__(self):
-        return f"Card('{self.suit}', '{self.rank_str}')"
+        return f"Card('{self.rank}', '{self.suit}')"
 
-    def __eq__(self, other):
-        if not isinstance(other, Card):
-            return NotImplemented
-        return self.suit == other.suit and self.rank_str == other.rank_str
+class StandardDeck:
+    """Represents a standard 52-card deck."""
+    ranks = [str(n) for n in range(2, 10)] + list('TJQKA')
+    suits = 'spades diamonds clubs hearts'.split()
+    
+    def __init__(self):
+        self.cards = [Card(rank, suit) for suit in self.suits for rank in self.ranks]
 
-    def __hash__(self):
-        return hash((self.suit, self.rank_str))
-
-def create_deck() -> List[Card]:
-    """Creates a standard 52-card deck."""
-    return [Card(suit, r_str) for suit in SUITS for r_str in RANKS.keys()]
-
-def create_shoe_cards(num_decks: int) -> List[Card]:
-    """Creates a list of cards for a shoe with a given number of decks."""
-    if num_decks < 1:
-        num_decks = 1
-    shoe_cards = []
-    for _ in range(num_decks):
-        shoe_cards.extend(create_deck())
-    return shoe_cards
-
-class Deck:
-    """Represents one or more physical decks, shuffled together."""
-    def __init__(self, num_physical_decks: int = 1):
-        self.cards: List[Card] = []
-        if num_physical_decks < 1:
-            num_physical_decks = 1
-        for _ in range(num_physical_decks):
-            self.cards.extend(create_deck())
-        self.shuffle()
-
-    def shuffle(self):
-        random.shuffle(self.cards)
-
-    def deal_card(self) -> Optional[Card]:
-        if not self.cards:
-            return None
-        return self.cards.pop(0)
-
-    def __len__(self) -> int:
+    def __len__(self):
         return len(self.cards)
 
-class Shoe:
-    """Manages undealt cards, current round dealt cards, and discard pile."""
-    def __init__(self, num_physical_decks: int = 6, shuffle_now: bool = True):
-        if num_physical_decks < 1:
-            num_physical_decks = 1
-        self.num_physical_decks: int = num_physical_decks
-        _master_deck_cards = create_shoe_cards(num_physical_decks)
-        if shuffle_now:
-            random.shuffle(_master_deck_cards)
-        self.undealt_cards: collections.deque[Card] = collections.deque(_master_deck_cards)
-        self.dealt_this_round: List[Card] = []
-        self.discard_pile: List[Card] = []
-
-    def deal_card(self, specific_card_to_remove: Optional[Card] = None) -> Optional[Card]:
-        if not self.undealt_cards:
-            return None
-        card_to_deal: Optional[Card] = None
-        if specific_card_to_remove:
-            try:
-                self.undealt_cards.remove(specific_card_to_remove)
-                card_to_deal = specific_card_to_remove
-            except ValueError:
-                return None
-        else:
-            card_to_deal = self.undealt_cards.popleft()
-        if card_to_deal:
-            self.dealt_this_round.append(card_to_deal)
-        return card_to_deal
-
-    def end_round(self):
-        self.discard_pile.extend(self.dealt_this_round)
-        self.dealt_this_round = []
-
-    def collect_cards_and_shuffle(self, shuffle_type: str = "standard_random"):
-        all_cards_list = list(self.discard_pile) + list(self.undealt_cards) + list(self.dealt_this_round)
-        self.discard_pile = []
-        self.dealt_this_round = []
-        if not all_cards_list:
-            self.undealt_cards = collections.deque()
-            return
-        if shuffle_type == "standard_random":
-            random.shuffle(all_cards_list)
-        else:
-            random.shuffle(all_cards_list)
-        self.undealt_cards = collections.deque(all_cards_list)
-
-    def set_initial_cards(self, card_list_tuples: List[tuple[str, str]]):
-        try:
-            new_cards = [Card(s, r) for s, r in card_list_tuples]
-            self.undealt_cards = collections.deque(new_cards)
-        except ValueError as e:
-            print(f"Error creating cards for set_initial_cards: {e}")
-            raise
-        self.dealt_this_round = []
-        self.discard_pile = []
-        self.num_physical_decks = round(len(self.undealt_cards) / 52.0)
-        if self.num_physical_decks == 0 and len(self.undealt_cards) > 0:
-            self.num_physical_decks = 1
-
-    def get_remaining_decks_approx(self) -> float:
-        if not self.undealt_cards:
-            return 0.0
-        return len(self.undealt_cards) / 52.0
-
-    def __str__(self) -> str:
-        return (f"Shoe: {len(self.undealt_cards)} undealt, "
-                f"{len(self.dealt_this_round)} dealt this round, "
-                f"{len(self.discard_pile)} in discard.")
-
-    def __len__(self) -> int:
-        return len(self.undealt_cards)
-
-if __name__ == '__main__':
-    ace_hearts = Card("Hearts", "A")
-    king_spades = Card("Spades", "K")
-    print(f"Card examples: {ace_hearts} (Value: {ace_hearts.value}), {king_spades} (Value: {king_spades.value})")
-    single_deck_list = create_deck()
-    print(f"\nStandard deck created with {len(single_deck_list)} cards.")
-    shoe = Shoe(num_physical_decks=2)
-    print(f"\n{shoe}")
-    print("\nDealing 5 cards from shoe (from top):")
-    for i in range(5):
-        c = shoe.deal_card()
-        if c:
-            print(f"Dealt {i+1}: {c}")
-    shoe.end_round()
-    print(f"\nAfter ending round: {shoe}")
-    shoe.collect_cards_and_shuffle()
-    print(f"\nAfter reshuffle: {shoe}")
-    custom_card_data = [("Hearts", "A"), ("Spades", "K"), ("Diamonds", "Q"), ("Clubs", "J")]
-    shoe.set_initial_cards(custom_card_data)
-    print(f"\nShoe set with custom cards: {shoe}")
-    ace_to_deal = Card("Hearts", "A")
-    dealt_specific = shoe.deal_card(specific_card_to_remove=ace_to_deal)
-    print(f"Dealt specific '{ace_to_deal}': {dealt_specific}, Shoe state: {shoe}")
+    def __getitem__(self, position):
+        return self.cards[position]

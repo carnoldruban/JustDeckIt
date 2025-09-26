@@ -108,64 +108,49 @@ class AnalyticsEngine:
     
     def get_shoe_performance_analysis(self, hours_back: int = 24) -> Dict:
         """Gets comprehensive shoe performance analysis for decision making."""
-        if not self.db_manager.conn:
-            return {}
-        
-        cursor = self.db_manager.conn.cursor()
         cutoff_time = (datetime.now() - timedelta(hours=hours_back)).isoformat()
         
-        # Get shoe performance stats
-        cursor.execute("""
-            SELECT 
-                shoe_name,
-                AVG(win_rate) as avg_win_rate,
-                COUNT(*) as sessions_count,
-                AVG(total_rounds) as avg_rounds,
-                SUM(player_wins) as total_player_wins,
-                SUM(dealer_wins) as total_dealer_wins,
-                SUM(pushes) as total_pushes
-            FROM shoe_sessions 
-            WHERE start_time >= ? AND status = 'completed'
-            GROUP BY shoe_name
-            ORDER BY avg_win_rate DESC
-        """, (cutoff_time,))
-        
-        shoe_stats = cursor.fetchall()
-        
-        # Get seat performance stats
-        cursor.execute("""
-            SELECT 
-                sp.seat_number,
-                AVG(sp.win_rate) as avg_win_rate,
-                SUM(sp.rounds_played) as total_rounds,
-                SUM(sp.wins) as total_wins,
-                COUNT(DISTINCT ss.id) as sessions_count
-            FROM seat_performance sp
-            JOIN shoe_sessions ss ON sp.shoe_session_id = ss.id
-            WHERE ss.start_time >= ? AND ss.status = 'completed'
-            GROUP BY sp.seat_number
-            ORDER BY avg_win_rate DESC
-        """, (cutoff_time,))
-        
-        seat_stats = cursor.fetchall()
-        
-        # Get prediction accuracy
-        cursor.execute("""
-            SELECT 
-                AVG(CASE WHEN prediction_correct = 1 THEN 1.0 ELSE 0.0 END) as accuracy,
-                COUNT(*) as total_predictions
-            FROM prediction_validation pv
-            JOIN shoe_sessions ss ON pv.shoe_session_id = ss.id
-            WHERE ss.start_time >= ?
-        """, (cutoff_time,))
-        
-        prediction_stats = cursor.fetchone()
+        # We only have basic tables; build minimal analytics from what exists.
+        with self.db_manager.get_connection() as conn:
+            cursor = conn.cursor()
+            # Sessions summary (count sessions by shoe since start_time)
+            cursor.execute("""
+                SELECT shoe_name, COUNT(*) as sessions
+                FROM shoe_sessions
+                WHERE start_time >= ?
+                GROUP BY shoe_name
+            """, (cutoff_time,))
+            sessions_rows = cursor.fetchall()
+            shoe_stats = [(row[0], None, row[1], None, None, None, None) for row in sessions_rows]
+            
+            # Seat performance: simple counts of results per seat
+            cursor.execute("""
+                SELECT seat_number,
+                       AVG(CASE WHEN result = 'win' THEN 1.0 ELSE 0.0 END) as win_rate,
+                       COUNT(*) as total_rounds,
+                       SUM(CASE WHEN result = 'win' THEN 1 ELSE 0 END) as total_wins,
+                       COUNT(DISTINCT session_id) as sessions_count
+                FROM seat_performance
+                WHERE timestamp >= ?
+                GROUP BY seat_number
+                ORDER BY win_rate DESC
+            """, (cutoff_time,))
+            seat_stats = cursor.fetchall()
+            
+            # Prediction accuracy: we only log raw rows; compute correctness if predicted == actual
+            cursor.execute("""
+                SELECT AVG(CASE WHEN predicted_card = actual_card THEN 1.0 ELSE 0.0 END) as accuracy,
+                       COUNT(*) as total_predictions
+                FROM prediction_validation
+                WHERE timestamp >= ?
+            """, (cutoff_time,))
+            prediction_stats = cursor.fetchone() or (0.0, 0)
         
         return {
             'shoe_performance': [
                 {
                     'name': row[0],
-                    'win_rate': row[1],
+                    'win_rate': row[1],  # unknown without more data
                     'sessions': row[2],
                     'avg_rounds': row[3],
                     'player_wins': row[4],
@@ -183,8 +168,8 @@ class AnalyticsEngine:
                 } for row in seat_stats
             ],
             'prediction_accuracy': {
-                'accuracy': prediction_stats[0] if prediction_stats[0] else 0.0,
-                'total_predictions': prediction_stats[1] if prediction_stats[1] else 0
+                'accuracy': prediction_stats[0] or 0.0,
+                'total_predictions': prediction_stats[1] or 0
             },
             'analysis_period': f"Last {hours_back} hours",
             'generated_at': datetime.now().isoformat()

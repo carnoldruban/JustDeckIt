@@ -1,193 +1,346 @@
-from cards import Card, Shoe
-from shuffling import ShuffleManager
+from shoe import Shoe
+from collections import Counter, deque
+from shuffling import perform_full_shuffle
+import threading
+import json
+from logging_config import get_logger, log_performance
 
 class ShoeManager:
-    def __init__(self, default_regions=8):
-        self.default_regions = default_regions
+    def __init__(self, db_manager=None):
+        self.logger = get_logger("ShoeManager")
+        self.db_manager = db_manager
         self.shoes = {
-            "None": None,
-            "Shoe 1": self._create_new_tracked_shoe(),
-            "Shoe 2": self._create_new_tracked_shoe()
-        }
-        self.shuffle_managers = {
-            "Shoe 1": ShuffleManager(self.shoes["Shoe 1"], self.default_regions),
-            "Shoe 2": ShuffleManager(self.shoes["Shoe 2"], self.default_regions)
+            "Shoe 1": Shoe(),
+            "Shoe 2": Shoe()
         }
         self.active_shoe_name = "None"
-        self.unshuffled_cards = []
+        self.round_card_cache = {}
+        self.shuffle_thread = None
+        self.last_dealt_card = None
+        # NOTE: removed shuffle lock to avoid threading contention in tests/runtime
+        self._last_game_id = None  # Track last processed game id for round boundary
+        
+        self.logger.info("ShoeManager initialized with database manager: %s", db_manager is not None)
+        self.logger.debug("Initial shoes: %s", list(self.shoes.keys()))
 
-    def _create_new_tracked_shoe(self) -> Shoe:
-        """Creates a fresh, randomly shuffled 8-deck shoe."""
-        return Shoe(num_physical_decks=8, shuffle_now=True)
+    @log_performance
+    def set_active_shoe(self, shoe_name):
+        self.logger.info("Setting active shoe to: %s", shoe_name)
+        self.active_shoe_name = shoe_name
+        self.round_card_cache = {}
+        
+        # Initialize shoe if it doesn't exist or is empty
+        if shoe_name not in self.shoes or not self.shoes[shoe_name].undealt_cards:
+            self.logger.info("Initializing new shoe: %s", shoe_name)
+            self.shoes[shoe_name] = Shoe()
+            # Create a new shuffled shoe
+            new_cards = Shoe.create_new_shuffled_shoe(8)  # 8 decks
+            self.shoes[shoe_name].undealt_cards = list(new_cards)
+            self.shoes[shoe_name].dealt_cards = []
+            
+            self.logger.debug("Created new shoe with %d cards", len(new_cards))
+            
+            # Update database
+            if self.db_manager:
+                self.db_manager.update_shoe_cards(
+                    shoe_name,
+                    list(self.shoes[shoe_name].undealt_cards),
+                    list(self.shoes[shoe_name].dealt_cards)
+                )
+                self.logger.debug("Updated database with new shoe cards")
+        
+        if shoe_name != "None":
+            self.logger.info("Active shoe set to: %s", shoe_name)
+        else:
+            self.logger.info("Shoe tracking disabled")
 
-    def get_active_shoe(self) -> Shoe | None:
+    def get_active_shoe(self):
         return self.shoes.get(self.active_shoe_name)
 
-    def set_active_shoe(self, name: str):
-        if name in self.shoes:
-            self.active_shoe_name = name
-            print(f"Active shoe set to: {name}")
-        else:
-            print(f"Error: Shoe '{name}' not found.")
+    def get_last_dealt_card(self):
+        return self.last_dealt_card
 
-    def end_current_shoe(self):
-        """
-        Marks the current shoe as finished, starts shuffling it in the background,
-        and switches the active shoe.
-        """
-        if self.active_shoe_name == "None":
-            print("No active shoe selected to mark as ended.")
-            return False
+    @log_performance
+    def process_game_state(self, payload):
+        """Process payload, maintain current_dealt by t-ascending, and finalize previous round on gameId change."""
+        self.logger.debug("Processing game state payload")
+        gid = payload.get('gameId')
+        if not gid:
+            self.logger.warning("No game ID in payload")
+            return []
 
+        prev_gid = getattr(self, "_last_game_id", None)
+        if prev_gid and prev_gid != gid:
+            try:
+                self._finalize_previous_round(prev_gid)
+            except Exception as e:
+                self.logger.error("Finalize previous round error: %s", e)
+
+        # Build current-round dealt from visible cards sorted by timestamp 't'
+        items = []
+        # Dealer cards
+        if payload.get('dealer', {}).get('cards'):
+            for c in payload['dealer']['cards']:
+                if isinstance(c, dict) and c.get('value') and c.get('value') != '**':
+                    items.append((c['value'], c.get('t', 0)))
+        # Seats cards
+        for seat_key, seat in (payload.get('seats') or {}).items():
+            first = seat.get('first', {})
+            for c in (first.get('cards') or []):
+                if isinstance(c, dict) and c.get('value') and c.get('value') != '**':
+                    items.append((c['value'], c.get('t', 0)))
+        items.sort(key=lambda x: x[1])
+        current_round_dealt = [v for (v, _) in items]
+
+        # Persist current_dealt for active shoe
+        if self.db_manager is not None:
+            try:
+                self.db_manager.update_current_dealt_cards(self.active_shoe_name, current_round_dealt)
+            except Exception as e:
+                self.logger.error("update_current_dealt_cards error: %s", e)
+
+        # Track last dealt (for UI convenience)
+        if current_round_dealt:
+            self.last_dealt_card = current_round_dealt[-1]
+
+        self._last_game_id = gid
+        return []
+
+    def end_current_shoe_and_shuffle(self, shuffle_params):
+        """
+        New flow:
+        - For the ACTIVE shoe A: compute shuffling stack = undealt(A) + discarded(A), store in DB.next_shuffling_stack(A)
+        - Prepare the OTHER shoe B: shuffle B using its next_shuffling_stack(B) if present, else fresh/new
+        """
+        # Avoid concurrent shuffles
         if self.shuffle_thread and self.shuffle_thread.is_alive():
-            print("A shuffle is already in progress. Please wait for it to complete.")
             return False
 
-        shoe_to_shuffle_name = self.active_shoe_name
-        shuffle_manager_instance = self.shuffle_managers[shoe_to_shuffle_name]
+        active_name = self.active_shoe_name
+        if not active_name or active_name == "None":
+            return False
 
-        print(f"Ending {shoe_to_shuffle_name}. It will be shuffled in the background.")
+        # Compute and persist next_shuffling_stack for the active shoe (A)
+        try:
+            if self.db_manager:
+                stateA = self.db_manager.get_shoe_state(active_name)
+                # Build shuffling stack as (undealt + discarded) then reverse so top is dealer's last-round first card
+                stackA_forward = list(stateA.get("undealt", [])) + list(stateA.get("discarded", []))
+                stackA = list(reversed(stackA_forward))
+                self.db_manager.set_next_shuffling_stack(active_name, stackA)
+                print(f"[ShoeManager] Stored next_shuffling_stack for {active_name}: {len(stackA)} cards (reversed from undealt+discarded)")
+        except Exception as e:
+            print(f"[ShoeManager] Warning: failed to set next_shuffling_stack for {active_name}: {e}")
 
-        # The `perform_full_shoe_shuffle` method now handles combining the cards.
-        self.shuffle_thread = threading.Thread(target=shuffle_manager_instance.perform_full_shoe_shuffle, daemon=True)
+        # Prepare the other shoe (B) for play
+        other_name = "Shoe 2" if active_name == "Shoe 1" else "Shoe 1"
+
+        def worker(shoe_name, params):
+            try:
+                iterations = int(params.get('iterations', 4))
+                chunks = int(params.get('chunks', 8))
+                seed = params.get('seed')
+                stackB = []
+                if self.db_manager:
+                    stateB = self.db_manager.get_shoe_state(shoe_name)
+                    stackB = list(stateB.get("next_stack", []))
+
+                if stackB:
+                    shuffled_deck = perform_full_shuffle(stackB, iterations, chunks, seed=seed)
+                else:
+                    # Fallback: new shuffled 8-deck shoe
+                    shuffled_deck = Shoe.create_new_shuffled_shoe(8)
+
+                # Update in-memory shoe
+                new_shoe = Shoe()
+                new_shoe.undealt_cards = list(shuffled_deck)
+                new_shoe.dealt_cards = []
+                self.shoes[shoe_name] = new_shoe
+
+                # Persist DB state for the prepared shoe
+                if self.db_manager:
+                    self.db_manager.update_shoe_cards(shoe_name, list(shuffled_deck), [])
+                    self.db_manager.update_current_dealt_cards(shoe_name, [])
+                    self.db_manager.set_discarded_cards(shoe_name, [])
+                    self.db_manager.set_next_shuffling_stack(shoe_name, [])
+                print(f"[ShuffleWorker] Prepared next shoe: {shoe_name} with {len(shuffled_deck)} cards.")
+            except Exception as e:
+                print(f"[ShuffleWorker] Error: {e}")
+
+        self.shuffle_thread = threading.Thread(target=worker, args=(other_name, shuffle_params or {}), daemon=True)
         self.shuffle_thread.start()
-
-        # Immediately switch to the other shoe so play can continue
-        next_shoe = "Shoe 2" if self.active_shoe_name == "Shoe 1" else "Shoe 1"
-        self.set_active_shoe(next_shoe)
-
         return True
 
-    def process_discard_logic(self, payload: dict):
-        """Processes a game payload and adds played cards to the discard pile of the active shoe."""
-        active_shoe = self.get_active_shoe()
-        if not active_shoe:
-            return # Not tracking, so do nothing
-
-        # This logic needs to be precise as per user's request
-        # For now, we'll just collect all cards. The precise ordering will be a refinement.
-        all_played_cards = []
-        dealer_hand = payload.get('dealer', {})
-        if dealer_hand.get('cards'):
-            for card_data in dealer_hand['cards']:
-                # Need to convert string back to Card object
-                # This requires a helper function
-                pass # Placeholder
-
-        # This part is complex because the JSON gives us strings, but Shoe object needs Card objects.
-        # We need a way to map the string from JSON back to the specific Card instance in the shoe.
-        # This requires a significant change in how we track cards.
-
-        # For now, we will placeholder this logic.
-        # A proper implementation needs to map the dealt card strings to the actual Card objects
-        # that were dealt from the Shoe's undealt_cards deque.
-        pass
-
-    def _card_from_string(self, card_str: str) -> Card | None:
-        """Helper to create a Card object from a string like 'KH' or 'T_S'."""
-        if not card_str or len(card_str) < 2 or card_str == "**":
-            return None
-
-        rank = card_str[0].upper()
-        suit_char = card_str[1].upper()
-
-        suits_map = {'H': 'Hearts', 'D': 'Diamonds', 'C': 'Clubs', 'S': 'Spades'}
-        if suit_char not in suits_map:
-            return None
-
-        # Handle Ten, which is 'T' in our JSON
-        if rank == 'T':
-            rank = '10'
-
-        return Card(suits_map[suit_char], rank)
-
-    def process_game_state(self, payload: dict):
+    def _finalize_previous_round(self, prev_gid: str):
         """
-        Processes a game state payload, dealing cards from the active shoe
-        and moving them to the discard pile in the correct order.
-        Returns a list of newly dealt Card objects.
+        End-of-round consolidation for prev_gid:
+        - Use DB current_dealt_cards (rank+suit) to:
+            * Remove from undealt via nearest exact match (fallback nearest same-rank), popping from front
+            * Append to dealt_cards
+        - Build discarded block from rounds row in order:
+            Dealer: first, second, extras (t asc)
+            Seats 0..6: first, second, extras (t asc)
+        - Persist undealt, dealt, discarded; clear current_dealt_cards.
+        - Update in-memory shoe to keep UI consistent.
         """
-        active_shoe = self.get_active_shoe()
-        if not active_shoe:
-            return [] # Not tracking, do nothing
-
-        # 1. Gather all card strings from the payload in the specified discard order.
-        ordered_card_strings = []
-        dealer_hand = payload.get('dealer', {})
-        if dealer_hand.get('cards'):
-            # Per user spec: dealer's first card, then hole card, then rest.
-            dealer_cards_json = dealer_hand['cards']
-            if len(dealer_cards_json) > 0:
-                ordered_card_strings.append(dealer_cards_json[0]['value'])
-            if len(dealer_cards_json) > 1:
-                ordered_card_strings.append(dealer_cards_json[1]['value'])
-            if len(dealer_cards_json) > 2:
-                for card_data in dealer_cards_json[2:]:
-                    ordered_card_strings.append(card_data['value'])
-
-        seats = payload.get('seats', {})
-        for i in range(7): # Iterate 0 through 6 to maintain order
-            seat_data = seats.get(str(i))
-            if seat_data and seat_data.get('first', {}).get('cards'):
-                 for card_data in seat_data['first']['cards']:
-                     ordered_card_strings.append(card_data['value'])
-                # Handle split hands in the future if necessary
-
-        # 2. For each card string, find and "deal" the specific card from the shoe
-        newly_dealt_cards = []
-        for card_str in ordered_card_strings:
-            card_obj = self._card_from_string(card_str)
-            if card_obj:
-                # The shoe's deal_card method handles moving it from undealt to dealt_this_round
-                dealt_card = active_shoe.deal_card(specific_card_to_remove=card_obj)
-                if dealt_card:
-                    # Check if this is the first time we are seeing this card in this round
-                    if dealt_card not in newly_dealt_cards:
-                         newly_dealt_cards.append(dealt_card)
-
-        # 3. Finalize the round by moving all dealt cards to the discard pile
-        active_shoe.end_round()
-
-        print(f"Processed round. Discard pile size: {len(active_shoe.discard_pile)}")
-        return newly_dealt_cards
-
-    def perform_shuffle(self, target_shoe_name: str, shuffle_params: dict):
-        """Uses the ShuffleManager to shuffle the saved cards and updates a shoe."""
-        if not self.unshuffled_cards:
-            print("No cards available to shuffle.")
+        if not self.db_manager:
             return
 
-        if target_shoe_name not in self.shoes or target_shoe_name == "None":
-            print(f"Invalid target shoe for shuffling: {target_shoe_name}")
-            return
-
-        # Create a temporary Shoe object with the unshuffled cards to pass to the ShuffleManager
-        temp_shoe = Shoe(num_physical_decks=0, shuffle_now=False)
-        temp_shoe.undealt_cards = collections.deque(self.unshuffled_cards)
-
-        # Initialize the shuffle manager with zones based on form input
+        shoe_name = self.active_shoe_name
         try:
-            num_zones = int(shuffle_params.get("regions", 4))
-        except (ValueError, TypeError):
-            num_zones = 4
+            state = self.db_manager.get_shoe_state(shoe_name)
+            undealt = list(state.get("undealt", []))
+            current = list(state.get("current", []))
 
-        shuffle_manager = ShuffleManager(temp_shoe, num_tracking_zones=num_zones)
+            # Remove each current card from undealt with nearest exact match fallback to nearest same-rank
+            def pop_front_matching(card: str):
+                nonlocal undealt
+                if not undealt:
+                    return
+                # Exact match at pointer
+                if undealt[0] == card:
+                    undealt.pop(0)
+                    return
+                idx = -1
+                # nearest exact (scan forward after the pointer)
+                for i in range(1, len(undealt)):
+                    if undealt[i] == card:
+                        idx = i
+                        break
+                # nearest same-rank fallback
+                if idx == -1:
+                    r = str(card)[0]
+                    # if the pointer already matches the rank, consume it
+                    if undealt and str(undealt[0])[0] == r:
+                        undealt.pop(0)
+                        return
+                    for i in range(1, len(undealt)):
+                        if str(undealt[i])[0] == r:
+                            idx = i
+                            break
+                if idx != -1 and undealt:
+                    undealt[0], undealt[idx] = undealt[idx], undealt[0]
+                if undealt:
+                    undealt.pop(0)
 
-        # This is a placeholder for a complex series of shuffle operations.
-        # A real implementation would generate these from the form.
-        # For now, we will simulate a simple shuffle: riffle the first two zones into the first zone.
-        if num_zones >= 2:
-            print(f"Performing tracked shuffle on {len(self.unshuffled_cards)} cards...")
-            shuffle_operations = [("riffle", 0, 1, 0)]
-            shuffle_manager.perform_tracked_shuffle(shuffle_operations)
-        else:
-            # If not enough zones, just do a random shuffle
-            print("Not enough zones for tracked shuffle, performing random shuffle.")
-            random.shuffle(list(shuffle_manager.shoe.undealt_cards))
+            for card in current:
+                pop_front_matching(card)
 
+            # Append current to dealt
+            self.db_manager.append_dealt_cards(shoe_name, current)
 
-        # Update the target shoe with the new shuffled (predicted) deck
-        self.shoes[target_shoe_name].undealt_cards = shuffle_manager.shoe.undealt_cards
+            # Build discarded block for prev_gid from rounds table
+            row = self.db_manager.get_round_by_game_id(shoe_name, prev_gid)
+            discard_block = []
 
-        print(f"{target_shoe_name} has been updated with a new predicted deck of {len(self.shoes[target_shoe_name].undealt_cards)} cards.")
-        self.unshuffled_cards = [] # Clear the temporary pile
+            def parse_pairs(field, allow_hidden=False):
+                pairs = []
+                if not field:
+                    return pairs
+                try:
+                    raw = json.loads(field) if isinstance(field, str) else (field or [])
+                    for c in raw:
+                        if isinstance(c, dict):
+                            v = c.get("value")
+                            if v and (allow_hidden or v != "**"):
+                                pairs.append((v, c.get("t", 0)))
+                        elif isinstance(c, str):
+                            if c and (allow_hidden or c != "**"):
+                                pairs.append((c, 0))
+                except Exception:
+                    pass
+                return pairs
+
+            def extras_desc(pairs):
+                extras = pairs[2:] if len(pairs) > 2 else []
+                return sorted(extras, key=lambda x: x[1] if x[1] is not None else 0, reverse=True)
+
+            if row:
+                # Seats 6..1: extras (t desc), then second, then first
+                for seat in range(6, 0, -1):
+                    hand_idx = 5 + seat * 3
+                    seat_pairs = parse_pairs(row[hand_idx] if len(row) > hand_idx else None, allow_hidden=False)
+                    for v, _ in extras_desc(seat_pairs):
+                        if v and v != "**":
+                            discard_block.append(v)
+                    if len(seat_pairs) >= 2 and seat_pairs[1][0] and seat_pairs[1][0] != "**":
+                        discard_block.append(seat_pairs[1][0])
+                    if len(seat_pairs) >= 1 and seat_pairs[0][0] and seat_pairs[0][0] != "**":
+                        discard_block.append(seat_pairs[0][0])
+
+                # Seat 0: extras (t desc), then second, then first
+                seat_pairs_0 = parse_pairs(row[5] if len(row) > 5 else None, allow_hidden=False)
+                for v, _ in extras_desc(seat_pairs_0):
+                    if v and v != "**":
+                        discard_block.append(v)
+                if len(seat_pairs_0) >= 2 and seat_pairs_0[1][0] and seat_pairs_0[1][0] != "**":
+                    discard_block.append(seat_pairs_0[1][0])
+                if len(seat_pairs_0) >= 1 and seat_pairs_0[0][0] and seat_pairs_0[0][0] != "**":
+                    discard_block.append(seat_pairs_0[0][0])
+
+                # Dealer: extras (t desc), then second (include '**' if hidden), then first
+                dealer_pairs_raw = parse_pairs(row[3] if len(row) > 3 else None, allow_hidden=True)
+                for v, _ in extras_desc(dealer_pairs_raw):
+                    if v and v != "**":
+                        discard_block.append(v)
+                if len(dealer_pairs_raw) >= 2:
+                    v2 = dealer_pairs_raw[1][0]
+                    if v2:
+                        discard_block.append(v2)  # include hidden downcard if '**'
+                if len(dealer_pairs_raw) >= 1:
+                    v1 = dealer_pairs_raw[0][0]
+                    if v1 and v1 != "**":
+                        discard_block.append(v1)
+
+                try:
+                    self.logger.info("Discard order (pre-reverse) for round %s: first10=%s total=%d", prev_gid, discard_block[:10], len(discard_block))
+                except Exception:
+                    pass
+
+            # Persist new state
+            self.db_manager.replace_undealt_cards(shoe_name, undealt)
+            if discard_block:
+                # Reverse the round's discard block before prepending, per new requirement
+                discard_block = list(reversed(discard_block))
+                self.db_manager.append_discarded_cards_left(shoe_name, discard_block)
+            self.db_manager.update_current_dealt_cards(shoe_name, [])
+
+            # Update in-memory shoe to reflect DB state
+            shoe = self.get_active_shoe()
+            try:
+                new_state = self.db_manager.get_shoe_state(shoe_name)
+                if shoe:
+                    shoe.undealt_cards = list(new_state.get("undealt", []))
+                    shoe.dealt_cards = list(new_state.get("dealt", []))
+            except Exception:
+                pass
+
+            # Track last dealt of previous round
+            if current:
+                self.last_dealt_card = current[-1]
+
+            print(f"[ShoeManager] Finalized round {prev_gid}: removed {len(current)} cards, discarded {len(discard_block)} cards.")
+        except Exception as e:
+            print(f"[ShoeManager] _finalize_previous_round error: {e}")
+
+    def _shuffle_worker(self, shoe_name, stack, params):
+        num_iterations = int(params.get('iterations', 4))
+        num_chunks = int(params.get('chunks', 8))
+        # Optional seed can be passed in params for deterministic testing
+        seed = params.get('seed')
+        shuffled_deck = perform_full_shuffle(stack, num_iterations, num_chunks, seed=seed)
+        
+        new_shoe = Shoe()
+        new_shoe.undealt_cards = list(shuffled_deck)
+        new_shoe.dealt_cards = []
+        self.shoes[shoe_name] = new_shoe
+        
+        # Update database with new shuffled shoe
+        if self.db_manager:
+            self.db_manager.update_shoe_cards(
+                shoe_name,
+                list(new_shoe.undealt_cards),
+                list(new_shoe.dealt_cards)
+            )
+        
+        print(f"[ShuffleWorker] Shuffle for {shoe_name} complete.")
