@@ -1,0 +1,40 @@
+# Core dependencies for Infinity Blackjack Assistant
+
+# Web scraping and browser automation
+selenium>=4.15.0
+webdriver-manager>=4.0.1
+beautifulsoup4>=4.12.0
+
+# WebSocket communication
+websockets>=12.0
+websocket-client>=1.6.4
+
+# Async programming
+asyncio-mqtt>=0.16.1
+aiohttp>=3.9.0
+
+# HTTP requests
+requests>=2.31.0
+urllib3>=2.1.0
+
+# Data handling
+pandas>=2.1.0
+numpy>=1.24.0
+
+# JSON and data serialization
+jsonschema>=4.19.0
+pydantic>=2.4.0
+
+# Logging and debugging
+colorlog>=6.7.0
+python-dotenv>=1.0.0
+
+# Testing (optional)
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+
+# Development tools (optional)
+black>=23.10.0
+flake8>=6.1.0
+mypy>=1.6.0
