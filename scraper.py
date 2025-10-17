@@ -5,6 +5,7 @@ import time
 import threading
 import requests
 import os
+from datetime import datetime
 
 # Check for optional dependencies
 try:
@@ -45,6 +46,7 @@ class Scraper:
         self.driver = None
         self.last_round_state = None
         self.current_site = None  # Track which site we're connected to
+        self.logprocesssedtime = datetime.now().strftime('%H:%M:%S.%f')[:-3]
 
     def get_websocket_url(self):
         print(f"--> [Scraper] Connecting to Chrome at {self.CHROME_DEBUG_URL}...")
@@ -182,27 +184,30 @@ class Scraper:
                             if result_value:
                                 try:
                                     data_obj = json.loads(result_value)
-                                    payload = data_obj.get('payloadData', data_obj)
-                                    # Compact payload marker
-                                    gid = payload.get('gameId')
-                                    dscore = payload.get('dealer', {}).get('score')
-                                    print(f"[Scraper] Parsed payload gameId={gid} dealerScore={dscore}")
-                                    # Persist full JSON for offline analysis before storing to DB
-                                    try:
-                                        self._write_full_json(data_obj, gid)
-                                    except Exception as e:
-                                        print(f"[Scraper] Raw JSON write error: {e}")
-                                    shoe_name = self.shoe_manager.active_shoe_name if self.shoe_manager else self.active_shoe_name
-                                    self.db_manager.log_round_update(shoe_name, payload)
-                                    
-                                    # Process cards through shoe manager for counting
-                                    if self.shoe_manager:
-                                        self.shoe_manager.process_game_state(payload)
-                                    
-                                    current_dealer_state = payload.get('dealer', {}).get('state')
-                                    if self.last_round_state == "playing" and current_dealer_state != "playing":
-                                        self.refresh_page()
-                                    self.last_round_state = current_dealer_state
+                                    event_time = data_obj.get('eventTime')
+                                    if event_time and event_time > self.logprocesssedtime:
+                                        payload = data_obj.get('payloadData', data_obj)
+                                        # Compact payload marker
+                                        gid = payload.get('gameId')
+                                        dscore = payload.get('dealer', {}).get('score')
+                                        print(f"[Scraper] Parsed payload gameId={gid} dealerScore={dscore}")
+                                        # Persist full JSON for offline analysis before storing to DB
+                                        try:
+                                            self._write_full_json(data_obj, gid)
+                                        except Exception as e:
+                                            print(f"[Scraper] Raw JSON write error: {e}")
+                                        shoe_name = self.shoe_manager.active_shoe_name if self.shoe_manager else self.active_shoe_name
+                                        self.db_manager.log_round_update(shoe_name, payload)
+
+                                        # Process cards through shoe manager for counting
+                                        if self.shoe_manager:
+                                            self.shoe_manager.process_game_state(payload)
+
+                                        current_dealer_state = payload.get('dealer', {}).get('state')
+                                        if self.last_round_state == "playing" and current_dealer_state != "playing":
+                                            self.refresh_page()
+                                        self.last_round_state = current_dealer_state
+                                        self.logprocesssedtime = event_time
                                 except json.JSONDecodeError:
                                     print("[Scraper] Could not parse response from browser as JSON.")
                             pending_requests.pop(msg["id"])
