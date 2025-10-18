@@ -1,0 +1,18 @@
+[
+  {
+    "id": "call_reviews_1",
+    "type": "TOOL_TYPE_FUNCTION",
+    "function": {
+      "name": "web_search",
+      "arguments": "{\"query\": \"Muriale's Italian Kitchen lasagna reviews\"}"
+    }
+  },
+  {
+    "id": "call_directions_1",
+    "type": "TOOL_TYPE_FUNCTION",
+    "function": {
+      "name": "web_search",
+      "arguments": "{\"query\": \"directions from 1000 Technology Dr, Fairmont, WV to Muriale's Italian Kitchen\"}"
+    }
+  }
+]

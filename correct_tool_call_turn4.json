@@ -1,0 +1,10 @@
+[
+  {
+    "id": "call_correct_1",
+    "type": "TOOL_TYPE_FUNCTION",
+    "function": {
+      "name": "search_calendar_events",
+      "arguments": "{\"calendar_id\": \"a753e0ed-ece9-4ace-b5e4-bfe13b34a351\", \"datetime_range_lowerbound\": \"2025-10-14T17:00:00-04:00\", \"datetime_range_upperbound\": \"2025-10-14T23:00:00-04:00\"}"
+    }
+  }
+]

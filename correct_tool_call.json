@@ -1,0 +1,10 @@
+[
+  {
+    "id": "call_correct_1",
+    "type": "TOOL_TYPE_FUNCTION",
+    "function": {
+      "name": "business_details",
+      "arguments": "{\"business_id\": \"wPUK62FAQ2N2Luv0EZv2jg\"}"
+    }
+  }
+]
